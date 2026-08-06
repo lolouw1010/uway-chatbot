@@ -28,3 +28,5 @@ Rollback is an nginx upstream restoration to `http://localhost:8501` followed by
 ## UWAY-MAIN deployment
 
 The `deploy/uway-main/` directory contains the production service, HTTP-only pre-DNS nginx site, rate-limit zone, and environment-variable template for the UWAY-MAIN host. Install TLS only after `chatbot.hkuway.com` resolves to the host and the HTTP challenge is reachable.
+
+Install `set-agnes-key.sh` as a root-owned executable and run it from an interactive terminal. It reads the key without echo, atomically updates `/etc/uway-chatbot.env`, and restarts the service; never pass the key as a command-line argument.
