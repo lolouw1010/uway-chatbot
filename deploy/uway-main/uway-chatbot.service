@@ -1,0 +1,23 @@
+[Unit]
+Description=UWAY Chatbot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/opt/uway-chatbot/current
+Environment=NODE_ENV=production
+EnvironmentFile=-/etc/uway-chatbot.env
+ExecStart=/usr/bin/npm start -- --hostname 127.0.0.1 --port 3100
+Restart=always
+RestartSec=5
+TimeoutStopSec=20
+KillSignal=SIGTERM
+NoNewPrivileges=true
+PrivateTmp=true
+UMask=0027
+
+[Install]
+WantedBy=multi-user.target

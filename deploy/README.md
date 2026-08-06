@@ -24,3 +24,7 @@ If an initial migration must reference a service-account key file, keep the path
 5. Reload nginx; do not stop the Streamlit service until the new endpoint has been observed successfully.
 
 Rollback is an nginx upstream restoration to `http://localhost:8501` followed by `sudo nginx -t && sudo systemctl reload nginx`. The old frontend service remains available throughout the first cutover.
+
+## UWAY-MAIN deployment
+
+The `deploy/uway-main/` directory contains the production service, HTTP-only pre-DNS nginx site, rate-limit zone, and environment-variable template for the UWAY-MAIN host. Install TLS only after `chatbot.hkuway.com` resolves to the host and the HTTP challenge is reachable.
