@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "kind": "crawl",
+      "url": "https://hkuway.com/docs/",
+      "includePrefix": "https://hkuway.com/docs/",
+      "maxPages": 50,
+      "domain": "uway-general"
+    },
+    {
+      "kind": "markdown",
+      "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/AUTO_CONFIGER_M0.md",
+      "fetchUrl": "https://api.github.com/repos/lolouw1010/travel-rule-policy-engine/contents/docs/AUTO_CONFIGER_M0.md?ref=main",
+      "domain": "travel-rule"
+    },
+    {
+      "kind": "markdown",
+      "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/AUTO_CONFIGER_M1.md",
+      "fetchUrl": "https://api.github.com/repos/lolouw1010/travel-rule-policy-engine/contents/docs/AUTO_CONFIGER_M1.md?ref=main",
+      "domain": "travel-rule"
+    },
+    {
+      "kind": "markdown",
+      "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/AUTO_CONFIGER_M2.md",
+      "fetchUrl": "https://api.github.com/repos/lolouw1010/travel-rule-policy-engine/contents/docs/AUTO_CONFIGER_M2.md?ref=main",
+      "domain": "travel-rule"
+    },
+    {
+      "kind": "markdown",
+      "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/AUTO_CONFIGER_M3_DIRECT_AUTH.md",
+      "fetchUrl": "https://api.github.com/repos/lolouw1010/travel-rule-policy-engine/contents/docs/AUTO_CONFIGER_M3_DIRECT_AUTH.md?ref=main",
+      "domain": "travel-rule"
+    },
+    {
+      "kind": "markdown",
+      "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/REGULATORY_KB_PLATFORM_PLAN.md",
+      "fetchUrl": "https://api.github.com/repos/lolouw1010/travel-rule-policy-engine/contents/docs/REGULATORY_KB_PLATFORM_PLAN.md?ref=main",
+      "domain": "travel-rule"
+    },
+    {
+      "kind": "page",
+      "url": "https://docs.sumsub.com/docs/aml-how-it-works",
+      "domain": "sumsub"
+    },
+    {
+      "kind": "page",
+      "url": "https://docs.sumsub.com/docs/configure-aml-screening",
+      "domain": "sumsub"
+    },
+    {
+      "kind": "page",
+      "url": "https://docs.sumsub.com/docs/process-aml-screening-results",
+      "domain": "sumsub"
+    },
+    {
+      "kind": "page",
+      "url": "https://docs.sumsub.com/docs/transaction-monitoring",
+      "domain": "sumsub"
+    },
+    {
+      "kind": "page",
+      "url": "https://docs.sumsub.com/docs/travel-rule",
+      "domain": "sumsub"
+    },
+    {
+      "kind": "page",
+      "url": "https://brdr.hkma.gov.hk/eng/main",
+      "domain": "regulatory"
+    },
+    {
+      "kind": "page",
+      "url": "https://www.hkma.gov.hk/eng/key-functions/banking/anti-money-laundering-and-counter-financing-of-terrorism/industry-guidance-frequently-asked-questions/",
+      "domain": "regulatory"
+    },
+    {
+      "kind": "page",
+      "url": "https://apps.sfc.hk/edistributionWeb/gateway/EN/circular/aml/doc?refNo=25EC62",
+      "domain": "regulatory"
+    },
+    {
+      "kind": "page",
+      "url": "https://www.sfc.hk/en/faqs/intermediaries/supervision/Anti-Money-Laundering-and-Counter-Financing-of-Terrorism/Anti-Money-Laundering-and-Counter-Financing-of-Terrorism",
+      "domain": "regulatory"
+    },
+    {
+      "kind": "page",
+      "url": "https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Fatf-recommendations.html",
+      "domain": "regulatory"
+    },
+    {
+      "kind": "page",
+      "url": "https://www.fatf-gafi.org/en/publications/Fatfrecommendations/targeted-update-virtual-assets-vasps-2024.html",
+      "domain": "regulatory"
+    }
+  ]
+}

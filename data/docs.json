@@ -1,0 +1,1424 @@
+[
+  {
+    "id": "hkuway-com-docs-api-uway-api-0",
+    "title": "UWAY API",
+    "url": "https://hkuway.com/docs/api",
+    "excerpt": "UWAY API The UWAY API allows regulated fintech and Web3 teams to submit customer, transaction, and counterparty data into a unified compliance workflow. The API supports case creation, risk scoring, alert revie…",
+    "text": "UWAY API The UWAY API allows regulated fintech and Web3 teams to submit customer, transaction, and counterparty data into a unified compliance workflow. The API supports case creation, risk scoring, alert review, Travel Rule workflow tracking, and audit record retrieval. Access: The UWAY API is currently available to selected implementation partners and pilot customers. Public sandbox access may be provided upon request.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-overview-0",
+    "title": "UWAY API — Overview",
+    "url": "https://hkuway.com/docs/api",
+    "excerpt": "The UWAY API is a RESTful interface for integrating compliance workflows into your internal systems. All requests are authenticated via Bearer tokens and return JSON responses. Standard HTTP methods and status …",
+    "text": "The UWAY API is a RESTful interface for integrating compliance workflows into your internal systems. All requests are authenticated via Bearer tokens and return JSON responses. Standard HTTP methods and status codes All request and response bodies use JSON Real-time event notifications to your systems",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-example-request-0",
+    "title": "UWAY API — Example Request",
+    "url": "https://hkuway.com/docs/api",
+    "excerpt": "POST https://api.uway.com/v1/cases Authorization: Bearer YOUR_API_KEY Content-Type: application/json { \"customer_id\": \"cust_8f72b1c4\", \"case_type\": \"aml_alert\", \"risk_level\": \"high\", \"alert_source\": \"sanctions_…",
+    "text": "POST https://api.uway.com/v1/cases Authorization: Bearer YOUR_API_KEY Content-Type: application/json { \"customer_id\": \"cust_8f72b1c4\", \"case_type\": \"aml_alert\", \"risk_level\": \"high\", \"alert_source\": \"sanctions_screening\", \"metadata\": { \"customer_name\": \"Example Ltd\", \"jurisdiction\": \"HK\", \"screening_hit\": \"OFAC-SDN-12345\" } }",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-authentication-0",
+    "title": "UWAY API — Authentication",
+    "url": "https://hkuway.com/docs/api",
+    "excerpt": "All API requests require authentication using Bearer tokens. Include the token in the Authorization header of each request. Store API keys securely and never commit to version control Rotate keys periodically a…",
+    "text": "All API requests require authentication using Bearer tokens. Include the token in the Authorization header of each request. Store API keys securely and never commit to version control Rotate keys periodically and immediately if compromised Use environment variables for key management All API requests should be made to this base URL with the appropriate version path. A sandbox environment is available for pilot customers and implementation partners. Sandbox uses the same API structure but operates on test data.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-customers-0",
+    "title": "UWAY API — Customers",
+    "url": "https://hkuway.com/docs/api",
+    "excerpt": "Customer records with KYC/KYB data, jurisdiction, and risk profile. List customers Get customer details Create customer record Update customer",
+    "text": "Customer records with KYC/KYB data, jurisdiction, and risk profile. List customers Get customer details Create customer record Update customer",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-cases-0",
+    "title": "UWAY API — Cases",
+    "url": "https://hkuway.com/docs/api",
+    "excerpt": "Compliance cases for AML alerts, KYC reviews, and Travel Rule exceptions. List cases with filters Get case details Create case Update case status Assign reviewer Resolve with decision",
+    "text": "Compliance cases for AML alerts, KYC reviews, and Travel Rule exceptions. List cases with filters Get case details Create case Update case status Assign reviewer Resolve with decision",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-risk-scores-0",
+    "title": "UWAY API — Risk Scores",
+    "url": "https://hkuway.com/docs/api",
+    "excerpt": "Unified risk assessments from multiple compliance signals. Get customer risk score Calculate risk score Risk score history",
+    "text": "Unified risk assessments from multiple compliance signals. Get customer risk score Calculate risk score Risk score history",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-alerts-0",
+    "title": "UWAY API — Alerts",
+    "url": "https://hkuway.com/docs/api",
+    "excerpt": "AML screening alerts, sanctions matches, and PEP notifications. List alerts Get alert details Dismiss as false positive Escalate to case",
+    "text": "AML screening alerts, sanctions matches, and PEP notifications. List alerts Get alert details Dismiss as false positive Escalate to case",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-travel-rule-transfers-0",
+    "title": "UWAY API — Travel Rule Transfers",
+    "url": "https://hkuway.com/docs/api",
+    "excerpt": "Cross-border transfer records with counterparty and VASP information. List transfers Get transfer details Record transfer Submit to counterparty VASP",
+    "text": "Cross-border transfer records with counterparty and VASP information. List transfers Get transfer details Record transfer Submit to counterparty VASP",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-example-response-0",
+    "title": "UWAY API — Example Response",
+    "url": "https://hkuway.com/docs/api",
+    "excerpt": "{ \"case_id\": \"case_9a3b7c2d1e\", \"customer_id\": \"cust_8f72b1c4\", \"case_type\": \"aml_alert\", \"risk_level\": \"high\", \"status\": \"pending_review\", \"created_at\": \"2026-05-25T10:15:30Z\", \"assigned_to\": null, \"alert_sour…",
+    "text": "{ \"case_id\": \"case_9a3b7c2d1e\", \"customer_id\": \"cust_8f72b1c4\", \"case_type\": \"aml_alert\", \"risk_level\": \"high\", \"status\": \"pending_review\", \"created_at\": \"2026-05-25T10:15:30Z\", \"assigned_to\": null, \"alert_source\": \"sanctions_screening\", \"metadata\": { \"customer_name\": \"Example Ltd\", \"jurisdiction\": \"HK\", \"screening_hit\": \"OFAC-SDN-12345\" }, \"workflow\": { \"current_stage\": \"initial_review\", \"next_action\": \"assign_reviewer\", \"sla_deadline\": \"2026-05-26T10:15:30Z\" } }",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-webhooks-0",
+    "title": "UWAY API — Webhooks",
+    "url": "https://hkuway.com/docs/api",
+    "excerpt": "UWAY can send real-time event notifications to your systems via webhooks. Configure webhook endpoints in your Sentinel dashboard to receive updates on case status changes, escalations, and other compliance even…",
+    "text": "UWAY can send real-time event notifications to your systems via webhooks. Configure webhook endpoints in your Sentinel dashboard to receive updates on case status changes, escalations, and other compliance events. case.created case.escalated case.resolved alert.dismissed travel_rule.submitted POST https://your-domain.com/uway/webhook { \"event\": \"case.escalated\", \"case_id\": \"case_9a3b7c2d1e\", \"customer_id\": \"cust_8f72b1c4\", \"reason\": \"sanctions_match_confirmed\", \"previous_risk_level\": \"high\", \"new_risk_level\": \"critical\", \"timestamp\": \"2026-05-25T10:30:45Z\", \"review_url\": \"https://sentinel.hkuway.com/cases/case_9a3b7c2d1e\" }",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-error-codes-0",
+    "title": "UWAY API — Error Codes",
+    "url": "https://hkuway.com/docs/api",
+    "excerpt": "StatusCodeDescription200OKRequest succeeded400BAD_REQUESTInvalid request parameters401UNAUTHORIZEDInvalid or missing API key403FORBIDDENInsufficient permissions404NOT_FOUNDResource not found429RATE_LIMITEDToo m…",
+    "text": "StatusCodeDescription200OKRequest succeeded400BAD_REQUESTInvalid request parameters401UNAUTHORIZEDInvalid or missing API key403FORBIDDENInsufficient permissions404NOT_FOUNDResource not found429RATE_LIMITEDToo many requests500INTERNAL_ERRORServer error, retry later",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-request-api-access-0",
+    "title": "UWAY API — Request API Access",
+    "url": "https://hkuway.com/docs/api",
+    "excerpt": "API access is available to selected implementation partners and pilot customers. Contact our team to discuss your integration requirements.",
+    "text": "API access is available to selected implementation partners and pilot customers. Contact our team to discuss your integration requirements.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-dev-uway-api-0",
+    "title": "UWAY API",
+    "url": "https://hkuway.com/docs/dev",
+    "excerpt": "UWAY API The UWAY API allows regulated fintech and Web3 teams to submit customer, transaction, and counterparty data into a unified compliance workflow. The API supports case creation, risk scoring, alert revie…",
+    "text": "UWAY API The UWAY API allows regulated fintech and Web3 teams to submit customer, transaction, and counterparty data into a unified compliance workflow. The API supports case creation, risk scoring, alert review, Travel Rule workflow tracking, and audit record retrieval. Access: The UWAY API is currently available to selected implementation partners and pilot customers. Public sandbox access may be provided upon request.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-dev-overview-0",
+    "title": "UWAY API — Overview",
+    "url": "https://hkuway.com/docs/dev",
+    "excerpt": "The UWAY API is a RESTful interface for integrating compliance workflows into your internal systems. All requests are authenticated via Bearer tokens and return JSON responses. Standard HTTP methods and status …",
+    "text": "The UWAY API is a RESTful interface for integrating compliance workflows into your internal systems. All requests are authenticated via Bearer tokens and return JSON responses. Standard HTTP methods and status codes All request and response bodies use JSON Real-time event notifications to your systems",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-dev-example-request-0",
+    "title": "UWAY API — Example Request",
+    "url": "https://hkuway.com/docs/dev",
+    "excerpt": "POST https://api.uway.com/v1/cases Authorization: Bearer YOUR_API_KEY Content-Type: application/json { \"customer_id\": \"cust_8f72b1c4\", \"case_type\": \"aml_alert\", \"risk_level\": \"high\", \"alert_source\": \"sanctions_…",
+    "text": "POST https://api.uway.com/v1/cases Authorization: Bearer YOUR_API_KEY Content-Type: application/json { \"customer_id\": \"cust_8f72b1c4\", \"case_type\": \"aml_alert\", \"risk_level\": \"high\", \"alert_source\": \"sanctions_screening\", \"metadata\": { \"customer_name\": \"Example Ltd\", \"jurisdiction\": \"HK\", \"screening_hit\": \"OFAC-SDN-12345\" } }",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-dev-authentication-0",
+    "title": "UWAY API — Authentication",
+    "url": "https://hkuway.com/docs/dev",
+    "excerpt": "All API requests require authentication using Bearer tokens. Include the token in the Authorization header of each request. Store API keys securely and never commit to version control Rotate keys periodically a…",
+    "text": "All API requests require authentication using Bearer tokens. Include the token in the Authorization header of each request. Store API keys securely and never commit to version control Rotate keys periodically and immediately if compromised Use environment variables for key management All API requests should be made to this base URL with the appropriate version path. A sandbox environment is available for pilot customers and implementation partners. Sandbox uses the same API structure but operates on test data.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-dev-customers-0",
+    "title": "UWAY API — Customers",
+    "url": "https://hkuway.com/docs/dev",
+    "excerpt": "Customer records with KYC/KYB data, jurisdiction, and risk profile. List customers Get customer details Create customer record Update customer",
+    "text": "Customer records with KYC/KYB data, jurisdiction, and risk profile. List customers Get customer details Create customer record Update customer",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-dev-cases-0",
+    "title": "UWAY API — Cases",
+    "url": "https://hkuway.com/docs/dev",
+    "excerpt": "Compliance cases for AML alerts, KYC reviews, and Travel Rule exceptions. List cases with filters Get case details Create case Update case status Assign reviewer Resolve with decision",
+    "text": "Compliance cases for AML alerts, KYC reviews, and Travel Rule exceptions. List cases with filters Get case details Create case Update case status Assign reviewer Resolve with decision",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-dev-risk-scores-0",
+    "title": "UWAY API — Risk Scores",
+    "url": "https://hkuway.com/docs/dev",
+    "excerpt": "Unified risk assessments from multiple compliance signals. Get customer risk score Calculate risk score Risk score history",
+    "text": "Unified risk assessments from multiple compliance signals. Get customer risk score Calculate risk score Risk score history",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-dev-alerts-0",
+    "title": "UWAY API — Alerts",
+    "url": "https://hkuway.com/docs/dev",
+    "excerpt": "AML screening alerts, sanctions matches, and PEP notifications. List alerts Get alert details Dismiss as false positive Escalate to case",
+    "text": "AML screening alerts, sanctions matches, and PEP notifications. List alerts Get alert details Dismiss as false positive Escalate to case",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-dev-travel-rule-transfers-0",
+    "title": "UWAY API — Travel Rule Transfers",
+    "url": "https://hkuway.com/docs/dev",
+    "excerpt": "Cross-border transfer records with counterparty and VASP information. List transfers Get transfer details Record transfer Submit to counterparty VASP",
+    "text": "Cross-border transfer records with counterparty and VASP information. List transfers Get transfer details Record transfer Submit to counterparty VASP",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-dev-example-response-0",
+    "title": "UWAY API — Example Response",
+    "url": "https://hkuway.com/docs/dev",
+    "excerpt": "{ \"case_id\": \"case_9a3b7c2d1e\", \"customer_id\": \"cust_8f72b1c4\", \"case_type\": \"aml_alert\", \"risk_level\": \"high\", \"status\": \"pending_review\", \"created_at\": \"2026-05-25T10:15:30Z\", \"assigned_to\": null, \"alert_sour…",
+    "text": "{ \"case_id\": \"case_9a3b7c2d1e\", \"customer_id\": \"cust_8f72b1c4\", \"case_type\": \"aml_alert\", \"risk_level\": \"high\", \"status\": \"pending_review\", \"created_at\": \"2026-05-25T10:15:30Z\", \"assigned_to\": null, \"alert_source\": \"sanctions_screening\", \"metadata\": { \"customer_name\": \"Example Ltd\", \"jurisdiction\": \"HK\", \"screening_hit\": \"OFAC-SDN-12345\" }, \"workflow\": { \"current_stage\": \"initial_review\", \"next_action\": \"assign_reviewer\", \"sla_deadline\": \"2026-05-26T10:15:30Z\" } }",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-dev-webhooks-0",
+    "title": "UWAY API — Webhooks",
+    "url": "https://hkuway.com/docs/dev",
+    "excerpt": "UWAY can send real-time event notifications to your systems via webhooks. Configure webhook endpoints in your Sentinel dashboard to receive updates on case status changes, escalations, and other compliance even…",
+    "text": "UWAY can send real-time event notifications to your systems via webhooks. Configure webhook endpoints in your Sentinel dashboard to receive updates on case status changes, escalations, and other compliance events. case.created case.escalated case.resolved alert.dismissed travel_rule.submitted POST https://your-domain.com/uway/webhook { \"event\": \"case.escalated\", \"case_id\": \"case_9a3b7c2d1e\", \"customer_id\": \"cust_8f72b1c4\", \"reason\": \"sanctions_match_confirmed\", \"previous_risk_level\": \"high\", \"new_risk_level\": \"critical\", \"timestamp\": \"2026-05-25T10:30:45Z\", \"review_url\": \"https://sentinel.hkuway.com/cases/case_9a3b7c2d1e\" }",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-dev-error-codes-0",
+    "title": "UWAY API — Error Codes",
+    "url": "https://hkuway.com/docs/dev",
+    "excerpt": "StatusCodeDescription200OKRequest succeeded400BAD_REQUESTInvalid request parameters401UNAUTHORIZEDInvalid or missing API key403FORBIDDENInsufficient permissions404NOT_FOUNDResource not found429RATE_LIMITEDToo m…",
+    "text": "StatusCodeDescription200OKRequest succeeded400BAD_REQUESTInvalid request parameters401UNAUTHORIZEDInvalid or missing API key403FORBIDDENInsufficient permissions404NOT_FOUNDResource not found429RATE_LIMITEDToo many requests500INTERNAL_ERRORServer error, retry later",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-dev-request-api-access-0",
+    "title": "UWAY API — Request API Access",
+    "url": "https://hkuway.com/docs/dev",
+    "excerpt": "API access is available to selected implementation partners and pilot customers. Contact our team to discuss your integration requirements.",
+    "text": "API access is available to selected implementation partners and pilot customers. Contact our team to discuss your integration requirements.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-auto-configer-m3-direct-auth-md-auto-configer-m3-direct-login-roles-and-configurable-approval-0",
+    "title": "Auto Configer M3: Direct Login, Roles, And Configurable Approval",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/AUTO_CONFIGER_M3_DIRECT_AUTH.md",
+    "excerpt": "M3 replaces caller-supplied reviewer names with an internal account and session model. It is deliberately separate from enterprise SSO so an internal team can use the workflow now. A future SSO integration must…",
+    "text": "M3 replaces caller-supplied reviewer names with an internal account and session model. It is deliberately separate from enterprise SSO so an internal team can use the workflow now. A future SSO integration must map its verified subject and groups onto the same user/role model.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-auto-configer-m3-direct-auth-md-security-boundary-0",
+    "title": "Auto Configer M3: Direct Login, Roles, And Configurable Approval — Security Boundary",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/AUTO_CONFIGER_M3_DIRECT_AUTH.md",
+    "excerpt": "There is no public registration endpoint. The first account is created exactly once through POST /auth/bootstrap , protected by the existing CONFIG API TOKEN migration credential. Passwords are never stored in …",
+    "text": "There is no public registration endpoint. The first account is created exactly once through POST /auth/bootstrap , protected by the existing CONFIG API TOKEN migration credential. Passwords are never stored in plaintext. Each account has a unique random salt and a PBKDF2-HMAC-SHA-256 hash using 600,000 iterations. Login creates a 12-hour, Secure , HttpOnly , SameSite=Strict session cookie. D1 stores only a SHA-256 hash of the random session token. Five failed attempts for the same email/IP combination in 15 minutes result in 429 until the window expires. Browser requests authenticated by a session must be same-origin. The legacy token remains a temporary compatibility method for profile/run automation, but cannot submit or resolve an approval.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-auto-configer-m3-direct-auth-md-first-administrator-0",
+    "title": "Auto Configer M3: Direct Login, Roles, And Configurable Approval — First Administrator",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/AUTO_CONFIGER_M3_DIRECT_AUTH.md",
+    "excerpt": "The bootstrap call is allowed only while auth users is empty. It always gives the first user the administrator role, regardless of roles supplied in the request. curl -i -X POST \"https://regulatory-kb-api.uway-…",
+    "text": "The bootstrap call is allowed only while auth users is empty. It always gives the first user the administrator role, regardless of roles supplied in the request. curl -i -X POST \"https://regulatory-kb-api.uway-hk.workers.dev/auth/bootstrap\" \\ -H \"Authorization: Bearer $CONFIG API TOKEN\" \\ -H 'content-type: application/json' \\ --data '{ \"email\":\"admin@example.com\", \"display name\":\"Compliance Admin\", \"password\":\"use-a-unique-password-with-at-least-14-characters\", \"roles\":[\"administrator\"] }' After this succeeds, visit /admin/login and sign in. The minimal /admin page verifies the session and lists customer profiles. It is not intended to replace the future review console.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-auto-configer-m3-direct-auth-md-account-and-role-apis-0",
+    "title": "Auto Configer M3: Direct Login, Roles, And Configurable Approval — Account And Role APIs",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/AUTO_CONFIGER_M3_DIRECT_AUTH.md",
+    "excerpt": "An authenticated administrator can create accounts and assign several roles to one person. The available roles are: Role Capability --- --- administrator All capabilities, account management, and approval-polic…",
+    "text": "An authenticated administrator can create accounts and assign several roles to one person. The available roles are: Role Capability --- --- administrator All capabilities, account management, and approval-policy updates. profile editor Create/update customer profiles, generate runs, and submit a run. compliance reviewer Reject a submitted run. compliance approver Reject, approve, or approve with a documented override. curl -X POST \"https://regulatory-kb-api.uway-hk.workers.dev/admin/users\" \\ -b session.txt -H 'content-type: application/json' \\ --data '{ \"email\":\"analyst@example.com\", \"display name\":\"Policy Analyst\", \"password\":\"use-a-unique-password-with-at-least-14-characters\", \"roles\":[\"profile editor\",\"compliance reviewer\"] }' curl -X PUT \"https://regulatory-kb-api.uway-hk.workers.dev/admin/users/<user-id /roles\" \\ -b session.txt -H 'content-type: application/json' \\ --data '{\"roles\":[\"profile editor\",\"compliance reviewer\",\"compliance approver\"]}' The last remaining administrator role cannot be removed. A single account may hold multiple roles; role separation is not inferred from job titles.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-auto-configer-m3-direct-auth-md-approval-policy-0",
+    "title": "Auto Configer M3: Direct Login, Roles, And Configurable Approval — Approval Policy",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/AUTO_CONFIGER_M3_DIRECT_AUTH.md",
+    "excerpt": "GET /approval-policy returns the active global policy. An administrator can change it with PUT /approval-policy : curl -X PUT \"https://regulatory-kb-api.uway-hk.workers.dev/approval-policy\" \\ -b session.txt -H …",
+    "text": "GET /approval-policy returns the active global policy. An administrator can change it with PUT /approval-policy : curl -X PUT \"https://regulatory-kb-api.uway-hk.workers.dev/approval-policy\" \\ -b session.txt -H 'content-type: application/json' \\ --data '{ \"require distinct submitter approver\":true, \"required approver role\":\"compliance approver\" }' require distinct submitter approver controls whether the same authenticated user may submit and resolve one run. The current default is true . Each submission snapshots the policy, so changing the global setting does not rewrite a pending or completed approval.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-auto-configer-m3-direct-auth-md-approval-workflow-0",
+    "title": "Auto Configer M3: Direct Login, Roles, And Configurable Approval — Approval Workflow",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/AUTO_CONFIGER_M3_DIRECT_AUTH.md",
+    "excerpt": "1. A profile editor creates a rule run. 2. A logged-in profile editor submits it with POST /rule-runs/:id/submit . 3. A logged-in reviewer/approver resolves it through POST /rule-runs/:id/reviews . 4. The serve…",
+    "text": "1. A profile editor creates a rule run. 2. A logged-in profile editor submits it with POST /rule-runs/:id/submit . 3. A logged-in reviewer/approver resolves it through POST /rule-runs/:id/reviews . 4. The server writes the authenticated account ID and email to the immutable review event, then updates the submission state. curl -X POST \"https://regulatory-kb-api.uway-hk.workers.dev/rule-runs/<run-id /submit\" \\ -b session.txt curl -X POST \"https://regulatory-kb-api.uway-hk.workers.dev/rule-runs/<run-id /reviews\" \\ -b session.txt -H 'content-type: application/json' \\ --data '{\"decision\":\"approved\"}' The review payload no longer accepts reviewer ; the server derives the reviewer from the authenticated session. approved remains limited to ready runs. approved with override requires a note and a non-empty override object; rejected requires a note.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-auto-configer-m3-direct-auth-md-sso-migration-boundary-0",
+    "title": "Auto Configer M3: Direct Login, Roles, And Configurable Approval — SSO Migration Boundary",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/AUTO_CONFIGER_M3_DIRECT_AUTH.md",
+    "excerpt": "When enterprise SSO is introduced, retain auth users , auth user roles , approval policies , rule run submissions , and rule run reviews . Replace password login/session issuance with verified SSO subject mappi…",
+    "text": "When enterprise SSO is introduced, retain auth users , auth user roles , approval policies , rule run submissions , and rule run reviews . Replace password login/session issuance with verified SSO subject mapping and create/update the corresponding local user record. Do not accept an email or reviewer name directly from the browser or an SSO header without signature verification.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-regulatory-kb-platform-plan-md-1-goal-0",
+    "title": "Regulatory Knowledge Base Platform Plan — 1. Goal",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/REGULATORY_KB_PLATFORM_PLAN.md",
+    "excerpt": "Build a Cloudflare-first platform that identifies, versions, parses, and analyzes public Travel Rule and virtual asset regulatory documents, then turns reviewed legal obligations into deterministic customer con…",
+    "text": "Build a Cloudflare-first platform that identifies, versions, parses, and analyzes public Travel Rule and virtual asset regulatory documents, then turns reviewed legal obligations into deterministic customer configuration rules. The platform must not rely on an agent making final compliance decisions at runtime. Retrieval and LLM extraction are supporting tools. The system of record is structured, reviewed obligations with evidence.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-regulatory-kb-platform-plan-md-current-implementation-state-0",
+    "title": "Regulatory Knowledge Base Platform Plan — Current Implementation State",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/REGULATORY_KB_PLATFORM_PLAN.md",
+    "excerpt": "The knowledge base, reviewed-obligation evaluator, customer profile/run audit layer, and append-only human review layer are now implemented on Cloudflare. The current runtime flow is: reviewed obligations and e…",
+    "text": "The knowledge base, reviewed-obligation evaluator, customer profile/run audit layer, and append-only human review layer are now implemented on Cloudflare. The current runtime flow is: reviewed obligations and evidence - deterministic M0 evaluation - M1 immutable profile/run audit - M2 human review or explicit override. See Implementation Status for the live boundary and remaining work.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-regulatory-kb-platform-plan-md-2-what-changed-from-the-old-design-0",
+    "title": "Regulatory Knowledge Base Platform Plan — 2. What Changed From the Old Design",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/REGULATORY_KB_PLATFORM_PLAN.md",
+    "excerpt": "The older design targeted Google Cloud Storage, Vertex AI Search, and Agent Builder. The revised design keeps the good ingestion ideas but changes the platform center: Replace GCS with Cloudflare R2 for raw fil…",
+    "text": "The older design targeted Google Cloud Storage, Vertex AI Search, and Agent Builder. The revised design keeps the good ingestion ideas but changes the platform center: Replace GCS with Cloudflare R2 for raw files, Markdown, chunks, extraction runs, diffs, and audit packs. Replace Vertex AI Search as the default retrieval layer with Cloudflare AI Search or Vectorize. Add D1 as the structured system of record for documents, versions, chunks, obligations, evidence, customer profiles, and rule runs. Add a mandatory human review state before any extracted obligation can affect customer configuration. Add a deterministic TypeScript rule engine for customer configuration output. Keep VPS workers for heavy crawling, PDF/OCR, browser automation, and batch jobs that are awkward for Workers.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-regulatory-kb-platform-plan-md-3-high-level-architecture-0",
+    "title": "Regulatory Knowledge Base Platform Plan — 3. High-Level Architecture",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/REGULATORY_KB_PLATFORM_PLAN.md",
+    "excerpt": "Regulator sites / PDFs / HTML v Local or VPS ingestion pipeline v R2 object storage: raw, clean, chunks, extraction JSON, audit packs v D1 metadata and reviewed obligation tables v AI Search / Vectorize evidenc…",
+    "text": "Regulator sites / PDFs / HTML v Local or VPS ingestion pipeline v R2 object storage: raw, clean, chunks, extraction JSON, audit packs v D1 metadata and reviewed obligation tables v AI Search / Vectorize evidence retrieval v Constrained LLM extraction into JSON Schema v Human review queue v Deterministic Travel Rule configuration engine",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-regulatory-kb-platform-plan-md-4-stage-1-mvp-0",
+    "title": "Regulatory Knowledge Base Platform Plan — 4. Stage 1 MVP",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/REGULATORY_KB_PLATFORM_PLAN.md",
+    "excerpt": "The current repository implements the local ingestion MVP: 1. Whitelisted source configuration. 2. Conservative crawling with robots checks. 3. Raw PDF/HTML download. 4. SHA256 dedupe. 5. Raw metadata JSONL. 6.…",
+    "text": "The current repository implements the local ingestion MVP: 1. Whitelisted source configuration. 2. Conservative crawling with robots checks. 3. Raw PDF/HTML download. 4. SHA256 dedupe. 5. Raw metadata JSONL. 6. HTML/PDF to Markdown. 7. Chunk JSONL. 8. Metadata validation. 9. Cloudflare R2 upload script. 10. Cloudflare AI Search import manifest preparation. 11. D1 schema for the next platform layer.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-regulatory-kb-platform-plan-md-5-stage-2-structured-obligation-extraction-0",
+    "title": "Regulatory Knowledge Base Platform Plan — 5. Stage 2 Structured Obligation Extraction",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/REGULATORY_KB_PLATFORM_PLAN.md",
+    "excerpt": "The next layer should extract Travel Rule obligations from chunks into a fixed schema: { \"jurisdiction code\": \"GB\", \"regulator\": \"FCA\", \"obligation type\": \"travel rule transfer information\", \"subject entity typ…",
+    "text": "The next layer should extract Travel Rule obligations from chunks into a fixed schema: { \"jurisdiction code\": \"GB\", \"regulator\": \"FCA\", \"obligation type\": \"travel rule transfer information\", \"subject entity type\": [\"cryptoasset business\"], \"transfer context\": [\"cryptoasset transfer\"], \"threshold\": { \"amount\": null, \"currency\": null, \"basis\": \"all in scope transfers\" }, \"required actions\": [\"collect information\", \"verify information\", \"share information\"], \"required originator fields\": [\"name\", \"account or wallet\"], \"required beneficiary fields\": [\"name\", \"account or wallet\"], \"timing\": \"before or during transfer\", \"effective from\": \"2023-09-01\", \"evidence\": [ { \"document version id\": \"docv x\", \"chunk id\": \"chunk y\", \"quote\": \"short quote only\" } ], \"confidence\": 0.82, \"review status\": \"pending\" } Rules: The model may only use supplied chunks and adjacent context. Unknown fields must stay unknown or null. Every material field must have evidence. No extracted obligation becomes active until approved.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-regulatory-kb-platform-plan-md-6-stage-3-customer-configuration-engine-0",
+    "title": "Regulatory Knowledge Base Platform Plan — 6. Stage 3 Customer Configuration Engine",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/REGULATORY_KB_PLATFORM_PLAN.md",
+    "excerpt": "The customer input should be structured: { \"incorporation jurisdiction\": \"SG\", \"operating jurisdictions\": [\"SG\", \"EU\", \"GB\"], \"services\": [\"exchange\", \"custody\", \"transfer on behalf of customer\"], \"custody mode…",
+    "text": "The customer input should be structured: { \"incorporation jurisdiction\": \"SG\", \"operating jurisdictions\": [\"SG\", \"EU\", \"GB\"], \"services\": [\"exchange\", \"custody\", \"transfer on behalf of customer\"], \"custody model\": \"custodial\", \"supports self hosted wallets\": true, \"supports vasp counterparties\": true, \"transfer directions\": [\"incoming\", \"outgoing\"], \"asset types\": [\"BTC\", \"ETH\", \"stablecoin\"] } The engine output should be a configuration package: { \"travel rule required\": true, \"applicable jurisdictions\": [\"SG\", \"EU\", \"GB\"], \"required data fields\": { \"originator\": [\"name\", \"account or wallet\"], \"beneficiary\": [\"name\", \"account or wallet\"] }, \"self hosted wallet controls\": [\"risk assessment\"], \"counterparty controls\": [\"vasp due diligence\"], \"evidence ids\": [\"ev 1\", \"ev 2\"] }",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-regulatory-kb-platform-plan-md-7-source-priorities-0",
+    "title": "Regulatory Knowledge Base Platform Plan — 7. Source Priorities",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/REGULATORY_KB_PLATFORM_PLAN.md",
+    "excerpt": "Start narrow and authoritative: 1. FATF virtual asset and VASP guidance. 2. EU Transfer of Funds Regulation and EBA Travel Rule guidelines. 3. UK FCA cryptoasset Travel Rule expectations. 4. US FinCEN CVC guida…",
+    "text": "Start narrow and authoritative: 1. FATF virtual asset and VASP guidance. 2. EU Transfer of Funds Regulation and EBA Travel Rule guidelines. 3. UK FCA cryptoasset Travel Rule expectations. 4. US FinCEN CVC guidance and Funds Travel Rule references. 5. Singapore MAS Notice PSN02 and related guidance. 6. Hong Kong SFC AML/CFT and VASP materials. 7. HKMA AML/CFT material when banking/payment rails matter. Do not add broad uncontrolled web crawling.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-regulatory-kb-platform-plan-md-8-data-ownership-0",
+    "title": "Regulatory Knowledge Base Platform Plan — 8. Data Ownership",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/REGULATORY_KB_PLATFORM_PLAN.md",
+    "excerpt": "R2 stores large and immutable artifacts: Raw PDFs and HTML. Clean Markdown. Chunk JSONL. Model extraction run output. Diffs between document versions. Evidence packs and generated reports. D1 stores small struc…",
+    "text": "R2 stores large and immutable artifacts: Raw PDFs and HTML. Clean Markdown. Chunk JSONL. Model extraction run output. Diffs between document versions. Evidence packs and generated reports. D1 stores small structured records: Regulators and source documents. Document versions and hashes. Chunk metadata. Obligations. Evidence links. Customer profiles. Rule run outputs. Review and publication status. AI Search or Vectorize stores retrieval indexes only. It is not the legal system of record.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-regulatory-kb-platform-plan-md-9-acceptance-criteria-for-this-repository-0",
+    "title": "Regulatory Knowledge Base Platform Plan — 9. Acceptance Criteria for This Repository",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/REGULATORY_KB_PLATFORM_PLAN.md",
+    "excerpt": "The ingestion MVP is complete when: 1. At least one enabled source can be crawled. 2. Re-running the crawler skips duplicates. 3. Raw documents get JSONL metadata. 4. HTML and PDF files can become Markdown. 5. …",
+    "text": "The ingestion MVP is complete when: 1. At least one enabled source can be crawled. 2. Re-running the crawler skips duplicates. 3. Raw documents get JSONL metadata. 4. HTML and PDF files can become Markdown. 5. Markdown can be chunked into JSONL. 6. Chunks preserve source URL, regulator, jurisdiction, and page range where available. 7. Validation reports missing metadata, empty chunks, and duplicate chunk IDs. 8. Artifacts can be uploaded to R2 without hardcoded credentials. 9. AI Search import manifest can be generated from chunks. 10. D1 schema exists for the next platform layer.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-auto-configer-m0-md-auto-configer-m0-0",
+    "title": "Auto Configer M0",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/AUTO_CONFIGER_M0.md",
+    "excerpt": "POST /config/evaluate produces a deterministic travel-rule-config/v1 package from a customer profile and the reviewed obligations already in D1. It does not persist a profile, modify a downstream Travel Rule pr…",
+    "text": "POST /config/evaluate produces a deterministic travel-rule-config/v1 package from a customer profile and the reviewed obligations already in D1. It does not persist a profile, modify a downstream Travel Rule provider, or use an LLM to decide legal applicability.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-auto-configer-m0-md-scope-rule-0",
+    "title": "Auto Configer M0 — Scope Rule",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/AUTO_CONFIGER_M0.md",
+    "excerpt": "M0 treats incorporation, operating, and licensing jurisdictions as the direct jurisdictional scope of the regulated entity. Customer jurisdictions remain visible in the result, but they do not independently cau…",
+    "text": "M0 treats incorporation, operating, and licensing jurisdictions as the direct jurisdictional scope of the regulated entity. Customer jurisdictions remain visible in the result, but they do not independently cause a rule to apply.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-auto-configer-m0-md-required-decision-inputs-0",
+    "title": "Auto Configer M0 — Required Decision Inputs",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/AUTO_CONFIGER_M0.md",
+    "excerpt": "incorporation jurisdiction , operating jurisdictions , or licensing jurisdictions regulated roles , matching the reviewed obligation taxonomy services , including cryptoasset transfer or transfer on behalf of c…",
+    "text": "incorporation jurisdiction , operating jurisdictions , or licensing jurisdictions regulated roles , matching the reviewed obligation taxonomy services , including cryptoasset transfer or transfer on behalf of customer where applicable transfer directions , using incoming / outgoing or sending / receiving supports vasp counterparties when the applicable rule concerns a VASP/CASP or firm counterparty supports self hosted wallets when the applicable rule concerns a self-hosted wallet",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-auto-configer-m0-md-result-status-0",
+    "title": "Auto Configer M0 — Result Status",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/AUTO_CONFIGER_M0.md",
+    "excerpt": "ready : at least one active reviewed obligation matches all required business facts. review required : the jurisdiction has reviewed material but profile facts are incomplete or do not match an obligation deter…",
+    "text": "ready : at least one active reviewed obligation matches all required business facts. review required : the jurisdiction has reviewed material but profile facts are incomplete or do not match an obligation deterministically. out of coverage : one or more direct entity jurisdictions have no active reviewed obligation. conflict review required is reserved for the later conflict-resolution layer. M0 does not silently resolve overlapping legal provisions.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-auto-configer-m0-md-audit-fields-0",
+    "title": "Auto Configer M0 — Audit Fields",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/AUTO_CONFIGER_M0.md",
+    "excerpt": "Every applicable obligation includes its source fields plus evidence ids . The result also includes the requested as of date , the direct-scope coverage calculation, the deduplicated evidence pack, and any ques…",
+    "text": "Every applicable obligation includes its source fields plus evidence ids . The result also includes the requested as of date , the direct-scope coverage calculation, the deduplicated evidence pack, and any questions blocking an automatic configuration.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-auto-configer-m2-md-auto-configer-m2-human-review-and-override-0",
+    "title": "Auto Configer M2: Human Review And Override",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/AUTO_CONFIGER_M2.md",
+    "excerpt": "M2 adds a human decision trail to the immutable rule run created by M1. M3 now supplies the reviewer identity from a direct-login session and requires an explicit submission before a review. It does not change …",
+    "text": "M2 adds a human decision trail to the immutable rule run created by M1. M3 now supplies the reviewer identity from a direct-login session and requires an explicit submission before a review. It does not change the engine result, erase evidence, or send a configuration to a downstream Travel Rule provider.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-auto-configer-m2-md-review-model-0",
+    "title": "Auto Configer M2: Human Review And Override — Review Model",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/AUTO_CONFIGER_M2.md",
+    "excerpt": "Every review is an append-only event in rule run reviews . Decision Allowed when Required fields Meaning --- --- --- --- approved The engine result is ready reviewer Reviewer accepts the computed package withou…",
+    "text": "Every review is an append-only event in rule run reviews . Decision Allowed when Required fields Meaning --- --- --- --- approved The engine result is ready reviewer Reviewer accepts the computed package without changing it. rejected Any result reviewer , note Reviewer rejects the run and documents why. approved with override Any result reviewer , note , non-empty override Reviewer accepts a controlled exception and retains the proposed override separately from the engine result. The API rejects an approved decision for review required or out of coverage runs. This prevents a missing fact or an unreviewed jurisdiction from being silently approved. The reviewer is now derived from the authenticated account, not supplied by the caller. See Auto Configer M3 for direct login, roles, and the future SSO boundary.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-auto-configer-m2-md-private-api-0",
+    "title": "Auto Configer M2: Human Review And Override — Private API",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/AUTO_CONFIGER_M2.md",
+    "excerpt": "Review endpoints require a direct-login session. The legacy CONFIG API TOKEN remains available for profile/run migration compatibility but cannot submit or resolve a review. Cookie: Host-travel-rule-session=<se…",
+    "text": "Review endpoints require a direct-login session. The legacy CONFIG API TOKEN remains available for profile/run migration compatibility but cannot submit or resolve a review. Cookie: Host-travel-rule-session=<session-id .<random-token Method Path Purpose --- --- --- POST /rule-runs/:id/submit Submit a run using the current approval-policy snapshot. GET /rule-runs/:id Read the run, sources, submission state, all reviews, and the latest review. GET /rule-runs/:id/reviews Read the ordered review history. POST /rule-runs/:id/reviews Append a reviewer decision. Approve a ready run: curl -X POST \"https://regulatory-kb-api.uway-hk.workers.dev/rule-runs/<run-id /reviews\" \\ -b session.txt \\ -H 'content-type: application/json' \\ --data '{ \"decision\":\"approved\" }' Record an exception for a non-ready run: curl -X POST \"https://regulatory-kb-api.uway-hk.workers.dev/rule-runs/<run-id /reviews\" \\ -b session.txt \\ -H 'content-type: application/json' \\ --data '{ \"decision\":\"approved with override\", \"note\":\"Legal counsel approved a limited launch while MAS material remains under review.\", \"override\": { \"scope\":\"pilot customers only\", \"expires on\":\"2026-08-31\", \"required control\":\"manual compliance review\" } }' The response includes override hash , so the exception payload can be independently checked later without altering the original result hash .",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-auto-configer-m2-md-deliberate-limits-0",
+    "title": "Auto Configer M2: Human Review And Override — Deliberate Limits",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/AUTO_CONFIGER_M2.md",
+    "excerpt": "Reviews do not mutate rule runs.result json or its hash. Multiple reviews are retained; the latest entry is displayed as latest review but earlier entries remain visible. No downstream Travel Rule vendor config…",
+    "text": "Reviews do not mutate rule runs.result json or its hash. Multiple reviews are retained; the latest entry is displayed as latest review but earlier entries remain visible. No downstream Travel Rule vendor configuration is changed. A reviewer identity comes from the M3 direct-login session. Enterprise SSO remains a later identity-provider replacement, not a reason to trust caller-supplied names.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-auto-configer-m1-md-auto-configer-m1-0",
+    "title": "Auto Configer M1",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/AUTO_CONFIGER_M1.md",
+    "excerpt": "M1 persists customer business profiles and creates immutable, reproducible Travel Rule configuration runs. It extends M0 without changing the public POST /config/evaluate endpoint.",
+    "text": "M1 persists customer business profiles and creates immutable, reproducible Travel Rule configuration runs. It extends M0 without changing the public POST /config/evaluate endpoint.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-auto-configer-m1-md-private-api-0",
+    "title": "Auto Configer M1 — Private API",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/AUTO_CONFIGER_M1.md",
+    "excerpt": "Before M3, M1 endpoints used only the Worker secret CONFIG API TOKEN . They now accept either the migration-compatible token or an authenticated direct-login account with the required role. Review and submissio…",
+    "text": "Before M3, M1 endpoints used only the Worker secret CONFIG API TOKEN . They now accept either the migration-compatible token or an authenticated direct-login account with the required role. Review and submission actions require a direct-login session; see Auto Configer M3. Authorization: Bearer <CONFIG API TOKEN The token remains useful for controlled automation during the transition. It must not be distributed to human reviewers. Method Path Purpose --- --- --- POST /customer-profiles Create a versioned business profile. GET /customer-profiles List stored profile summaries. GET /customer-profiles/:id Retrieve one profile. PUT /customer-profiles/:id Replace a profile and increment profile version . POST /customer-profiles/:id/runs Evaluate the current profile and persist an immutable rule run. GET /rule-runs/:id Retrieve the result, profile snapshot, hashes, and obligation/evidence sources.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-auto-configer-m1-md-audit-record-0",
+    "title": "Auto Configer M1 — Audit Record",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/AUTO_CONFIGER_M1.md",
+    "excerpt": "Each run stores the customer profile snapshot, profile version, input hash, result hash, deterministic ruleset hash, decision status, applied obligation IDs, evidence IDs, and one rule run obligations record pe…",
+    "text": "Each run stores the customer profile snapshot, profile version, input hash, result hash, deterministic ruleset hash, decision status, applied obligation IDs, evidence IDs, and one rule run obligations record per applicable obligation. M1 only reads obligations in the existing reviewed states. A profile update never alters an earlier run because each run retains its own input and result snapshots. M2 adds append-only human review and override events. See Auto Configer M2.",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "github-com-lolouw1010-travel-rule-policy-engine-blob-main-docs-auto-configer-m1-md-activation-0",
+    "title": "Auto Configer M1 — Activation",
+    "url": "https://github.com/lolouw1010/travel-rule-policy-engine/blob/main/docs/AUTO_CONFIGER_M1.md",
+    "excerpt": "Configure the migration token before invoking legacy automated profile/run endpoints: printf '%s' 'replace-with-a-long-random-token' wrangler secret put CONFIG API TOKEN Then create a profile: curl -X POST http…",
+    "text": "Configure the migration token before invoking legacy automated profile/run endpoints: printf '%s' 'replace-with-a-long-random-token' wrangler secret put CONFIG API TOKEN Then create a profile: curl -X POST https://regulatory-kb-api.uway-hk.workers.dev/customer-profiles \\ -H 'Authorization: Bearer replace-with-a-long-random-token' \\ -H 'content-type: application/json' \\ --data '{ \"name\":\"Example UK Cryptoasset Business\", \"incorporation jurisdiction\":\"GB\", \"regulated roles\":[\"cryptoasset business\"], \"services\":[\"cryptoasset transfer\"], \"transfer directions\":[\"outgoing\",\"incoming\"], \"supports vasp counterparties\":true, \"supports self hosted wallets\":false }'",
+    "domain": "travel-rule",
+    "sourceType": "repository"
+  },
+  {
+    "id": "docs-sumsub-com-docs-configure-aml-screening-get-started-with-aml-screening-0",
+    "title": "Get started with AML screening",
+    "url": "https://docs.sumsub.com/docs/configure-aml-screening",
+    "excerpt": "Sumsub uses AML data supplied by third-party providers. By default, your applicants will be screened by ComplyAdvantage, and then the matches will be processed using both ComplyAdvantage’s and Sumsub’s internal…",
+    "text": "Sumsub uses AML data supplied by third-party providers. By default, your applicants will be screened by ComplyAdvantage, and then the matches will be processed using both ComplyAdvantage’s and Sumsub’s internal algorithms and techniques. We also offer the bring-your-own-key (BYOK) option for those who want to use one of our integrated services with their existing corporate accounts. The integrated services that support BYOK include ComplyAdvantage, World-Check-One, and Quantifind. Your AML Screening Report will contain the data received from the provider you select.",
+    "domain": "sumsub",
+    "sourceType": "web"
+  },
+  {
+    "id": "docs-sumsub-com-docs-configure-aml-screening-note-0",
+    "title": "Get started with AML screening — Note",
+    "url": "https://docs.sumsub.com/docs/configure-aml-screening",
+    "excerpt": "BYOK services may include integration costs. Check your Service Agreement to learn more. Get started with AML screening The screenshot below shows the AML settings available to you. They may vary slightly depen…",
+    "text": "BYOK services may include integration costs. Check your Service Agreement to learn more. Get started with AML screening The screenshot below shows the AML settings available to you. They may vary slightly depending on the data provider you pick. To set up the AML screening process: Open the AML Screening settings and choose a provider that you want to use for AML screening. If the provider is locked, enter your credentials, as described in ComplyAdvantage and World-Check-One Select a search configuration. You can search by warning types or by providing a search profile identifier. By default, the search is performed using various kinds of warnings, sanctions, and PEPs lists. However, you can use a custom search profile from your ComplyAdvantage account: When searching by warning types, specify what sources you want to use to screen your applicants. When searching by custom search profiles, enter a profile identifier. To search for profiles from your Comply Advantage key, make sure to provide the key, as described in this article. When searching by warning types, specify what sources you want to use to screen your applicants. When searching by custom search profiles, enter a profile identifier. To search for profiles from your Comply Advantage key, make sure to provide the key, as described in this article. Configure name-matching criteria to define which variations in the names of people and entities will be returned in the search results. To learn more about how our matching techniques work, refer to this article. Exact match: Returns only the exact name or term entered—no additions, name variations, and omissions are allowed. For example, for politician Terry Rogers, only \"Terry Rogers\" will be considered a match. \"Terrence Rogers\" or \"Rogers Terry Alan\" will not be flagged. Strict: Returns exact name matches, matches with minor variations, and some other matches, such as nicknames, honorifics, or glued names (if applied by your provider). With strict matching settings, \"Terence Rogers\" and \"Rogers Terence Alan\" will be flagged as matches for \"Terry Rogers\". Default: Returns exact name matches and allows a small difference between names. For example, for \"Alexandre Gomes\", \"Alexandre Gomes Marques\" will be flagged as a match, but \"Alexandra Gomes\" will not. Fuzzy: Returns exact name matches and allows the widest range of spelling differences including non-phonetic matches. With these settings \"Alexandra Gomes\" will be considered a match for \"Alexandre Gomes\", as well as \"Dharminder Kumar\" and \"Dharmendrakumar Doriwala\" will be considered matches for \"Dharmendra Kumar.\" 📘NoteIf your preferred settings differ from the Exact match, the year-of-birth variation (+/- 1 year) will be automatically applied to all types of matches except for the ones found in adverse media. Exact match: Returns only the exact name or term entered—no additions, name variations, and omissions are allowed. For example, for politician Terry Rogers, only \"Terry Rogers\" will be considered a match. \"Terrence Rogers\" or \"Rogers Terry Alan\" will not be flagged. Strict: Returns exact name matches, matches with minor variations, and some other matches, such as nicknames, honorifics, or glued names (if applied by your provider). With strict matching settings, \"Terence Rogers\" and \"Rogers Terence Alan\" will be flagged as matches for \"Terry Rogers\". Default: Returns exact name matches and allows a small difference between names. For example, for \"Alexandre Gomes\", \"Alexandre Gomes Marques\" will be flagged as a match, but \"Alexandra Gomes\" will not.",
+    "domain": "sumsub",
+    "sourceType": "web"
+  },
+  {
+    "id": "docs-sumsub-com-docs-configure-aml-screening-note-1",
+    "title": "Get started with AML screening — Note (2)",
+    "url": "https://docs.sumsub.com/docs/configure-aml-screening",
+    "excerpt": "lagged as matches for \"Terry Rogers\". Default: Returns exact name matches and allows a small difference between names. For example, for \"Alexandre Gomes\", \"Alexandre Gomes Marques\" will be flagged as a match, b…",
+    "text": "lagged as matches for \"Terry Rogers\". Default: Returns exact name matches and allows a small difference between names. For example, for \"Alexandre Gomes\", \"Alexandre Gomes Marques\" will be flagged as a match, but \"Alexandra Gomes\" will not. Fuzzy: Returns exact name matches and allows the widest range of spelling differences including non-phonetic matches. With these settings \"Alexandra Gomes\" will be considered a match for \"Alexandre Gomes\", as well as \"Dharminder Kumar\" and \"Dharmendrakumar Doriwala\" will be considered matches for \"Dharmendra Kumar.\" 📘NoteIf your preferred settings differ from the Exact match, the year-of-birth variation (+/- 1 year) will be automatically applied to all types of matches except for the ones found in adverse media.",
+    "domain": "sumsub",
+    "sourceType": "web"
+  },
+  {
+    "id": "docs-sumsub-com-docs-configure-aml-screening-note-0",
+    "title": "Get started with AML screening — Note",
+    "url": "https://docs.sumsub.com/docs/configure-aml-screening",
+    "excerpt": "If your preferred settings differ from the Exact match, the year-of-birth variation (+/- 1 year) will be automatically applied to all types of matches except for the ones found in adverse media. On the Configur…",
+    "text": "If your preferred settings differ from the Exact match, the year-of-birth variation (+/- 1 year) will be automatically applied to all types of matches except for the ones found in adverse media. On the Configurations tab, enable Ongoing AML Monitoring to be informed of any changes in sanctions and watchlists concerning your applicants. This feature is available at an additional cost. Contact your Customer Success Manager or our Business Support team to learn more. Use Ongoing AML Monitoring to keep an eye on applicant profiles after the initial check has been completed. If an issue is detected, the applicant will be rejected. You can also instruct the system to automatically assign applicants to compliance officers for a manual review and monitor applicants unlimitedly. Save your changes. Test AML Screening in the Sandbox environment.",
+    "domain": "sumsub",
+    "sourceType": "web"
+  },
+  {
+    "id": "docs-sumsub-com-docs-configure-aml-screening-note-0",
+    "title": "Get started with AML screening — Note",
+    "url": "https://docs.sumsub.com/docs/configure-aml-screening",
+    "excerpt": "If you approve rejected applicant profiles manually, it may cause incorrect functioning of AML Screening within these profiles. To initiate the AML check for the manually approved applicants again, you can go a…",
+    "text": "If you approve rejected applicant profiles manually, it may cause incorrect functioning of AML Screening within these profiles. To initiate the AML check for the manually approved applicants again, you can go as follows: Ensure that AML Screening is enabled in the level settings—select a verification level, go to the Configurations tab, and open the AML Screening section. Go to the applicant profile and click Request check to conduct AML Screening for this profile. Alternatively, you can run a new AML check via this API method. Enable Ongoing AML monitoring via the chat in the Dashboard to catch the updates and configure the Ongoing AML Screening settings for particular verification levels if needed. Set up AML rescreening AML rescreening is a monitoring tool that helps maintain compliance when an applicant’s verification status changes after the initial check (any status other than Approved/Rejected). A new AML check may be required for these profiles if a specific amount of time has passed since the last screening. For instance, the set rescreening interval is 1 day. If more than 24 hours have passed since the last AML check, the system will indicate that the AML screening results are outdated and that a new check should be completed. You can define the interval for AML rescreening either globally for all applicants on a key or individually for specific verification levels. Once configured, all affected applicants will follow the established rescreening rule. To configure AML rescreening globally: Go to Integrations → Global settings. Navigate to AML screening and locate the Configurations tab. On the Configurations tab, enter the desired interval (in days) next to the rescreen settings. To adjust AML rescreening for specific verification levels: Go to Integrations → Verification levels (Individuals). Find and select the required verification level. Go to the Configurations tab → AML Screening. Scroll down to the rescreen settings and enter the desired interval (in days).",
+    "domain": "sumsub",
+    "sourceType": "web"
+  },
+  {
+    "id": "docs-sumsub-com-docs-configure-aml-screening-note-0",
+    "title": "Get started with AML screening — Note",
+    "url": "https://docs.sumsub.com/docs/configure-aml-screening",
+    "excerpt": "This setting only applies to applicants with Ongoing AML Monitoring turned off, regardless of whether it is enabled globally or at the level. This feature does not automate the rescreening itself. Enable Ongoin…",
+    "text": "This setting only applies to applicants with Ongoing AML Monitoring turned off, regardless of whether it is enabled globally or at the level. This feature does not automate the rescreening itself. Enable Ongoing AML Monitoring to keep applicants continuously updated against watchlists. Updated 3 months ago",
+    "domain": "sumsub",
+    "sourceType": "web"
+  },
+  {
+    "id": "docs-sumsub-com-docs-aml-how-it-works-step-by-step-flow-0",
+    "title": "Step-by-step flow",
+    "url": "https://docs.sumsub.com/docs/aml-how-it-works",
+    "excerpt": "At Sumsub, we offer a comprehensive AML/KYC compliance software solution designed to help businesses automate and optimize their entire compliance flow—from customer onboarding to continuous monitoring and repo…",
+    "text": "At Sumsub, we offer a comprehensive AML/KYC compliance software solution designed to help businesses automate and optimize their entire compliance flow—from customer onboarding to continuous monitoring and reporting. Our AML solution features include: Customer Due Diligence (CDD) and Enhanced Due Diligence (EDD) for individuals. Collection and verification of customer identity documents, such as passports and ID cards, with the help of advanced OCR (Optical Character Recognition) technology and biometric checks to confirm that the document is authentic and belongs to the applicant. Validation of the extracted data, such as name, address, date of birth, or other identifying details, against trusted databases. Collection and verification of customer identity documents, such as passports and ID cards, with the help of advanced OCR (Optical Character Recognition) technology and biometric checks to confirm that the document is authentic and belongs to the applicant. Validation of the extracted data, such as name, address, date of birth, or other identifying details, against trusted databases. Business verification (KYB) services. Corporate document verification. Analyzing official documents such as certificates of incorporation, business licenses, and tax identification numbers to verify the legitimacy of a business. Ownership structure analysis. Mapping out the ownership structure of a company to identify beneficial owners and assess potential risks associated with them. Cross-referencing with databases. Checking business entities against global databases to ensure they are not listed on sanctions lists or involved in fraudulent activities. Corporate document verification. Analyzing official documents such as certificates of incorporation, business licenses, and tax identification numbers to verify the legitimacy of a business. Ownership structure analysis. Mapping out the ownership structure of a company to identify beneficial owners and assess potential risks associated with them. Cross-referencing with databases. Checking business entities against global databases to ensure they are not listed on sanctions lists or involved in fraudulent activities. Automated screening against global sanctions, watchlists, and PEP databases. Real-time screening. Automated systems continuously check customer data against a wide array of global sanctions lists, watchlists including OFAC and EU sanctions, and Politically Exposed Persons (PEP) databases. Ongoing monitoring. Screening algorithms are regularly updated to include the latest sanctions and watchlist entries to ensure compliance with evolving regulations. Case management system. A unified platform that lets you assign, investigate, escalate, and resolve AML cases in a few clicks. Real-time screening. Automated systems continuously check customer data against a wide array of global sanctions lists, watchlists including OFAC and EU sanctions, and Politically Exposed Persons (PEP) databases. Ongoing monitoring. Screening algorithms are regularly updated to include the latest sanctions and watchlist entries to ensure compliance with evolving regulations. Case management system. A unified platform that lets you assign, investigate, escalate, and resolve AML cases in a few clicks. An applicant risk scoring system that evaluates customers based on various parameters such as AML screening results, transaction history, geographic risk factors, and behavioral patterns. Ongoing transaction monitoring with customizable risk scenarios. Automated monitoring.",
+    "domain": "sumsub",
+    "sourceType": "web"
+  },
+  {
+    "id": "docs-sumsub-com-docs-aml-how-it-works-step-by-step-flow-1",
+    "title": "Step-by-step flow (2)",
+    "url": "https://docs.sumsub.com/docs/aml-how-it-works",
+    "excerpt": "hat evaluates customers based on various parameters such as AML screening results, transaction history, geographic risk factors, and behavioral patterns. Ongoing transaction monitoring with customizable risk sc…",
+    "text": "hat evaluates customers based on various parameters such as AML screening results, transaction history, geographic risk factors, and behavioral patterns. Ongoing transaction monitoring with customizable risk scenarios. Automated monitoring. Continuous surveillance of customer transactions to detect unusual patterns or behaviors that may indicate potential money laundering or fraud. Customizable risk scenarios. Specific risk scenarios tailored to your operations, such as thresholds for transaction amounts or frequency of transactions that trigger alerts. Alerts. Notifications sent to your compliance team when a transaction meets predefined risk criteria. Reporting. Detailed reports generated for audit purposes or regulatory submissions. Applicant actions. Customizable actions for all or groups of customers based on the triggered rules, including sending questionnaires to PEPs to help you fulfill your EDD obligations. Automated monitoring. Continuous surveillance of customer transactions to detect unusual patterns or behaviors that may indicate potential money laundering or fraud. Customizable risk scenarios. Specific risk scenarios tailored to your operations, such as thresholds for transaction amounts or frequency of transactions that trigger alerts. Alerts. Notifications sent to your compliance team when a transaction meets predefined risk criteria. Reporting. Detailed reports generated for audit purposes or regulatory submissions. Applicant actions. Customizable actions for all or groups of customers based on the triggered rules, including sending questionnaires to PEPs to help you fulfill your EDD obligations. Non-Doc Verification that eliminates the need for applicants to upload any documents, as the verification is performed based on the document number. Compliance reporting. Generation of detailed AML screening reports that include: Sanctions, PEP, and adverse media results, Risk categorization and status (e.g., True Positive, Potential Match, False Positive), Decision history and actions taken. Reports are automatically stored and can be exported in PDF or JSON formats for audit purposes. Sanctions, PEP, and adverse media results, Risk categorization and status (e.g., True Positive, Potential Match, False Positive), Decision history and actions taken. Reports are automatically stored and can be exported in PDF or JSON formats for audit purposes. Workflow automation that quickly adapts to changing risk levels. Compliance officers can review flagged matches in the Dashboard and take actions such as: Approve, escalate, or decline applicants based on risk assessment, Request additional documentation if necessary. Approve, escalate, or decline applicants based on risk assessment, Request additional documentation if necessary. Detailed audit trails for complete transparency and accountability. The system logs all review decisions and updates status changes for full auditability. Dashboard analytics that provides compliance teams with real-time insights into verification performance and applicant activity. Key Metrics. Tracks checked applicants, median processing time, rejections, and country distribution. Visual Data Representation. Includes pie charts, line/bar graphs, and interactive breakdowns of verification trends. Customization. Allows filtering by time periods, data types, and visualization formats. Audit & Compliance. Logs user activity, applicant document uploads, and review history. Your team can also request a custom graph or table by contacting your customer success manager. Key Metrics.",
+    "domain": "sumsub",
+    "sourceType": "web"
+  },
+  {
+    "id": "docs-sumsub-com-docs-aml-how-it-works-step-by-step-flow-2",
+    "title": "Step-by-step flow (3)",
+    "url": "https://docs.sumsub.com/docs/aml-how-it-works",
+    "excerpt": "ods, data types, and visualization formats. Audit & Compliance. Logs user activity, applicant document uploads, and review history. Your team can also request a custom graph or table by contacting your customer…",
+    "text": "ods, data types, and visualization formats. Audit & Compliance. Logs user activity, applicant document uploads, and review history. Your team can also request a custom graph or table by contacting your customer success manager. Key Metrics. Tracks checked applicants, median processing time, rejections, and country distribution. Visual Data Representation. Includes pie charts, line/bar graphs, and interactive breakdowns of verification trends. Customization. Allows filtering by time periods, data types, and visualization formats. Audit & Compliance. Logs user activity, applicant document uploads, and review history. Your team can also request a custom graph or table by contacting your customer success manager. The following types of watchlist screening are available: Information-based. Textual data, such as the applicant name and date of birth received from the applicant, is matched against a comprehensive set of watchlists in order to find/exclude a match. Document-based. The name and date of birth are extracted from the identity document that was uploaded by the applicant. In both cases, fuzzy logic is involved to ensure that no spelling variations of the applicant’s name are overlooked. Step-by-step flow AML screening is usually performed as follows: Sumsub extracts the applicant data from the provided documents or applicant input.",
+    "domain": "sumsub",
+    "sourceType": "web"
+  },
+  {
+    "id": "docs-sumsub-com-docs-aml-how-it-works-note-0",
+    "title": "Step-by-step flow — Note",
+    "url": "https://docs.sumsub.com/docs/aml-how-it-works",
+    "excerpt": "The AML check is conducted for Applicants that have passed all the other required checks successfully and were approved by the system. Depending on your settings, Sumsub utilizes Comply Advantage, Quantifind, o…",
+    "text": "The AML check is conducted for Applicants that have passed all the other required checks successfully and were approved by the system. Depending on your settings, Sumsub utilizes Comply Advantage, Quantifind, or World-Check-One to screen the applicant and find the individuals that are: Known or suspected terrorists, Sanctioned persons, Politically exposed persons (PEPs), Persons with a criminal background, Persons mentioned in adverse media. Known or suspected terrorists, Sanctioned persons, Politically exposed persons (PEPs), Persons with a criminal background, Persons mentioned in adverse media. Data from various sanctions and watchlists is compared against the applicant profile to establish a match. Various matching technologies are involved to ensure that no variations of the applicant’s name or the mention’s sentiment are overlooked. Below, you will find a list of matches available in Sumsub. Match typeDescriptionTrue positiveApplicant data exactly matches one or several watchlist records. The full DOB of the applicant, along with their name, matches one or several watchlist records, but the middle name is omitted/abbreviated.Potential matchThe name of the applicant matches one or several watchlist records, but the age/year of birth data is missing, or the applicant is suspected of committing a crime. When two of three words in the applicant's name match one or several watchlist records, along with their year of birth or age.False positiveApplicant data doesn't match the source, or it matches, but the context clearly shows the person doesn't pose any threat.UnknownThe applicant's name in the document contains only one word. There can also be cases with the matching of the applicant's common name and an abundance of matches. In such tricky cases, the Sumsub client makes the final decision regarding the applicant. Real-life examples: CaseStatusNext actionThe applicant's name is not found in any of the sources.N/AThe applicant is automatically approved.Applicant data exactly matches in one or several watchlist records.True positiveThe applicant is either rejected or assigned the Requires action status and then delegated to the client compliance officers for further processing. The action depends on the customer's settings.Applicant data matches the watchlist record, but the record does not include criminal or suspicious information about the person. For example, if the applicant is a crime journalist, and their name features on the article as an author.False positiveThe applicant is assigned the Approved status.Applicant data matches the watchlist record exactly, but additional information clearly shows that the applicant and the person on the record are different people.False positiveThe applicant is assigned the Approved status.Name of the applicant matches one or several watchlist records, but the age/year of birth data is missing, or the applicant is suspected of committing a crime.Potential matchThe applicant is assigned the Rejected status or Requires action status and then delegated to the client compliance officers for further processing.The applicant name contains just one word. There can also be cases with the matching applicant common name and an abundance of matches.UnknownThe applicant is assigned the Rejected status or Requires action status and then delegated to the client compliance officers for further processing. Examples: False positive. The applicant's name matches one or several watchlist records, but their DOB/age is different. True positive.",
+    "domain": "sumsub",
+    "sourceType": "web"
+  },
+  {
+    "id": "docs-sumsub-com-docs-aml-how-it-works-note-1",
+    "title": "Step-by-step flow — Note (2)",
+    "url": "https://docs.sumsub.com/docs/aml-how-it-works",
+    "excerpt": "s or Requires action status and then delegated to the client compliance officers for further processing. Examples: False positive. The applicant's name matches one or several watchlist records, but their DOB/ag…",
+    "text": "s or Requires action status and then delegated to the client compliance officers for further processing. Examples: False positive. The applicant's name matches one or several watchlist records, but their DOB/age is different. True positive. The applicant's name partially matches one or several watchlist records, and DOB/age matches these too, but the middle name is abbreviated. Potential match. Two of three words in the applicant's full name match one or several watchlist records, and their DOB/age matches these too. If applicants are declined based on a watchlist match, they are assigned a respective rejection tag depending on the source where the match was found: Sanctions PEP Criminal records Adverse Media On demand, the system can be set to delegate borderline cases to the client compliance officers for manual processing. Adverse Media categories General tags Subcategories FATF & EU AML Directive 22 predicate offences Adverse Media General General AML/CFT Bribery Graft Kickbacks Political corruption Organized crime Criminal association Racketeering Smuggling (excl. drugs, money, people or guns/weapons/arms) Poaching Illegal logging Animal cruelty Corruption Other environmental crime People smuggling Migrant smuggling Smuggling of animals Illegal pollution/waste GMigrant trafficking Sanctions violation/risk/connection Tax-related smuggling Adverse Media Financial Crime Financial AML/CFT Money laundering Insider trading Tax-related offenses FTax evasion Market manipulation Financial Difficulty Bankruptcy Financial difficulty Unexpected resignation of CFO Layoff /retrenchments/furloughs Store closures Late payment to creditors Other Financial Loan sharking Usury Predatory lending Questionable billing practices Non-specific financial crime Tax avoidance (not illegal) Creative accounting Adverse Media Narcotics Narcotics AML/CFT Drug trafficking Drug distribution Drug production Drug dealing Adverse Media Fraud Fraud-linked Fraud Scams Swindles Counterfeiting Forgery Identity theft Impersonation Mortgage fraud Identity fraud Corporate fraud Electronic fraud (E-fraud) Misrepresentation VAT fraud Counterfeiting currency Residential fraud Non-specified fraud Adverse Media Violent crime Violence AML/CFT Kidnapping Abduction Held against the will Murder (Committed, planned, or attempted) Child pornography People trafficking Organ trafficking Arms trafficking Homicide Assassination Coercion Child sexual abuse Pimping Sex trafficking Human trafficking Slavery Sexual exploitation (incl.",
+    "domain": "sumsub",
+    "sourceType": "web"
+  },
+  {
+    "id": "docs-sumsub-com-docs-aml-how-it-works-note-2",
+    "title": "Step-by-step flow — Note (3)",
+    "url": "https://docs.sumsub.com/docs/aml-how-it-works",
+    "excerpt": "urder (Committed, planned, or attempted) Child pornography People trafficking Organ trafficking Arms trafficking Homicide Assassination Coercion Child sexual abuse Pimping Sex trafficking Human trafficking Slav…",
+    "text": "urder (Committed, planned, or attempted) Child pornography People trafficking Organ trafficking Arms trafficking Homicide Assassination Coercion Child sexual abuse Pimping Sex trafficking Human trafficking Slavery Sexual exploitation (incl. of children) Grievous bodily harm/injury Illegal restraint Hostage-taking Extortion Robbery Child trafficking Illegal possession of guns, weapons, or explosives Illegal sale of guns, weapons, or explosives Adverse Media Violence NON AML/CFT Rape Sexual abuse Pedophilia Assault Battery Domestic abuse Elder child abuse Physical abuse Domestic violence Molestation Sexual harassment Purposeful transmission of HIV Human rights abuses by state and non-state actors Genocide War crimes Massacres Torture Illegal pornography Manslaughter Other violent crime Other sexual crime Adverse Media Terrorism Terrorism Terrorist-related Member of a terrorist organization Terrorist attack Terror/terrorist financing Aiding of terrorists/terrorism Cyberterrorism Political terrorism Terroristic oppression Cybercrime Computer-related cybercrime Illegal access to information systems Illegal system interference Illegal data interference Illegal interception Other crimes Adverse Media Other Serious Perjury Obstruction of Justice False filings False statements Fugitive Election interference Escaped from imprisonment Arson Spying Espionage Treason Civil disorder Adverse Media Other Minor Possession of drugs Possession of drug paraphernalia Illegal prostitution Misconduct Vandalism False advertising Drug possession Labour abuse DUI (Driving under the influence) Health & safety issue Human resource issue/dispute Litigation Security related issue Minor-sounding, difficult-to-classify offences Non-specific crime Conspiracy for a non-specific crime Adverse Media Regulatory Antitrust Price fixing Illegal gambling Forfeiture Denied entity Anti-competitive issues Product dumping Regulatory issues Regulatory breach Greenmail Churning Regulatory fines Collusion Industry sanctions/fine /discipline Securities violations General tags Subcategories FATF & EU AML Directive 22 predicate offences Adverse Media General General AML/CFT Bribery Bribery Graft Graft Kickbacks Kickbacks Political corruption Political corruption Organized crime Organized crime Criminal association Criminal association Racketeering Racketeering Smuggling (excl. drugs, money, people or guns/weapons/arms) Smuggling (excl.",
+    "domain": "sumsub",
+    "sourceType": "web"
+  },
+  {
+    "id": "docs-sumsub-com-docs-aml-how-it-works-note-3",
+    "title": "Step-by-step flow — Note (4)",
+    "url": "https://docs.sumsub.com/docs/aml-how-it-works",
+    "excerpt": "t Kickbacks Kickbacks Political corruption Political corruption Organized crime Organized crime Criminal association Criminal association Racketeering Racketeering Smuggling (excl. drugs, money, people or guns/…",
+    "text": "t Kickbacks Kickbacks Political corruption Political corruption Organized crime Organized crime Criminal association Criminal association Racketeering Racketeering Smuggling (excl. drugs, money, people or guns/weapons/arms) Smuggling (excl. drugs, money, people or guns/weapons/arms) Poaching Poaching Illegal logging Illegal logging Animal cruelty Animal cruelty Corruption Corruption Other environmental crime Other environmental crime People smuggling People smuggling Migrant smuggling Migrant smuggling Smuggling of animals Smuggling of animals Illegal pollution/waste Illegal pollution/waste GMigrant trafficking GMigrant trafficking Sanctions violation/risk/connection Sanctions violation/risk/connection Tax-related smuggling Tax-related smuggling Adverse Media Financial Crime Financial AML/CFT Money laundering Money laundering Insider trading Insider trading Tax-related offenses Tax-related offenses FTax evasion FTax evasion Market manipulation Market manipulation Financial Difficulty Bankruptcy Bankruptcy Financial difficulty Financial difficulty Unexpected resignation of CFO Unexpected resignation of CFO Layoff /retrenchments/furloughs Layoff /retrenchments/furloughs Store closures Store closures Late payment to creditors Late payment to creditors Other Financial Loan sharking Loan sharking Usury Usury Predatory lending Predatory lending Questionable billing practices Questionable billing practices Non-specific financial crime Non-specific financial crime Tax avoidance (not illegal) Tax avoidance (not illegal) Creative accounting Creative accounting Adverse Media Narcotics Narcotics AML/CFT Drug trafficking Drug trafficking Drug distribution Drug distribution Drug production Drug production Drug dealing Drug dealing Adverse Media Fraud Fraud-linked Fraud Fraud Scams Scams Swindles Swindles Counterfeiting Counterfeiting Forgery Forgery Identity theft Identity theft Impersonation Impersonation Mortgage fraud Mortgage fraud Identity fraud Identity fraud Corporate fraud Corporate fraud Electronic fraud (E-fraud) Electronic fraud (E-fraud) Misrepresentation Misrepresentation VAT fraud VAT fraud Counterfeiting currency Counterfeiting currency Residential fraud Residential fraud Non-specified fraud Non-specified fraud Adverse Media Violent crime Violence AML/CFT Kidnapping Kidnapping Abduction Abduction Held against the will Held against the will Murder (Committed, planned, or attempted) Murder (Committed, planned, or attempted) Child pornography Child pornography People trafficking People trafficking Organ trafficking Organ trafficking Arms trafficking Arms trafficking Homicide Homicide Assassination Assassination Coercion Coercion Child sexual abuse Child sexual abuse Pimping Pimping Sex trafficking Sex trafficking Human trafficking Human trafficking Slavery Slavery Sexual exploitation (incl. of children) Sexual exploitation (incl.",
+    "domain": "sumsub",
+    "sourceType": "web"
+  },
+  {
+    "id": "docs-sumsub-com-docs-aml-how-it-works-note-4",
+    "title": "Step-by-step flow — Note (5)",
+    "url": "https://docs.sumsub.com/docs/aml-how-it-works",
+    "excerpt": "ion Assassination Coercion Coercion Child sexual abuse Child sexual abuse Pimping Pimping Sex trafficking Sex trafficking Human trafficking Human trafficking Slavery Slavery Sexual exploitation (incl. of childr…",
+    "text": "ion Assassination Coercion Coercion Child sexual abuse Child sexual abuse Pimping Pimping Sex trafficking Sex trafficking Human trafficking Human trafficking Slavery Slavery Sexual exploitation (incl. of children) Sexual exploitation (incl. of children) Grievous bodily harm/injury Grievous bodily harm/injury Illegal restraint Illegal restraint Hostage-taking Hostage-taking Extortion Extortion Robbery Robbery Child trafficking Child trafficking Illegal possession of guns, weapons, or explosives Illegal possession of guns, weapons, or explosives Illegal sale of guns, weapons, or explosives Illegal sale of guns, weapons, or explosives Adverse Media Violence NON AML/CFT Rape Rape Sexual abuse Sexual abuse Pedophilia Pedophilia Assault Assault Battery Battery Domestic abuse Domestic abuse Elder child abuse Elder child abuse Physical abuse Physical abuse Domestic violence Domestic violence Molestation Molestation Sexual harassment Sexual harassment Purposeful transmission of HIV Purposeful transmission of HIV Human rights abuses by state and non-state actors Human rights abuses by state and non-state actors Genocide Genocide War crimes War crimes Massacres Massacres Torture Torture Illegal pornography Illegal pornography Manslaughter Manslaughter Other violent crime Other violent crime Other sexual crime Other sexual crime Adverse Media Terrorism Terrorism Terrorist-related Terrorist-related Member of a terrorist organization Member of a terrorist organization Terrorist attack Terrorist attack Terror/terrorist financing Terror/terrorist financing Aiding of terrorists/terrorism Aiding of terrorists/terrorism Cyberterrorism Cyberterrorism Political terrorism Political terrorism Terroristic oppression Terroristic oppression Cybercrime Computer-related cybercrime Computer-related cybercrime Illegal access to information systems Illegal access to information systems Illegal system interference Illegal system interference Illegal data interference Illegal data interference Illegal interception Illegal interception Other crimes Adverse Media Other Serious Perjury Perjury Obstruction of Justice Obstruction of Justice False filings False filings False statements False statements Fugitive Fugitive Election interference Election interference Escaped from imprisonment Escaped from imprisonment Arson Arson Spying Spying Espionage Espionage Treason Treason Civil disorder Civil disorder Adverse Media Other Minor Possession of drugs Possession of drugs Possession of drug paraphernalia Possession of drug paraphernalia Illegal prostitution Illegal prostitution Misconduct Misconduct Vandalism Vandalism False advertising False advertising Drug possession Drug possession Labour abuse Labour abuse DUI (Driving under the influence) DUI (Driving under the influence) Health & safety issue Health & safety issue Human resource issue/dispute Human resource issue/dispute Litigation Litigation Security related issue Security related issue Minor-sounding, difficult-to-classify offences Minor-sounding, difficult-to-classify offences Non-specific crime Non-specific crime Conspiracy for a non-specific crime Conspiracy for a non-specific crime Adverse Media Regulatory Antitrust Antitrust Price fixing Price fixing Illegal gambling Illegal gambling Forfeiture Forfeiture Denied entity Denied entity Anti-competitive issues Anti-competitive issues Product dumping Product dumping Regulatory issues Regulatory issues Regulatory breach Regulatory breach Greenmail Greenmail Churning Churning Regulatory fines Regulatory fines Collusion Collusion Industry sanctions/fine /discipline Indu",
+    "domain": "sumsub",
+    "sourceType": "web"
+  },
+  {
+    "id": "docs-sumsub-com-docs-aml-how-it-works-note-5",
+    "title": "Step-by-step flow — Note (6)",
+    "url": "https://docs.sumsub.com/docs/aml-how-it-works",
+    "excerpt": "ues Product dumping Product dumping Regulatory issues Regulatory issues Regulatory breach Regulatory breach Greenmail Greenmail Churning Churning Regulatory fines Regulatory fines Collusion Collusion Industry s…",
+    "text": "ues Product dumping Product dumping Regulatory issues Regulatory issues Regulatory breach Regulatory breach Greenmail Greenmail Churning Churning Regulatory fines Regulatory fines Collusion Collusion Industry sanctions/fine /discipline Industry sanctions/fine /discipline Securities violations Securities violations The above tags are used for filtering, classifying, and prioritizing applicant reviews. To learn more about applicant tags, refer to this article. Updated 3 months ago",
+    "domain": "sumsub",
+    "sourceType": "web"
+  },
+  {
+    "id": "docs-sumsub-com-docs-process-aml-screening-results-locate-aml-cases-0",
+    "title": "Locate AML cases",
+    "url": "https://docs.sumsub.com/docs/process-aml-screening-results",
+    "excerpt": "Currently, we have two distinct flows in our AML case management — the new flow and the legacy one. Both of these workflows are designed to streamline your processes and improve efficiency in handling AML match…",
+    "text": "Currently, we have two distinct flows in our AML case management — the new flow and the legacy one. Both of these workflows are designed to streamline your processes and improve efficiency in handling AML matches and related cases based on their specific characteristics. However, we are currently working to transfer all our clients to the new flow. The main differences between the flows lie in how you can locate and filter AML cases. Below you’ll find the descriptions of both flows and their specifics. Locate AML cases You can access AML cases from three points: The Watchlists section of the applicant profile. This location is relevant for both the new and the legacy flows. In the applicant profile, you can find various case metrics, such as the date and time when the screening was performed, the applicant’s name along with their date of birth, the search reference that was used during the screening, the fuzziness interval, and whether the ongoing monitoring was enabled. The AML Cases tab in the Case Management queues. This location is relevant for the legacy flow only. The AML-associated tabs (these contain the names of the blueprints you created for your AML investigations) of the My Cases queue. This location is relevant for the new flow only.",
+    "domain": "sumsub",
+    "sourceType": "web"
+  },
+  {
+    "id": "docs-sumsub-com-docs-process-aml-screening-results-filter-aml-cases-0",
+    "title": "Locate AML cases — Filter AML cases",
+    "url": "https://docs.sumsub.com/docs/process-aml-screening-results",
+    "excerpt": "In the legacy flow, you can apply the following filters to sort your cases: FilterDescriptionWith hitsDisplays the cases with potential or true positive AML matches.Created atLets you select the case creation d…",
+    "text": "In the legacy flow, you can apply the following filters to sort your cases: FilterDescriptionWith hitsDisplays the cases with potential or true positive AML matches.Created atLets you select the case creation date.EntityLets you select between applicant, counterparty, and all cases.Residence countryOpens the list of available applicant residence countries.AML risk labelDisplays risk labels associated with the cases.Whitelisted hitsShows you whitelisted applicants with potential or true positive AML matches.Applicant typeAllows you to select between individuals (people) and legal entities (businesses).Source keyOpens the list of available source keys.Match statusLets you select a specific AML match type, for example, a potential match.Hit relevanceAllows you to select the fuzziness level for name hits.Case originAllows you to select between ongoing and new AML cases.Hit countriesOpens the list of countries where hits may come from.Ongoing monitoringLets you select the applicants with ongoing monitoring on/off.Update dateLets you select the case update date. You can also include the processed cases and show all configured queues by activating the respective toggles or switch between the tabs with the cases that are assigned to you and all cases requiring action. In the new flow, the cases are by default sorted based on the dedicated blueprint. You can also sort them by status. To learn more about case statuses, refer to this article. Interpret AML Screening results Depending on the screening results, the status timestamp is highlighted in different colors: Green — no matches were found in the watchlists; the applicant can be approved (or is already approved). Yellow — matches in the watchlists are found, and require investigation. Red — matches in the watchlists are found. Thoroughly investigate check results if you want to approve the applicant despite the found matches. You may have several timestamps—each showing its own results—in case of several WL checks performed at different times. You can also generate a screening report and save it as PDF. To learn more about managing AML Screening data, refer to this article.",
+    "domain": "sumsub",
+    "sourceType": "web"
+  },
+  {
+    "id": "docs-sumsub-com-docs-process-aml-screening-results-tip-0",
+    "title": "Locate AML cases — Tip",
+    "url": "https://docs.sumsub.com/docs/process-aml-screening-results",
+    "excerpt": "Use an event log for better understanding of the AML screening results. For more information, see this article. Resolve AML cases If the applicant was assigned to you after the AML screening in accordance with …",
+    "text": "Use an event log for better understanding of the AML screening results. For more information, see this article. Resolve AML cases If the applicant was assigned to you after the AML screening in accordance with the new or legacy flow, or you disagree with the system decision, you need to investigate the case card and make a final decision according to your business requirements. To resolve the case, act as follows: In the Dashboard, open the Applicants page. Navigate to the applicant profile you need. In the upper-right corner, click Change applicant status. Upon initiating the applicant status change, the profile goes into the Requires action status. Navigate to the AML Screening section to see the following data: Screening parameterDescriptionSearch termName of the screened person.Created atDate and time when the first screening was performed.Search refSearch ID on the Comply Advantage (our AML screening provider) side.Fuzziness IntervalA customizable value that defines how many inexact matches can be found during the WL screening.Year of birthBirth date of the screened person.Ongoing monitoringIndicates if the ongoing AML monitoring is on/off.Last screening dateDate when the screening was last performed.Warning typesTypes of matches configured in the settings. Hover the mouse cursor over the question mark to view, or click the link to open the settings in a new tab. In case there are several WL checks performed at different times, go through the last timestamp only to study the most recent data. Open the applicant record in the table and investigate the provided sources. If you plan to approve the applicant, ensure that all matches in the latest AML check have one of the following states: False positive is whitelisted False positive is whitelisted Click Approve or Reject. In case you access the AML screening results through the applicant profile to approve applicants rejected during the screening, act as follows: In the Dashboard, open the Applicants page. Navigate to the applicant profile you need. In the upper-right corner, click Change applicant status. Upon initiating the applicant status change, the profile goes into the Requires action status. Navigate to the AML Screening section. In case of several WL checks performed at different times, there can be new and archived matches. Go through only the last timestamp to see and study its results. To check the relevance of the match, click the applicant record in the table and investigate the provided sources. You can also view archived and removed matches for reference. To do so, click on Show archived matches. The results of previous screenings will be displayed sorted by one below another, sorted from the newest to the oldest. If you plan to approve the applicant profile, change the parameters. All matches in the latest AML check should have one of the following states: False positive is whitelisted False positive is whitelisted Click Approve or Reject. Updated 4 months ago",
+    "domain": "sumsub",
+    "sourceType": "web"
+  },
+  {
+    "id": "docs-sumsub-com-docs-travel-rule-key-requirements-0",
+    "title": "Key requirements",
+    "url": "https://docs.sumsub.com/docs/travel-rule",
+    "excerpt": "The rise of cryptocurrencies has brought an evolution in financial regulations to mitigate the risks associated with the sector. One such measure is the FATF Travel Rule. Initially, the Travel Rule only applied…",
+    "text": "The rise of cryptocurrencies has brought an evolution in financial regulations to mitigate the risks associated with the sector. One such measure is the FATF Travel Rule. Initially, the Travel Rule only applied to financial institutions; however, in 2019, the FATF expanded its recommendations to include Virtual Asset Service Providers. Key requirements For VA transfers under the 1,000 USD/EUR threshold, FATF recommends to collect the following information: The name of the originator (sender) and the beneficiary (recipient). The VA wallet address for each or a unique transaction reference number. For transfers exceeding the above threshold, VASPs should collect: The originator's name. The originator account number for the account used to process the transaction (for example, wallet address). The originator's physical (geographical) address, national identity number, and customer identification number (that is, not a transaction number) that uniquely identifies the originator to the ordering institution, or date and place of birth. The beneficiary's name. The beneficiary account number for the account used to process the transaction (for example, wallet address). Sumsub Travel Rule solution Sumsub Travel Rule checks are part of our Transaction Monitoring solution. Each check includes a multi-level risk evaluation system that helps businesses determine the risk of the counterparty, and hence decide on transacting with it. The main benefits of using the solution are: Seamless integration with your system and other Sumsub products. You can use the Travel Rule check along with other user verification and transaction monitoring features and AML checks to get detailed information about each transaction. Most popular data exchange protocols under the hood, including TRP, GTR, Sumsub custom protocol, and email notifications, to streamline the Travel Rule data exchange. The system will automatically select the quickest and easiest way to obtain the counterparty data. VASP attribution allowing to determine whether the VA transaction is carried out with a VASP or an unhosted wallet and establish the counterparty VASP identity. Screening of VA transaction participants against watchlists, global sanctions lists (OFAC, UN, HMT, EU, DFT, and so on), and adverse media. Secure ecosystem. Access to the most recent verification data and other documentation related to other Travel Rule ecosystem members to ensure quick confirmation of all transactions. Straightforward solution for the interoperability and the Sunrise issues. Vast functionality that allows you to configure the exact fields when exchanging data to meet specific regulations. 8000+ supported virtual assets. Crypto wallet scoring mechanism that lets our clients set up automated transaction rejection based on the wallet status. Start your Travel Rule journey Use rules and client lists Updated 5 months ago",
+    "domain": "travel-rule",
+    "sourceType": "web"
+  },
+  {
+    "id": "docs-sumsub-com-docs-transaction-monitoring-detect-all-suspicious-transaction-activities-with-one-solution-0",
+    "title": "Detect all suspicious transaction activities with one solution",
+    "url": "https://docs.sumsub.com/docs/transaction-monitoring",
+    "excerpt": "Sumsub's transaction monitoring offers fraud and money laundering protection for all kinds of businesses to secure every step of the user journey. Our algorithms are capable of analyzing user behavior patterns,…",
+    "text": "Sumsub's transaction monitoring offers fraud and money laundering protection for all kinds of businesses to secure every step of the user journey. Our algorithms are capable of analyzing user behavior patterns, transaction details, and many other signals to help your anti-fraud specialists make informed decisions. The system also continuously adapts based on the collected data to minimize false positives, speed up the response, and ensure all risk factors are taken into account. Detect all suspicious transaction activities with one solution Customize fraud protection Use cases Updated 22 days ago",
+    "domain": "sumsub",
+    "sourceType": "web"
+  },
+  {
+    "id": "www-sfc-hk-en-faqs-intermediaries-supervision-anti-money-laundering-and-counter-financing-of-terroris-anti-money-laundering-and-counter-financing-of-terrorism-securities-futures-commission-of--0",
+    "title": "Anti-Money Laundering and Counter-Financing of Terrorism | Securities & Futures Commission of Hong Kong",
+    "url": "https://www.sfc.hk/en/faqs/intermediaries/supervision/Anti-Money-Laundering-and-Counter-Financing-of-Terrorism/Anti-Money-Laundering-and-Counter-Financing-of-Terrorism",
+    "excerpt": "It should be noted that section 22(1)(b) of Schedule 2 to the AMLO states “the same business as an FI”, and the term “FI” refers to an FI as defined in the AMLO, including authorized institution, licensed corpo…",
+    "text": "It should be noted that section 22(1)(b) of Schedule 2 to the AMLO states “the same business as an FI”, and the term “FI” refers to an FI as defined in the AMLO, including authorized institution, licensed corporation, authorized insurer, licensed VAS provider, etc. Therefore, so long as the overseas subsidiary carries on the business as any type of FI as defined in the AMLO (not necessarily the same type of FI as the parent company), then this provision will apply. Key Reference(s): AML/CFT Guideline para. 3.13",
+    "domain": "regulatory",
+    "sourceType": "web"
+  },
+  {
+    "id": "www-hkma-gov-hk-eng-key-functions-banking-anti-money-laundering-and-counter-financing-of-terrorism-industr-industry-guidance-frequently-asked-questions-0",
+    "title": "Industry Guidance & Frequently Asked Questions",
+    "url": "https://www.hkma.gov.hk/eng/key-functions/banking/anti-money-laundering-and-counter-financing-of-terrorism/industry-guidance-frequently-asked-questions/",
+    "excerpt": "Industry Guidance & Frequently Asked Questions Industry Guidance & Frequently Asked Questions (FAQs) in relation to AML/CFT are developed by the Hong Kong Association of Banks (HKAB). These documents do not for…",
+    "text": "Industry Guidance & Frequently Asked Questions Industry Guidance & Frequently Asked Questions (FAQs) in relation to AML/CFT are developed by the Hong Kong Association of Banks (HKAB). These documents do not form part of the statutory AML/CFT Guideline and should be read in conjunction with the AML/CFT Guideline. 30 Dec 2024Frequently Asked Questions in relation to Anti-Money Laundering and Counter-Financing of Terrorism (PDF File, 1.2 MB)Developed by the Hong Kong Association of Banks 01 Feb 2016Industry Guidance Paper on Combating Trade-based Money Laundering (PDF File, 263.7 KB)Developed by the Hong Kong Association of Banks Circulars & Guidance Papers (Archive) Ordinances & Statutory Guidelines Circulars & Guidance Papers Sanctions-related Notices & Updates FATF-related Statements & Updates Disciplinary Actions Speeches & Publications AML/CFT-related Information for Stored Value Facility Licensees AML/CFT-related Information for Licensed Stablecoin Issuers AML/CFT Regtech Training & Seminars Useful Links",
+    "domain": "regulatory",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-workflows-kyc-kyb-quality-review-define-the-review-question-0",
+    "title": "KYC and KYB quality review | UWAY Documentation — Define the review question",
+    "url": "https://hkuway.com/docs/workflows/kyc-kyb-quality-review/",
+    "excerpt": "Start with a decision the review must support. Examples include validating a new vendor, measuring analyst consistency, investigating a rise in rework, or confirming remediation after a policy change. A broad i…",
+    "text": "Start with a decision the review must support. Examples include validating a new vendor, measuring analyst consistency, investigating a rise in rework, or confirming remediation after a policy change. A broad instruction to \"check KYC quality\" usually produces an unfocused sample and findings that cannot be acted on.",
+    "domain": "compliance-quality",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-workflows-kyc-kyb-quality-review-build-the-sample-0",
+    "title": "KYC and KYB quality review | UWAY Documentation — Build the sample",
+    "url": "https://hkuway.com/docs/workflows/kyc-kyb-quality-review/",
+    "excerpt": "Document the population, period, products, jurisdictions, customer types, outcomes, and exclusions. Use a combination of representative and risk-focused sampling where appropriate. The sample record should expl…",
+    "text": "Document the population, period, products, jurisdictions, customer types, outcomes, and exclusions. Use a combination of representative and risk-focused sampling where appropriate. The sample record should explain why each case was eligible and how the final sample was selected.",
+    "domain": "compliance-quality",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-workflows-kyc-kyb-quality-review-review-each-case-0",
+    "title": "KYC and KYB quality review | UWAY Documentation — Review each case",
+    "url": "https://hkuway.com/docs/workflows/kyc-kyb-quality-review/",
+    "excerpt": "Reconstruct the requirements and policy version in force. Confirm the evidence available to the original decision maker. Reperform the relevant checks without using hindsight as an undisclosed standard. Record …",
+    "text": "Reconstruct the requirements and policy version in force. Confirm the evidence available to the original decision maker. Reperform the relevant checks without using hindsight as an undisclosed standard. Record defects against a controlled taxonomy. Separate factual errors, policy gaps, system defects, and judgment differences. Escalate material cases through the institution's approved process.",
+    "domain": "compliance-quality",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-workflows-kyc-kyb-quality-review-defect-taxonomy-0",
+    "title": "KYC and KYB quality review | UWAY Documentation — Defect taxonomy",
+    "url": "https://hkuway.com/docs/workflows/kyc-kyb-quality-review/",
+    "excerpt": "ClassExampleTypical responseMissing evidenceRequired document or verification result absentCorrect case and review control designIncorrect executionPolicy exists but was not appliedTraining, workflow, or superv…",
+    "text": "ClassExampleTypical responseMissing evidenceRequired document or verification result absentCorrect case and review control designIncorrect executionPolicy exists but was not appliedTraining, workflow, or supervision changePolicy gapRequirement is not translated into an operating rulePolicy and control redesignSystem defectRouting or field logic produces the wrong stateEngineering remediation and regression testDocumentation weaknessDecision may be reasonable but cannot be reconstructedImprove reason and evidence capture",
+    "domain": "compliance-quality",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-workflows-kyc-kyb-quality-review-report-and-remediate-0",
+    "title": "KYC and KYB quality review | UWAY Documentation — Report and remediate",
+    "url": "https://hkuway.com/docs/workflows/kyc-kyb-quality-review/",
+    "excerpt": "Report both the observed defect rate and the limitations of the sample. Assign remediation by root cause rather than sending every finding back to analysts. Each action should have an owner, due date, validatio…",
+    "text": "Report both the observed defect rate and the limitations of the sample. Assign remediation by root cause rather than sending every finding back to analysts. Each action should have an owner, due date, validation method, and evidence location. Close an action only after the change is deployed and a follow-up sample supports effectiveness.",
+    "domain": "compliance-quality",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-workflows-aml-alert-triage-triage-objective-0",
+    "title": "AML alert triage | UWAY Documentation — Triage objective",
+    "url": "https://hkuway.com/docs/workflows/aml-alert-triage/",
+    "excerpt": "Triage should determine the next accountable action using sufficient context. It should not optimise only for queue closure or treat a low model score as proof that an alert is immaterial.",
+    "text": "Triage should determine the next accountable action using sufficient context. It should not optimise only for queue closure or treat a low model score as proof that an alert is immaterial.",
+    "domain": "aml-sentinel",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-workflows-aml-alert-triage-minimum-case-context-0",
+    "title": "AML alert triage | UWAY Documentation — Minimum case context",
+    "url": "https://hkuway.com/docs/workflows/aml-alert-triage/",
+    "excerpt": "Alert rule, scenario, threshold, and generation time. Customer identity, business profile, and risk classification. Relevant transaction and counterparty history. Screening or intelligence matches and their pro…",
+    "text": "Alert rule, scenario, threshold, and generation time. Customer identity, business profile, and risk classification. Relevant transaction and counterparty history. Screening or intelligence matches and their provenance. Previous alerts, reviews, and reported activity where permitted. Policy version and decision options available to the analyst.",
+    "domain": "aml-sentinel",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-workflows-aml-alert-triage-review-sequence-0",
+    "title": "AML alert triage | UWAY Documentation — Review sequence",
+    "url": "https://hkuway.com/docs/workflows/aml-alert-triage/",
+    "excerpt": "Confirm that the alert and referenced transaction are correctly identified. Validate the customer and counterparty context used by the alert. Assess the behaviour against the scenario and available history. Rec…",
+    "text": "Confirm that the alert and referenced transaction are correctly identified. Validate the customer and counterparty context used by the alert. Assess the behaviour against the scenario and available history. Record material supporting and contradictory evidence. Select an approved disposition and reason code. Escalate where the evidence, policy, or authority requires it. Preserve the decision, reviewer, time, and evidence references.",
+    "domain": "aml-sentinel",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-workflows-aml-alert-triage-assisted-review-0",
+    "title": "AML alert triage | UWAY Documentation — Assisted review",
+    "url": "https://hkuway.com/docs/workflows/aml-alert-triage/",
+    "excerpt": "AI assistance can assemble context, identify inconsistencies, draft a review memo, and recommend reason codes. The interface should distinguish extracted facts from analytical inferences and show the evidence b…",
+    "text": "AI assistance can assemble context, identify inconsistencies, draft a review memo, and recommend reason codes. The interface should distinguish extracted facts from analytical inferences and show the evidence behind each material statement. An assisted memo must remain editable and attributable to the analyst who accepts or changes it. Retain the generated version and the final approved decision where governance requires comparison.",
+    "domain": "aml-sentinel",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-workflows-aml-alert-triage-quality-measures-0",
+    "title": "AML alert triage | UWAY Documentation — Quality measures",
+    "url": "https://hkuway.com/docs/workflows/aml-alert-triage/",
+    "excerpt": "Measure more than handling time. Useful measures include re-open rate, escalation precision, missing evidence, reason-code consistency, overdue cases, repeat alerts, and the proportion of decisions changed duri…",
+    "text": "Measure more than handling time. Useful measures include re-open rate, escalation precision, missing evidence, reason-code consistency, overdue cases, repeat alerts, and the proportion of decisions changed during quality review.",
+    "domain": "aml-sentinel",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-workflows-aml-alert-triage-escalation-0",
+    "title": "AML alert triage | UWAY Documentation — Escalation",
+    "url": "https://hkuway.com/docs/workflows/aml-alert-triage/",
+    "excerpt": "Escalation criteria should be explicit, testable, and connected to authority. The workflow must not rely on an analyst knowing an undocumented expectation or contacting a specific person outside the case record…",
+    "text": "Escalation criteria should be explicit, testable, and connected to authority. The workflow must not rely on an analyst knowing an undocumented expectation or contacting a specific person outside the case record.",
+    "domain": "aml-sentinel",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-workflows-travel-rule-configuration-establish-the-operating-perimeter-0",
+    "title": "Travel Rule configuration workflow | UWAY Documentation — Establish the operating perimeter",
+    "url": "https://hkuway.com/docs/workflows/travel-rule-configuration/",
+    "excerpt": "List the regulated entities, products, customer types, assets, networks, origin and destination jurisdictions, and counterparties that the configuration must support. Do not begin with a single threshold field …",
+    "text": "List the regulated entities, products, customer types, assets, networks, origin and destination jurisdictions, and counterparties that the configuration must support. Do not begin with a single threshold field before the perimeter is understood.",
+    "domain": "travel-rule",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-workflows-travel-rule-configuration-map-requirements-to-controls-0",
+    "title": "Travel Rule configuration workflow | UWAY Documentation — Map requirements to controls",
+    "url": "https://hkuway.com/docs/workflows/travel-rule-configuration/",
+    "excerpt": "For each corridor, record the requirement source, effective date, interpretation owner, threshold treatment, data requirements, counterparty conditions, and evidence retained. DecisionConfiguration objectIs inf…",
+    "text": "For each corridor, record the requirement source, effective date, interpretation owner, threshold treatment, data requirements, counterparty conditions, and evidence retained. DecisionConfiguration objectIs information exchange required?Applicability and threshold ruleWhich party data is required?Required and conditional fieldsCan the counterparty receive it?Capability and protocol profileWhat if information is unavailable?Hold, review, reject, or fallback routeWhat proves the rule was applied?Configuration and transaction evidence",
+    "domain": "travel-rule",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-workflows-travel-rule-configuration-test-the-configuration-0",
+    "title": "Travel Rule configuration workflow | UWAY Documentation — Test the configuration",
+    "url": "https://hkuway.com/docs/workflows/travel-rule-configuration/",
+    "excerpt": "Include tests at, above, and below each threshold; missing fields; contradictory jurisdiction data; unsupported counterparties; unhosted wallets; duplicate requests; delayed acknowledgements; and configuration …",
+    "text": "Include tests at, above, and below each threshold; missing fields; contradictory jurisdiction data; unsupported counterparties; unhosted wallets; duplicate requests; delayed acknowledgements; and configuration version changes. Expected outcomes should be approved before test execution. A test that only records what the system happened to do does not prove the intended control.",
+    "domain": "travel-rule",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-workflows-travel-rule-configuration-approve-and-publish-0",
+    "title": "Travel Rule configuration workflow | UWAY Documentation — Approve and publish",
+    "url": "https://hkuway.com/docs/workflows/travel-rule-configuration/",
+    "excerpt": "The approval package should include: Requirement and interpretation references. Configuration export and version. Test cases, expected outcomes, and actual results. Known limitations and manual controls. Effect…",
+    "text": "The approval package should include: Requirement and interpretation references. Configuration export and version. Test cases, expected outcomes, and actual results. Known limitations and manual controls. Effective date and rollback owner. Impacted corridors, systems, and counterparties.",
+    "domain": "travel-rule",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-workflows-travel-rule-configuration-monitor-change-0",
+    "title": "Travel Rule configuration workflow | UWAY Documentation — Monitor change",
+    "url": "https://hkuway.com/docs/workflows/travel-rule-configuration/",
+    "excerpt": "Trigger reassessment when regulations, regulator guidance, entity scope, products, corridors, counterparties, protocols, or internal risk policy change. Use the knowledge graph to identify which documents, cont…",
+    "text": "Trigger reassessment when regulations, regulator guidance, entity scope, products, corridors, counterparties, protocols, or internal risk policy change. Use the knowledge graph to identify which documents, controls, and configurations depend on the changed entity.",
+    "domain": "travel-rule",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-contract-status-0",
+    "title": "API overview | UWAY Documentation — Contract status",
+    "url": "https://hkuway.com/docs/api/",
+    "excerpt": "The current API is an implementation-led private preview. UWAY provisions the tenant base URL, credentials, enabled operations, callback configuration, and production contract during onboarding. Examples in thi…",
+    "text": "The current API is an implementation-led private preview. UWAY provisions the tenant base URL, credentials, enabled operations, callback configuration, and production contract during onboarding. Examples in this documentation describe the draft contract used for integration planning. They must not be treated as confirmation that a public self-service endpoint is available. Confirm the tenant-specific OpenAPI document, base URL, authentication method, network controls, webhook signature, rate limits, and support model with UWAY.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-protocol-conventions-0",
+    "title": "API overview | UWAY Documentation — Protocol conventions",
+    "url": "https://hkuway.com/docs/api/",
+    "excerpt": "ConventionCurrent preview approachTransportHTTPSPayloadJSONTimeISO 8601 in UTCAuthenticationTenant Bearer credentialIdempotencyStable key per logical write requestTraceabilityUWAY reference plus customer transa…",
+    "text": "ConventionCurrent preview approachTransportHTTPSPayloadJSONTimeISO 8601 in UTCAuthenticationTenant Bearer credentialIdempotencyStable key per logical write requestTraceabilityUWAY reference plus customer transaction or case IDErrorsHTTP status plus structured error object",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-authentication-0",
+    "title": "API overview | UWAY Documentation — Authentication",
+    "url": "https://hkuway.com/docs/api/",
+    "excerpt": "Keep credentials in a server-side secret manager. Do not expose them in browser code, mobile applications, client-side analytics, source control, or screenshots. Authorization: Bearer YOUR_TENANT_KEY Content-Ty…",
+    "text": "Keep credentials in a server-side secret manager. Do not expose them in browser code, mobile applications, client-side analytics, source control, or screenshots. Authorization: Bearer YOUR_TENANT_KEY Content-Type: application/json Idempotency-Key: txn_8f72b1c4e5d9",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-idempotency-0",
+    "title": "API overview | UWAY Documentation — Idempotency",
+    "url": "https://hkuway.com/docs/api/",
+    "excerpt": "Use the same idempotency key when retrying one logical request after a timeout or uncertain response. Generate a new key only when the business operation itself is new. Persist the idempotency key, UWAY referen…",
+    "text": "Use the same idempotency key when retrying one logical request after a timeout or uncertain response. Generate a new key only when the business operation itself is new. Persist the idempotency key, UWAY reference, and business transaction or case identifier together.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-evidence-and-logging-0",
+    "title": "API overview | UWAY Documentation — Evidence and logging",
+    "url": "https://hkuway.com/docs/api/",
+    "excerpt": "Log request time, tenant, operation, business reference, response status, UWAY reference, configuration version, and error code. Do not place raw credentials or unnecessary sensitive customer data in applicatio…",
+    "text": "Log request time, tenant, operation, business reference, response status, UWAY reference, configuration version, and error code. Do not place raw credentials or unnecessary sensitive customer data in application logs.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-next-steps-0",
+    "title": "API overview | UWAY Documentation — Next steps",
+    "url": "https://hkuway.com/docs/api/",
+    "excerpt": "Review Screen a transaction. Configure Webhook events. Select a deployment model.",
+    "text": "Review Screen a transaction. Configure Webhook events. Select a deployment model.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-regulatory-apac-control-map-why-use-a-control-map-0",
+    "title": "APAC control map | UWAY Documentation — Why use a control map",
+    "url": "https://hkuway.com/docs/regulatory/apac-control-map/",
+    "excerpt": "A list of regulatory updates is useful for awareness but does not show what the business must examine. The APAC control map connects a requirement source to jurisdictions, regulated entities, controls, workflow…",
+    "text": "A list of regulatory updates is useful for awareness but does not show what the business must examine. The APAC control map connects a requirement source to jurisdictions, regulated entities, controls, workflows, products, evidence, and accountable owners. The map is a decision-support structure. It does not replace current legal advice or the primary text issued by a regulator.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-regulatory-apac-control-map-jurisdiction-profile-0",
+    "title": "APAC control map | UWAY Documentation — Jurisdiction profile",
+    "url": "https://hkuway.com/docs/regulatory/apac-control-map/",
+    "excerpt": "Each jurisdiction profile should record: Regulated entities and activities in scope. Relevant regulators and primary sources. Effective dates and transition periods. KYC, KYB, AML, sanctions, Travel Rule, and r…",
+    "text": "Each jurisdiction profile should record: Regulated entities and activities in scope. Relevant regulators and primary sources. Effective dates and transition periods. KYC, KYB, AML, sanctions, Travel Rule, and reporting themes. Data, localisation, outsourcing, and technology governance considerations. Controls and products potentially affected. Interpretation owner and review status.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-regulatory-apac-control-map-initial-apac-coverage-0",
+    "title": "APAC control map | UWAY Documentation — Initial APAC coverage",
+    "url": "https://hkuway.com/docs/regulatory/apac-control-map/",
+    "excerpt": "MarketInitial knowledge focusOperating questionHong KongVirtual assets, payments, AML, stablecoin and technology governanceWhich licensed entity, product, and control is affected?SingaporePayments, digital paym…",
+    "text": "MarketInitial knowledge focusOperating questionHong KongVirtual assets, payments, AML, stablecoin and technology governanceWhich licensed entity, product, and control is affected?SingaporePayments, digital payment tokens, AML, outsourcing and technology riskWhich MAS-regulated activity and operating workflow is in scope?UAEVirtual assets, financial free zones, AML and entity-specific supervisionWhich regulator and legal entity governs the activity?MalaysiaPayments, digital assets, AML and local operating requirementsWhich BNM or securities perimeter applies to the product?",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-regulatory-apac-control-map-change-impact-workflow-0",
+    "title": "APAC control map | UWAY Documentation — Change impact workflow",
+    "url": "https://hkuway.com/docs/regulatory/apac-control-map/",
+    "excerpt": "Capture the primary source and publication metadata. Classify the affected jurisdiction, entity, activity, obligation, and control. Identify linked products, workflows, policies, configurations, and evidence. A…",
+    "text": "Capture the primary source and publication metadata. Classify the affected jurisdiction, entity, activity, obligation, and control. Identify linked products, workflows, policies, configurations, and evidence. Assign interpretation and implementation owners. Record the decision, target date, and validation evidence. Update linked documentation and configuration versions.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-regulatory-apac-control-map-knowledge-status-0",
+    "title": "APAC control map | UWAY Documentation — Knowledge status",
+    "url": "https://hkuway.com/docs/regulatory/apac-control-map/",
+    "excerpt": "Every regulatory node should show whether it is observed, under assessment, interpreted, implementation-ready, effective, or superseded. AI answers should disclose this status and cite the exact document used. …",
+    "text": "Every regulatory node should show whether it is observed, under assessment, interpreted, implementation-ready, effective, or superseded. AI answers should disclose this status and cite the exact document used. Do not treat a graph connection as evidence that a legal conclusion is current. The primary source, review date, and accountable interpretation remain necessary.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-deployment-choose-by-data-boundary-0",
+    "title": "Deployment models | UWAY Documentation — Choose by data boundary",
+    "url": "https://hkuway.com/docs/deployment/",
+    "excerpt": "Start with the data and operating boundary, not a preferred infrastructure label. Identify which raw customer, document, transaction, screening, model, configuration, and audit data can leave the customer's env…",
+    "text": "Start with the data and operating boundary, not a preferred infrastructure label. Identify which raw customer, document, transaction, screening, model, configuration, and audit data can leave the customer's environment.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-deployment-comparison-0",
+    "title": "Deployment models | UWAY Documentation — Comparison",
+    "url": "https://hkuway.com/docs/deployment/",
+    "excerpt": "ModelProcessing locationTypical useCustomer responsibilityCloudUWAY-managed environmentLightweight analytics, configuration, and approved workloadsIdentity integration, data minimisation, policy ownershipCustom…",
+    "text": "ModelProcessing locationTypical useCustomer responsibilityCloudUWAY-managed environmentLightweight analytics, configuration, and approved workloadsIdentity integration, data minimisation, policy ownershipCustomer VPCCustomer-controlled cloud environmentSensitive processing with customer network and key controlsInfrastructure, access, monitoring, and approved upgradesEdge AgentCustomer VPC or on-premiseLocal context resolution and controlled data movementRuntime health, local secrets, logs, and capacityHybridLocal sensitive processing plus approved cloud servicesConfiguration sync, analytics, and local decision contextBoundary definition and end-to-end operating model",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-deployment-architecture-decision-record-0",
+    "title": "Deployment models | UWAY Documentation — Architecture decision record",
+    "url": "https://hkuway.com/docs/deployment/",
+    "excerpt": "The deployment decision should record: Data classes and permitted flows. Processing and storage locations. Encryption and key ownership. Identity, role, and privileged access model. Logging, monitoring, retenti…",
+    "text": "The deployment decision should record: Data classes and permitted flows. Processing and storage locations. Encryption and key ownership. Identity, role, and privileged access model. Logging, monitoring, retention, and deletion. Model, prompt, rule, and configuration update path. Incident, rollback, and support responsibilities. Evidence required for security and compliance review.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-deployment-edge-agent-operating-requirements-0",
+    "title": "Deployment models | UWAY Documentation — Edge Agent operating requirements",
+    "url": "https://hkuway.com/docs/deployment/",
+    "excerpt": "An Edge Agent deployment requires an owner for runtime health, secret rotation, configuration approval, upgrade windows, capacity, local logs, and incident response. Keeping data local does not remove operation…",
+    "text": "An Edge Agent deployment requires an owner for runtime health, secret rotation, configuration approval, upgrade windows, capacity, local logs, and incident response. Keeping data local does not remove operational responsibility.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-deployment-production-readiness-0",
+    "title": "Deployment models | UWAY Documentation — Production readiness",
+    "url": "https://hkuway.com/docs/deployment/",
+    "excerpt": "Approve the data flow and threat model. Validate network, identity, secret, and encryption controls. Test normal, degraded, disconnected, and recovery behaviour. Confirm configuration and software version evide…",
+    "text": "Approve the data flow and threat model. Validate network, identity, secret, and encryption controls. Test normal, degraded, disconnected, and recovery behaviour. Confirm configuration and software version evidence. Run representative workflow and jurisdiction tests. Agree support, incident, and change windows.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-deployment-private-tenant-configuration-0",
+    "title": "Deployment models | UWAY Documentation — Private tenant configuration",
+    "url": "https://hkuway.com/docs/deployment/",
+    "excerpt": "Base URLs, credentials, network allowlists, customer-specific schemas, webhook secrets, and infrastructure parameters belong in the private implementation record, not in public documentation.",
+    "text": "Base URLs, credentials, network allowlists, customer-specific schemas, webhook secrets, and infrastructure parameters belong in the private implementation record, not in public documentation.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-products-aml-sentinel-purpose-0",
+    "title": "AML Sentinel | UWAY Documentation — Purpose",
+    "url": "https://hkuway.com/docs/products/aml-sentinel/",
+    "excerpt": "AML Sentinel assists transaction monitoring and screening operations by assembling case context, highlighting relevant risk signals, and producing structured review material. It is designed to improve triage qu…",
+    "text": "AML Sentinel assists transaction monitoring and screening operations by assembling case context, highlighting relevant risk signals, and producing structured review material. It is designed to improve triage quality and analyst consistency without converting a model score into an unreviewed customer action. Sentinel can recommend a route and explain the signals it observed. The institution remains responsible for policy, final disposition, escalation, and regulatory reporting.",
+    "domain": "aml-sentinel",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-products-aml-sentinel-operating-model-0",
+    "title": "AML Sentinel | UWAY Documentation — Operating model",
+    "url": "https://hkuway.com/docs/products/aml-sentinel/",
+    "excerpt": "Receive an alert or transaction event from the institution's monitoring stack. Resolve permitted customer, counterparty, transaction, and screening context. Apply configured policy, rule, and analytical packs. …",
+    "text": "Receive an alert or transaction event from the institution's monitoring stack. Resolve permitted customer, counterparty, transaction, and screening context. Apply configured policy, rule, and analytical packs. Return structured reason codes, evidence references, confidence, and a recommended route. Present the case to an analyst where policy requires review. Retain the request, output, analyst action, and policy version for audit.",
+    "domain": "aml-sentinel",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-products-aml-sentinel-structured-output-0",
+    "title": "AML Sentinel | UWAY Documentation — Structured output",
+    "url": "https://hkuway.com/docs/products/aml-sentinel/",
+    "excerpt": "FieldMeaningrisk_levelNormalised severity used for routingreason_codesMachine-readable reasons supporting the routereview_memoHuman-readable summary for analyst reviewevidence_refsReferences to the evidence con…",
+    "text": "FieldMeaningrisk_levelNormalised severity used for routingreason_codesMachine-readable reasons supporting the routereview_memoHuman-readable summary for analyst reviewevidence_refsReferences to the evidence consideredpolicy_versionPolicy or configuration version appliedconfidenceModel or analytical confidence, where available The output contract should remain stable enough for case systems to store and query. Narrative text alone is not an adequate integration contract.",
+    "domain": "aml-sentinel",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-products-aml-sentinel-analyst-experience-0",
+    "title": "AML Sentinel | UWAY Documentation — Analyst experience",
+    "url": "https://hkuway.com/docs/products/aml-sentinel/",
+    "excerpt": "The analyst should be able to see: Why the alert exists. Which signals materially changed the assessment. Which evidence is missing or contradictory. Which policy or configuration was applied. Which action is r…",
+    "text": "The analyst should be able to see: Why the alert exists. Which signals materially changed the assessment. Which evidence is missing or contradictory. Which policy or configuration was applied. Which action is recommended and whether it requires approval. What changed after any reprocessing or analyst override.",
+    "domain": "aml-sentinel",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-products-aml-sentinel-deployment-choices-0",
+    "title": "AML Sentinel | UWAY Documentation — Deployment choices",
+    "url": "https://hkuway.com/docs/products/aml-sentinel/",
+    "excerpt": "Sentinel supports customer-controlled, cloud, and hybrid deployment patterns. Raw KYC or AML data can remain inside the customer's environment when an Edge Agent or customer VPC deployment is used. Cloud servic…",
+    "text": "Sentinel supports customer-controlled, cloud, and hybrid deployment patterns. Raw KYC or AML data can remain inside the customer's environment when an Edge Agent or customer VPC deployment is used. Cloud services should receive only the data explicitly agreed for the workflow. See Deployment models for the decision criteria and evidence required for each option.",
+    "domain": "aml-sentinel",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-products-aml-sentinel-controls-before-production-0",
+    "title": "AML Sentinel | UWAY Documentation — Controls before production",
+    "url": "https://hkuway.com/docs/products/aml-sentinel/",
+    "excerpt": "Map every recommended route to an accountable internal action. Define mandatory human review conditions. Test false-positive and false-negative samples. Confirm evidence retention and access controls. Validate …",
+    "text": "Map every recommended route to an accountable internal action. Define mandatory human review conditions. Test false-positive and false-negative samples. Confirm evidence retention and access controls. Validate model, prompt, rule, and policy version capture. Exercise timeout, retry, duplicate, and degraded-service behaviour. Agree incident escalation and change approval ownership.",
+    "domain": "aml-sentinel",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-products-aml-sentinel-what-sentinel-does-not-do-0",
+    "title": "AML Sentinel | UWAY Documentation — What Sentinel does not do",
+    "url": "https://hkuway.com/docs/products/aml-sentinel/",
+    "excerpt": "Sentinel does not replace the MLRO, file a report without an approved workflow, or make a legal determination about a customer. It does not remove the need to maintain the institution's monitoring rules, risk a…",
+    "text": "Sentinel does not replace the MLRO, file a report without an approved workflow, or make a legal determination about a customer. It does not remove the need to maintain the institution's monitoring rules, risk appetite, and documented governance.",
+    "domain": "aml-sentinel",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-products-compliance-quality-analysis-what-the-product-does-0",
+    "title": "Compliance Quality Analysis | UWAY Documentation — What the product does",
+    "url": "https://hkuway.com/docs/products/compliance-quality-analysis/",
+    "excerpt": "Compliance Quality Analysis reviews the evidence produced by KYC and KYB operations and measures whether decisions are complete, consistent, explainable, and aligned with the institution's policy. It is designe…",
+    "text": "Compliance Quality Analysis reviews the evidence produced by KYC and KYB operations and measures whether decisions are complete, consistent, explainable, and aligned with the institution's policy. It is designed for quality assurance and operating improvement, not as a replacement for the original verification provider or accountable compliance decision. The analysis can be applied to completed cases, vendor exports, analyst notes, exception queues, or a statistically meaningful sample selected for a review cycle. Measure the quality of the decision and its evidence, not only whether a vendor returned a pass or fail result.",
+    "domain": "compliance-quality",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-products-compliance-quality-analysis-inputs-0",
+    "title": "Compliance Quality Analysis | UWAY Documentation — Inputs",
+    "url": "https://hkuway.com/docs/products/compliance-quality-analysis/",
+    "excerpt": "InputPurposeTypical ownerCase outcomeEstablishes the final decision and decision pathKYC operationsVerification outputProvides document, identity, liveness, and screening resultsVerification providerAnalyst not…",
+    "text": "InputPurposeTypical ownerCase outcomeEstablishes the final decision and decision pathKYC operationsVerification outputProvides document, identity, liveness, and screening resultsVerification providerAnalyst notesShows the reasoning behind overrides and escalationsReview teamPolicy versionEstablishes the requirements in force when the case was decidedCompliance policyException historyIdentifies repeated failure and rework patternsQuality assurance Raw customer data and document images should remain within the agreed deployment boundary. Reviews can operate on redacted evidence, structured extracts, or customer-controlled infrastructure where required.",
+    "domain": "compliance-quality",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-products-compliance-quality-analysis-completeness-0",
+    "title": "Compliance Quality Analysis | UWAY Documentation — Completeness",
+    "url": "https://hkuway.com/docs/products/compliance-quality-analysis/",
+    "excerpt": "Confirms that required evidence, checks, fields, and analyst decisions are present. A completed workflow is not necessarily a complete case if evidence is missing or cannot be traced to the decision.",
+    "text": "Confirms that required evidence, checks, fields, and analyst decisions are present. A completed workflow is not necessarily a complete case if evidence is missing or cannot be traced to the decision.",
+    "domain": "compliance-quality",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-products-compliance-quality-analysis-consistency-0",
+    "title": "Compliance Quality Analysis | UWAY Documentation — Consistency",
+    "url": "https://hkuway.com/docs/products/compliance-quality-analysis/",
+    "excerpt": "Compares similar cases, reviewers, vendors, and time periods. The objective is to identify material differences that cannot be explained by policy, risk, or customer context.",
+    "text": "Compares similar cases, reviewers, vendors, and time periods. The objective is to identify material differences that cannot be explained by policy, risk, or customer context.",
+    "domain": "compliance-quality",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-products-compliance-quality-analysis-decision-traceability-0",
+    "title": "Compliance Quality Analysis | UWAY Documentation — Decision traceability",
+    "url": "https://hkuway.com/docs/products/compliance-quality-analysis/",
+    "excerpt": "Tests whether a reviewer or auditor can reconstruct what happened, which rule or judgment was applied, and which evidence supported the outcome.",
+    "text": "Tests whether a reviewer or auditor can reconstruct what happened, which rule or judgment was applied, and which evidence supported the outcome.",
+    "domain": "compliance-quality",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-products-compliance-quality-analysis-operational-efficiency-0",
+    "title": "Compliance Quality Analysis | UWAY Documentation — Operational efficiency",
+    "url": "https://hkuway.com/docs/products/compliance-quality-analysis/",
+    "excerpt": "Measures unnecessary handoffs, repeated requests, avoidable manual review, stale queues, and controls that create work without improving risk coverage.",
+    "text": "Measures unnecessary handoffs, repeated requests, avoidable manual review, stale queues, and controls that create work without improving risk coverage.",
+    "domain": "compliance-quality",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-products-compliance-quality-analysis-outputs-0",
+    "title": "Compliance Quality Analysis | UWAY Documentation — Outputs",
+    "url": "https://hkuway.com/docs/products/compliance-quality-analysis/",
+    "excerpt": "The standard output is a quality analysis report with: Executive findings and review scope. Defect taxonomy and severity distribution. Case-level evidence references. Vendor, workflow, and reviewer patterns. Ro…",
+    "text": "The standard output is a quality analysis report with: Executive findings and review scope. Defect taxonomy and severity distribution. Case-level evidence references. Vendor, workflow, and reviewer patterns. Root-cause hypotheses requiring confirmation. Prioritised remediation actions. Follow-up sample and measurement plan.",
+    "domain": "compliance-quality",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-products-compliance-quality-analysis-how-to-use-the-report-0",
+    "title": "Compliance Quality Analysis | UWAY Documentation — How to use the report",
+    "url": "https://hkuway.com/docs/products/compliance-quality-analysis/",
+    "excerpt": "Confirm the review population and sampling method before interpreting percentages. Separate policy defects from execution defects and technology defects. Assign each remediation item to an accountable owner and…",
+    "text": "Confirm the review population and sampling method before interpreting percentages. Separate policy defects from execution defects and technology defects. Assign each remediation item to an accountable owner and target review date. Re-sample affected case types after changes are deployed. Preserve the report, source references, and management response as audit evidence.",
+    "domain": "compliance-quality",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-products-compliance-quality-analysis-boundaries-0",
+    "title": "Compliance Quality Analysis | UWAY Documentation — Boundaries",
+    "url": "https://hkuway.com/docs/products/compliance-quality-analysis/",
+    "excerpt": "Quality analysis does not independently determine legal compliance, certify a vendor, or approve a customer. Jurisdiction-specific requirements and policy interpretations remain subject to the institution's acc…",
+    "text": "Quality analysis does not independently determine legal compliance, certify a vendor, or approve a customer. Jurisdiction-specific requirements and policy interpretations remain subject to the institution's accountable compliance and legal review.",
+    "domain": "compliance-quality",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-products-travel-rule-configurator-purpose-0",
+    "title": "Travel Rule Configurator | UWAY Documentation — Purpose",
+    "url": "https://hkuway.com/docs/products/travel-rule-configurator/",
+    "excerpt": "The Travel Rule Configurator converts an operating footprint into a structured configuration covering corridors, thresholds, required originator and beneficiary information, counterparty readiness, transmission…",
+    "text": "The Travel Rule Configurator converts an operating footprint into a structured configuration covering corridors, thresholds, required originator and beneficiary information, counterparty readiness, transmission policy, and retained evidence. It supports configuration and change analysis. It does not replace current legal interpretation or the institution's obligation to confirm which requirements apply to a specific transaction and entity.",
+    "domain": "travel-rule",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-products-travel-rule-configurator-configuration-inputs-0",
+    "title": "Travel Rule Configurator | UWAY Documentation — Configuration inputs",
+    "url": "https://hkuway.com/docs/products/travel-rule-configurator/",
+    "excerpt": "InputExample decisionEntity and licenceWhich regulated entity is executing the transfer?Origin and destinationWhich jurisdictions and corridor are involved?Asset and networkWhich asset, chain, or payment rail a…",
+    "text": "InputExample decisionEntity and licenceWhich regulated entity is executing the transfer?Origin and destinationWhich jurisdictions and corridor are involved?Asset and networkWhich asset, chain, or payment rail applies?Transaction valueWhich threshold and aggregation treatment applies?Counterparty typeHosted VASP, unhosted wallet, bank, or unknown counterparty?Partner capabilityWhich protocol and data fields can the counterparty exchange?Risk policyWhich cases require hold, review, reject, or escalation?",
+    "domain": "travel-rule",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-products-travel-rule-configurator-configuration-lifecycle-0",
+    "title": "Travel Rule Configurator | UWAY Documentation — Configuration lifecycle",
+    "url": "https://hkuway.com/docs/products/travel-rule-configurator/",
+    "excerpt": "Define the operating perimeter and regulated entities. Map corridors and applicable requirement sources. Configure thresholds, aggregation rules, and data fields. Define counterparty and wallet handling. Select…",
+    "text": "Define the operating perimeter and regulated entities. Map corridors and applicable requirement sources. Configure thresholds, aggregation rules, and data fields. Define counterparty and wallet handling. Select transmission and fallback routes. Test positive, negative, boundary, and exception cases. Approve and publish a versioned configuration. Reassess the configuration when obligations, corridors, or partners change. Retain the requirement source, interpretation owner, approval, effective date, test evidence, and configuration version. A current configuration without its decision history is difficult to defend.",
+    "domain": "travel-rule",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-products-travel-rule-configurator-outputs-0",
+    "title": "Travel Rule Configurator | UWAY Documentation — Outputs",
+    "url": "https://hkuway.com/docs/products/travel-rule-configurator/",
+    "excerpt": "Jurisdiction and corridor matrix. Threshold and aggregation configuration. Required and conditional data fields. Counterparty capability and fallback rules. Test scenarios and expected outcomes. Versioned confi…",
+    "text": "Jurisdiction and corridor matrix. Threshold and aggregation configuration. Required and conditional data fields. Counterparty capability and fallback rules. Test scenarios and expected outcomes. Versioned configuration export. Change log and approval evidence.",
+    "domain": "travel-rule",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-products-travel-rule-configurator-counterparty-readiness-0",
+    "title": "Travel Rule Configurator | UWAY Documentation — Counterparty readiness",
+    "url": "https://hkuway.com/docs/products/travel-rule-configurator/",
+    "excerpt": "Counterparty readiness is more than registry presence. The operating team should know whether the counterparty can be identified, which exchange method it supports, whether the required fields can be transmitte…",
+    "text": "Counterparty readiness is more than registry presence. The operating team should know whether the counterparty can be identified, which exchange method it supports, whether the required fields can be transmitted, and what happens if information is rejected or delayed.",
+    "domain": "travel-rule",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-products-travel-rule-configurator-review-conditions-0",
+    "title": "Travel Rule Configurator | UWAY Documentation — Review conditions",
+    "url": "https://hkuway.com/docs/products/travel-rule-configurator/",
+    "excerpt": "Route a transfer for review when the configured facts are incomplete, contradictory, outside the approved corridor, or dependent on an unconfirmed counterparty capability. Do not silently default an unknown con…",
+    "text": "Route a transfer for review when the configured facts are incomplete, contradictory, outside the approved corridor, or dependent on an unconfirmed counterparty capability. Do not silently default an unknown condition to the least restrictive outcome.",
+    "domain": "travel-rule",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-products-travel-rule-configurator-change-management-0",
+    "title": "Travel Rule Configurator | UWAY Documentation — Change management",
+    "url": "https://hkuway.com/docs/products/travel-rule-configurator/",
+    "excerpt": "Every material change should create a new configuration version. Link the version to the underlying requirement, test cases, approval, effective date, and impacted products or corridors.",
+    "text": "Every material change should create a new configuration version. Link the version to the underlying requirement, test cases, approval, effective date, and impacted products or corridors.",
+    "domain": "travel-rule",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-screen-transaction-endpoint-0",
+    "title": "Screen a transaction | UWAY Documentation — Endpoint",
+    "url": "https://hkuway.com/docs/api/screen-transaction/",
+    "excerpt": "Submit transaction, customer, counterparty, and Travel Rule context for a configured screening decision. The fields enabled for a tenant depend on the implementation contract.",
+    "text": "Submit transaction, customer, counterparty, and Travel Rule context for a configured screening decision. The fields enabled for a tenant depend on the implementation contract.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-screen-transaction-request-0",
+    "title": "Screen a transaction | UWAY Documentation — Request",
+    "url": "https://hkuway.com/docs/api/screen-transaction/",
+    "excerpt": "curl -X POST \"https://TENANT_BASE_URL/v1/screen/transaction\" \\ -H \"Authorization: Bearer YOUR_TENANT_KEY\" \\ -H \"Content-Type: application/json\" \\ -H \"Idempotency-Key: txn_8f72b1c4e5d9\" \\ -d '{ \"transaction_id\":…",
+    "text": "curl -X POST \"https://TENANT_BASE_URL/v1/screen/transaction\" \\ -H \"Authorization: Bearer YOUR_TENANT_KEY\" \\ -H \"Content-Type: application/json\" \\ -H \"Idempotency-Key: txn_8f72b1c4e5d9\" \\ -d '{ \"transaction_id\": \"txn_8f72b1c4e5d9\", \"sender\": {\"id\": \"cus_sender_01\", \"entity_type\": \"individual\"}, \"recipient\": {\"id\": \"cus_recipient_01\", \"entity_type\": \"individual\"}, \"amount\": {\"value\": \"50000.00\", \"currency\": \"USDT\"}, \"network\": \"ethereum\", \"travel_rule\": {\"required\": true} }'",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-screen-transaction-request-fields-0",
+    "title": "Screen a transaction | UWAY Documentation — Request fields",
+    "url": "https://hkuway.com/docs/api/screen-transaction/",
+    "excerpt": "FieldTypeRequirementPurposetransaction_idstringRequiredStable business identifier used across decisions and evidencesenderobjectRequiredOriginating party reference and permitted contextrecipientobjectRequiredBe…",
+    "text": "FieldTypeRequirementPurposetransaction_idstringRequiredStable business identifier used across decisions and evidencesenderobjectRequiredOriginating party reference and permitted contextrecipientobjectRequiredBeneficiary or counterparty reference and permitted contextamountobjectRequiredDecimal value as a string plus asset or currencynetworkstringConditionalNetwork or rail used by the transactiontravel_ruleobjectConditionalApplicability and exchange context",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-screen-transaction-example-response-0",
+    "title": "Screen a transaction | UWAY Documentation — Example response",
+    "url": "https://hkuway.com/docs/api/screen-transaction/",
+    "excerpt": "{ \"transaction_id\": \"txn_8f72b1c4e5d9\", \"uway_reference\": \"scr_7d3a91c2\", \"status\": \"review\", \"risk_level\": \"medium\", \"reason_codes\": [\"COUNTERPARTY_CONTEXT_REQUIRED\"], \"evidence_refs\": [\"ev_14f2\"], \"policy_ver…",
+    "text": "{ \"transaction_id\": \"txn_8f72b1c4e5d9\", \"uway_reference\": \"scr_7d3a91c2\", \"status\": \"review\", \"risk_level\": \"medium\", \"reason_codes\": [\"COUNTERPARTY_CONTEXT_REQUIRED\"], \"evidence_refs\": [\"ev_14f2\"], \"policy_version\": \"tenant-policy-2026-08\" }",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-screen-transaction-handling-the-response-0",
+    "title": "Screen a transaction | UWAY Documentation — Handling the response",
+    "url": "https://hkuway.com/docs/api/screen-transaction/",
+    "excerpt": "Persist the business identifier, UWAY reference, status, reason codes, evidence references, and policy version before taking an irreversible action. A synchronous response may be followed by a webhook if analys…",
+    "text": "Persist the business identifier, UWAY reference, status, reason codes, evidence references, and policy version before taking an irreversible action. A synchronous response may be followed by a webhook if analyst review or partner exchange changes the case.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-screen-transaction-failure-handling-0",
+    "title": "Screen a transaction | UWAY Documentation — Failure handling",
+    "url": "https://hkuway.com/docs/api/screen-transaction/",
+    "excerpt": "Retry network timeouts with the same idempotency key. Do not treat an HTTP or parsing failure as an approved transaction. Route unavailable or incomplete decisions according to the institution's degraded-servic…",
+    "text": "Retry network timeouts with the same idempotency key. Do not treat an HTTP or parsing failure as an approved transaction. Route unavailable or incomplete decisions according to the institution's degraded-service policy. Preserve the error code and correlation reference for support and audit.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-webhooks-delivery-model-0",
+    "title": "Webhook events | UWAY Documentation — Delivery model",
+    "url": "https://hkuway.com/docs/api/webhooks/",
+    "excerpt": "Webhook events notify the tenant when a review, evidence state, or partner exchange changes after the synchronous response. Return a success status only after the event has been durably stored. The exact signat…",
+    "text": "Webhook events notify the tenant when a review, evidence state, or partner exchange changes after the synchronous response. Return a success status only after the event has been durably stored. The exact signature headers, retry schedule, event catalogue, and source network controls are tenant-specific during the private preview.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-webhooks-example-event-0",
+    "title": "Webhook events | UWAY Documentation — Example event",
+    "url": "https://hkuway.com/docs/api/webhooks/",
+    "excerpt": "{ \"event_id\": \"evt_a81c29f4\", \"event_type\": \"screening.review_completed\", \"created_at\": \"2026-08-02T10:15:30Z\", \"data\": { \"transaction_id\": \"txn_8f72b1c4e5d9\", \"uway_reference\": \"scr_7d3a91c2\", \"status\": \"appro…",
+    "text": "{ \"event_id\": \"evt_a81c29f4\", \"event_type\": \"screening.review_completed\", \"created_at\": \"2026-08-02T10:15:30Z\", \"data\": { \"transaction_id\": \"txn_8f72b1c4e5d9\", \"uway_reference\": \"scr_7d3a91c2\", \"status\": \"approved\", \"reason_codes\": [\"ANALYST_REVIEW_COMPLETE\"] } }",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-webhooks-receiver-controls-0",
+    "title": "Webhook events | UWAY Documentation — Receiver controls",
+    "url": "https://hkuway.com/docs/api/webhooks/",
+    "excerpt": "Read the raw request body before JSON transformation where signature verification requires it. Verify the configured signature and timestamp tolerance. Reject an invalid signature without processing the event. …",
+    "text": "Read the raw request body before JSON transformation where signature verification requires it. Verify the configured signature and timestamp tolerance. Reject an invalid signature without processing the event. Store the event ID and payload durably. Return success after storage, not after every downstream workflow completes. Process the event idempotently using the event ID.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-webhooks-ordering-and-duplicates-0",
+    "title": "Webhook events | UWAY Documentation — Ordering and duplicates",
+    "url": "https://hkuway.com/docs/api/webhooks/",
+    "excerpt": "Do not assume events arrive once or strictly in business order. Compare event time and current object state before applying a change. Preserve duplicates for transport evidence while preventing duplicate busine…",
+    "text": "Do not assume events arrive once or strictly in business order. Compare event time and current object state before applying a change. Preserve duplicates for transport evidence while preventing duplicate business actions.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-api-webhooks-failure-and-replay-0",
+    "title": "Webhook events | UWAY Documentation — Failure and replay",
+    "url": "https://hkuway.com/docs/api/webhooks/",
+    "excerpt": "Monitor delivery failures and provide an operational replay process. Replayed events must use the original event identity or an explicit replay reference so the receiver can distinguish transport retry from a n…",
+    "text": "Monitor delivery failures and provide an operational replay process. Replayed events must use the original event identity or an explicit replay reference so the receiver can distinguish transport retry from a new business state. Do not implement production signature verification from an example header. Use the tenant-specific integration contract issued during onboarding.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-resources-glossary-control-0",
+    "title": "Compliance and product glossary | UWAY Documentation — Control",
+    "url": "https://hkuway.com/docs/resources/glossary/",
+    "excerpt": "A policy, process, system behaviour, or accountable human action designed to manage a defined risk or obligation.",
+    "text": "A policy, process, system behaviour, or accountable human action designed to manage a defined risk or obligation.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-resources-glossary-evidence-0",
+    "title": "Compliance and product glossary | UWAY Documentation — Evidence",
+    "url": "https://hkuway.com/docs/resources/glossary/",
+    "excerpt": "Information retained to show what happened, which requirement or configuration applied, who made or approved a decision, and what supported the outcome.",
+    "text": "Information retained to show what happened, which requirement or configuration applied, who made or approved a decision, and what supported the outcome.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-resources-glossary-obligation-0",
+    "title": "Compliance and product glossary | UWAY Documentation — Obligation",
+    "url": "https://hkuway.com/docs/resources/glossary/",
+    "excerpt": "A requirement derived from law, regulation, licence condition, regulator guidance, contract, or approved internal policy.",
+    "text": "A requirement derived from law, regulation, licence condition, regulator guidance, contract, or approved internal policy.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-resources-glossary-policy-version-0",
+    "title": "Compliance and product glossary | UWAY Documentation — Policy version",
+    "url": "https://hkuway.com/docs/resources/glossary/",
+    "excerpt": "The identifiable version of the institution's approved policy or operating rule used when a decision was made.",
+    "text": "The identifiable version of the institution's approved policy or operating rule used when a decision was made.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-resources-glossary-reason-code-0",
+    "title": "Compliance and product glossary | UWAY Documentation — Reason code",
+    "url": "https://hkuway.com/docs/resources/glossary/",
+    "excerpt": "A controlled, machine-readable identifier explaining a material factor in a route, decision, or exception.",
+    "text": "A controlled, machine-readable identifier explaining a material factor in a route, decision, or exception.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-resources-glossary-review-memo-0",
+    "title": "Compliance and product glossary | UWAY Documentation — Review memo",
+    "url": "https://hkuway.com/docs/resources/glossary/",
+    "excerpt": "A human-readable summary of the relevant facts, analysis, evidence, and recommended or final action.",
+    "text": "A human-readable summary of the relevant facts, analysis, evidence, and recommended or final action.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-resources-glossary-workflow-0",
+    "title": "Compliance and product glossary | UWAY Documentation — Workflow",
+    "url": "https://hkuway.com/docs/resources/glossary/",
+    "excerpt": "A defined sequence of system and human actions that transforms inputs into an accountable outcome and retained evidence.",
+    "text": "A defined sequence of system and human actions that transforms inputs into an accountable outcome and retained evidence.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-resources-glossary-compliance-quality-analysis-0",
+    "title": "Compliance and product glossary | UWAY Documentation — Compliance Quality Analysis",
+    "url": "https://hkuway.com/docs/resources/glossary/",
+    "excerpt": "UWAY product for measuring KYC and KYB decision quality and identifying operating improvement priorities.",
+    "text": "UWAY product for measuring KYC and KYB decision quality and identifying operating improvement priorities.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-resources-glossary-aml-sentinel-0",
+    "title": "Compliance and product glossary | UWAY Documentation — AML Sentinel",
+    "url": "https://hkuway.com/docs/resources/glossary/",
+    "excerpt": "UWAY product for assisted AML alert triage, structured reason context, and audit-ready review evidence.",
+    "text": "UWAY product for assisted AML alert triage, structured reason context, and audit-ready review evidence.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-resources-glossary-travel-rule-configurator-0",
+    "title": "Compliance and product glossary | UWAY Documentation — Travel Rule Configurator",
+    "url": "https://hkuway.com/docs/resources/glossary/",
+    "excerpt": "UWAY product for turning corridor, threshold, data, counterparty, and policy requirements into a versioned configuration.",
+    "text": "UWAY product for turning corridor, threshold, data, counterparty, and policy requirements into a versioned configuration.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-resources-glossary-idempotency-key-0",
+    "title": "Compliance and product glossary | UWAY Documentation — Idempotency key",
+    "url": "https://hkuway.com/docs/resources/glossary/",
+    "excerpt": "A stable identifier that allows a client to retry one logical write request without unintentionally creating a duplicate operation.",
+    "text": "A stable identifier that allows a client to retry one logical write request without unintentionally creating a duplicate operation.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-resources-glossary-tenant-0",
+    "title": "Compliance and product glossary | UWAY Documentation — Tenant",
+    "url": "https://hkuway.com/docs/resources/glossary/",
+    "excerpt": "The customer-specific logical environment, configuration, and access boundary provisioned for an implementation.",
+    "text": "The customer-specific logical environment, configuration, and access boundary provisioned for an implementation.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  },
+  {
+    "id": "hkuway-com-docs-resources-glossary-uway-reference-0",
+    "title": "Compliance and product glossary | UWAY Documentation — UWAY reference",
+    "url": "https://hkuway.com/docs/resources/glossary/",
+    "excerpt": "A UWAY-generated identifier used to trace a screening, case, exchange, or other operation across systems and evidence.",
+    "text": "A UWAY-generated identifier used to trace a screening, case, exchange, or other operation across systems and evidence.",
+    "domain": "uway-general",
+    "sourceType": "web"
+  }
+]

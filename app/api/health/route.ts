@@ -1,0 +1,28 @@
+import docs from "@/data/docs.json";
+import type { DocumentChunk } from "@/lib/types";
+
+export const dynamic = "force-dynamic";
+
+export function GET() {
+  const corpus = docs as DocumentChunk[];
+  const domains = corpus.reduce<Record<string, number>>((counts, chunk) => {
+    counts[chunk.domain] = (counts[chunk.domain] || 0) + 1;
+    return counts;
+  }, {});
+  const geminiAuth = process.env.GEMINI_API_KEY
+    ? "api-key"
+    : process.env.GOOGLE_APPLICATION_CREDENTIALS || process.env.GOOGLE_CLOUD_PROJECT
+      ? "vertex-adc"
+      : "unconfigured";
+
+  return Response.json({
+    status: corpus.length ? "ok" : "degraded",
+    service: "uway-docs-assistant",
+    knowledge: { chunks: corpus.length, domains },
+    providers: {
+      gemini: { configured: geminiAuth !== "unconfigured", auth: geminiAuth, model: process.env.GEMINI_MODEL || "gemini-2.5-flash" },
+      agnes: { configured: Boolean(process.env.AGNES_API_KEY), model: process.env.AGNES_MODEL || "agnes-2.0-flash" },
+    },
+    timestamp: new Date().toISOString(),
+  }, { headers: { "Cache-Control": "no-store" } });
+}

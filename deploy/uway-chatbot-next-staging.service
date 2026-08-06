@@ -1,0 +1,24 @@
+[Unit]
+Description=UWAY Docs Assistant Next.js Staging
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=louie
+Group=louie
+WorkingDirectory=/opt/uway-chatbot-next-staging/current
+Environment=NODE_ENV=production
+Environment=HOSTNAME=127.0.0.1
+Environment=PORT=3100
+EnvironmentFile=-/etc/uway-chatbot-next-staging.env
+ExecStart=/usr/bin/npm start -- --hostname 127.0.0.1 --port 3100
+Restart=always
+RestartSec=5
+TimeoutStopSec=20
+KillSignal=SIGTERM
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
