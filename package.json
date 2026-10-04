@@ -11,13 +11,20 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "docs:sync": "node scripts/sync-docs.mjs"
+    "docs:sync": "node scripts/sync-docs.mjs",
+    "cf:build": "vite build --config cloudflare/vite.config.ts",
+    "cf:typecheck": "tsc -p cloudflare/tsconfig.json --noEmit",
+    "cf:dev": "wrangler dev --config cloudflare/wrangler.jsonc",
+    "cf:migrate:local": "wrangler d1 migrations apply uway-chatbot-staging-apac --local --config cloudflare/wrangler.jsonc",
+    "cf:migrate:remote": "wrangler d1 migrations apply uway-chatbot-staging-apac --remote --config cloudflare/wrangler.jsonc",
+    "cf:deploy:staging": "wrangler deploy --config cloudflare/wrangler.jsonc"
   },
   "dependencies": {
     "@fontsource/manrope": "5.3.0",
     "@fontsource/space-grotesk": "5.3.0",
     "@google/genai": "2.27.0",
     "cheerio": "1.2.0",
+    "hono": "^4.13.13",
     "lucide-react": "^0.536.0",
     "next": "16.3.0",
     "react": "19.2.8",
@@ -26,10 +33,14 @@
     "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261004.1",
     "@types/node": "^24.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^5.2.0",
     "typescript": "^5.8.0",
-    "vitest": "^3.2.4"
+    "vite": "^7.3.6",
+    "vitest": "^3.2.4",
+    "wrangler": "^4.147.0"
   }
 }

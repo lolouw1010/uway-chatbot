@@ -1,16 +1,15 @@
 "use client";
 
-import Link from "next/link";
 import { Globe2, Sparkles } from "lucide-react";
 import { BrandMark } from "./brand-mark";
 
 export function SiteHeader({ onAsk }: { onAsk: () => void }) {
   return (
     <header className="site-header">
-      <Link className="brand" href="/" aria-label="UWAY AI home">
+      <a className="brand" href="/" aria-label="UWAY AI home">
         <BrandMark />
         <span>UWAY Innovation</span>
-      </Link>
+      </a>
       <button className="header-ai-button" onClick={onAsk}>
         <Sparkles size={15} />
         <span>Ask UWAY AI</span>

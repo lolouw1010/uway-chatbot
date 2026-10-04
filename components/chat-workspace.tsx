@@ -1,8 +1,6 @@
 "use client";
 
 import { ArrowLeft, ArrowUp, BookOpen, ExternalLink, Menu, Plus, Sparkles } from "lucide-react";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -20,14 +18,17 @@ function makeId() {
 }
 
 export function ChatWorkspace() {
-  const searchParams = useSearchParams();
-  const initialQuery = searchParams.get("q")?.trim() || "";
+  const [initialQuery, setInitialQuery] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const askedInitial = useRef(false);
   const conversationEnd = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setInitialQuery(new URLSearchParams(window.location.search).get("q")?.trim() || "");
+  }, []);
 
   const ask = useCallback(async (question: string) => {
     const cleanQuestion = question.trim();
@@ -45,7 +46,13 @@ export function ChatWorkspace() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: nextMessages.map(({ role, content }) => ({ role, content })) }),
       });
-      const data = await response.json();
+      const data = await response.json() as {
+        error?: string;
+        text: string;
+        sources?: Source[];
+        provider?: string;
+        model?: string;
+      };
       if (!response.ok) throw new Error(data.error || "The assistant could not respond.");
       setMessages((current) => [...current, {
         id: makeId(),
@@ -93,7 +100,7 @@ export function ChatWorkspace() {
       <header className="chat-header">
         <div className="chat-brand-wrap">
           <button className="mobile-menu" onClick={() => setSidebarOpen((value) => !value)} aria-label="Toggle navigation"><Menu /></button>
-          <Link className="chat-brand" href="/"><BrandMark /><strong>UWAY</strong><span>AI Assistant</span></Link>
+          <a className="chat-brand" href="/"><BrandMark /><strong>UWAY</strong><span>AI Assistant</span></a>
         </div>
         <div className="chat-status"><span /><strong>Docs connected</strong><em>Evidence-linked knowledge</em></div>
         <a className="back-to-site" href="https://hkuway.com/"><span>hkuway.com</span><ExternalLink size={15} /></a>
@@ -115,7 +122,7 @@ export function ChatWorkspace() {
           </div>
           <div className="sidebar-foot">
             <p>Answers use retrieved passages from UWAY Docs. Verify material decisions against the cited source.</p>
-            <Link href="/"><ArrowLeft size={15} />Back to search</Link>
+            <a href="/"><ArrowLeft size={15} />Back to search</a>
           </div>
         </aside>
 

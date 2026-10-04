@@ -4,7 +4,7 @@ import { ArrowUp, BookOpen, ExternalLink, MessageCircle, RotateCcw, Sparkles, X 
 import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import type { ChatMessage } from "@/lib/types";
+import type { ChatMessage, Source } from "@/lib/types";
 import { BrandMark } from "./brand-mark";
 
 const starters = [
@@ -69,7 +69,13 @@ export function FloatingChat({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: nextMessages.map(({ role, content }) => ({ role, content })) }),
       });
-      const data = await response.json();
+      const data = await response.json() as {
+        error?: string;
+        text: string;
+        sources?: Source[];
+        provider?: string;
+        model?: string;
+      };
       if (!response.ok) throw new Error(data.error || "The assistant could not respond.");
       setMessages((current) => [...current, {
         id: makeId(),

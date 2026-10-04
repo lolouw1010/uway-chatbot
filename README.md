@@ -116,7 +116,15 @@ The provenance and migration review of the production Streamlit/FastAPI implemen
 npm run typecheck
 npm test
 npm run build
+npm run cf:typecheck
+npm run cf:build
 ```
+
+## Cloudflare staging
+
+The repository also contains a parallel Cloudflare-native deployment: React/Vite static assets, a Hono Worker API, Cloudflare Queues for Telegram/Lark and confirmed notices, and D1 for idempotency, delivery status, and rate limiting. It is deployed at [chatbot-staging.hkuway.com](https://chatbot-staging.hkuway.com) without changing the production `chatbot.hkuway.com` route or stopping UWAY-MAIN.
+
+Deployment, resource, secret, and cutover instructions are in [`cloudflare/README.md`](cloudflare/README.md).
 
 ## Request flow
 

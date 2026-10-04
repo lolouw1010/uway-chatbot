@@ -17,6 +17,20 @@ The deployment was verified on an isolated candidate listener and again after th
 
 ## Staging
 
+### Cloudflare
+
+- Account: Uway Innovation Limited (`louie@hkuway.com`).
+- Worker: `uway-chatbot-staging` on Workers Paid.
+- URL: `https://chatbot-staging.hkuway.com`.
+- Runtime: React/Vite static assets and a Hono Worker API.
+- D1: `uway-chatbot-staging-apac` in the APAC region; the initial event, delivery, and rate-limit migration is applied.
+- Queues: `uway-chatbot-staging-jobs` with `uway-chatbot-staging-dlq`.
+- Primary model: Gemini 2.5 Flash through the existing Vertex AI Express key; Agnes is configured as fallback.
+- Verified: health, D1 connectivity, all 158 knowledge chunks, a real `gemini-vertex` answer with sources, homepage, `/chat`, `/embed`, embedded frame headers, and the floating chat UI.
+- Production `chatbot.hkuway.com`, `hkuway.com`, and UWAY-MAIN were not changed.
+
+### GCP
+
 - Host: existing GCP Hong Kong chatbot host.
 - Release root: `/opt/uway-chatbot-next-staging/releases`.
 - Active release: `/opt/uway-chatbot-next-staging/current` symlink.

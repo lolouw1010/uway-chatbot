@@ -1,0 +1,61 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "uway-chatbot-staging",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-10-04",
+  "workers_dev": true,
+  "preview_urls": true,
+  "routes": [
+    { "pattern": "chatbot-staging.hkuway.com", "custom_domain": true }
+  ],
+  "build": {
+    "command": "npm run cf:build"
+  },
+  "assets": {
+    "directory": "../dist/cloudflare",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "html_handling": "none",
+    "run_worker_first": true
+  },
+  "vars": {
+    "ENVIRONMENT": "staging",
+    "GEMINI_MODEL": "gemini-2.5-flash",
+    "GEMINI_ENABLE_GOOGLE_SEARCH": "true",
+    "MODEL_PROVIDER_ORDER": "gemini,agnes",
+    "AGNES_MODEL": "agnes-2.0-flash",
+    "AGNES_BASE_URL": "https://apihub.agnes-ai.com/v1",
+    "CHANNEL_RATE_LIMIT_MAX": "6",
+    "CHANNEL_RATE_LIMIT_WINDOW_MS": "60000"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "uway-chatbot-staging-apac",
+      "database_id": "3e123a18-71f3-426f-973c-74197a1a0ed5",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "queues": {
+    "producers": [
+      { "binding": "CHANNEL_JOBS", "queue": "uway-chatbot-staging-jobs" }
+    ],
+    "consumers": [
+      {
+        "queue": "uway-chatbot-staging-jobs",
+        "max_batch_size": 5,
+        "max_batch_timeout": 2,
+        "max_retries": 5,
+        "dead_letter_queue": "uway-chatbot-staging-dlq",
+        "retry_delay": 30
+      }
+    ]
+  },
+  "limits": { "cpu_ms": 300000 },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+    "issues": { "enabled": true }
+  },
+  "upload_source_maps": true
+}
