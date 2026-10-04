@@ -31,6 +31,11 @@ export function GET() {
       },
       agnes: { configured: Boolean(process.env.AGNES_API_KEY), model: process.env.AGNES_MODEL || "agnes-2.0-flash" },
     },
+    channels: {
+      telegram: { configured: Boolean(process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_WEBHOOK_SECRET) },
+      lark: { configured: Boolean(process.env.LARK_APP_ID && process.env.LARK_APP_SECRET && process.env.LARK_VERIFICATION_TOKEN) },
+      notifications: { configured: Boolean(process.env.CHANNEL_NOTIFY_SECRET) },
+    },
     timestamp: new Date().toISOString(),
   }, { headers: { "Cache-Control": "no-store" } });
 }

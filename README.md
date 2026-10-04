@@ -18,6 +18,9 @@ A documentation-grounded chatbot for [hkuway.com](https://hkuway.com). It preser
 - Selected HKMA, SFC, FATF, and Sumsub sources with source-domain provenance
 - Evidence ordering that distinguishes official rules, current product documentation, vendor guidance, and implementation plans
 - Development preview responses when no API keys are present
+- Telegram Bot API support for private questions and explicit `/ask` or `@bot` group questions
+- Lark custom-app bot support for private questions and group mentions
+- Authenticated, allowlisted delivery of confirmed UWAY operations and billing notices
 
 ## Local setup
 
@@ -45,6 +48,46 @@ MODEL_PROVIDER_ORDER=gemini,agnes
 ```
 
 Secrets are read only by the server route and are never sent to the browser.
+
+## Telegram and Lark channels
+
+Both channel adapters reuse the same retrieval and provider pipeline as the web assistant. They acknowledge incoming webhooks immediately and complete the answer after the response, so Lark does not time out while Gemini is generating. Channel questions are intentionally single-turn in the first release.
+
+Telegram webhook URL:
+
+```text
+https://chatbot.hkuway.com/api/channels/telegram
+```
+
+Create a free bot with BotFather, keep group privacy mode enabled, and configure `TELEGRAM_BOT_TOKEN`, `TELEGRAM_BOT_USERNAME`, and a random `TELEGRAM_WEBHOOK_SECRET`. Register the webhook with only the `message` update type and the same secret token. In private chat the bot accepts normal text; in groups it responds only to `/ask`, `/ask@BotUsername`, or `@BotUsername`.
+
+Lark event callback URL:
+
+```text
+https://chatbot.hkuway.com/api/channels/lark
+```
+
+Create a company custom app, enable its bot capability, subscribe to `im.message.receive_v1`, and grant the message receive/reply/send permissions requested by the Lark developer console. Configure `LARK_APP_ID`, `LARK_APP_SECRET`, and `LARK_VERIFICATION_TOKEN`, leave event payload encryption disabled for this initial webhook, then release the app version. In group chats the bot responds only when mentioned.
+
+`TELEGRAM_ALLOWED_CHAT_IDS` and `LARK_ALLOWED_CHAT_IDS` are optional comma-separated inbound allowlists. Configure them in production to limit model usage to approved customer groups. The shared fixed-window limiter defaults to six questions per user per minute and can be changed with `CHANNEL_RATE_LIMIT_MAX` and `CHANNEL_RATE_LIMIT_WINDOW_MS`.
+
+### Confirmed UWAY notices
+
+Billing and operations systems can send already-calculated notices through `POST /api/channels/notify`. The endpoint never calculates balances, charges, invoice status, thresholds, or remaining service time. It only delivers values supplied by an authenticated upstream system.
+
+Every outbound destination must be present in that platform's allowed-chat list, and the request must carry `Authorization: Bearer <CHANNEL_NOTIFY_SECRET>`:
+
+```json
+{
+  "channel": "telegram",
+  "destinationId": "-1001234567890",
+  "title": "Prepaid balance below 30%",
+  "message": "Your confirmed balance is HKD 12,345. At the current measured usage rate, the estimated remaining time is 18 days.",
+  "referenceUrl": "https://hkuway.com/docs/"
+}
+```
+
+The caller remains responsible for obtaining the real account data, choosing the correct customer destination, suppressing duplicate alerts, and recording delivery policy. Do not put customer secrets, identity documents, or full financial credentials in channel messages.
 
 ## Refresh the documentation corpus
 
