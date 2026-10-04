@@ -9,7 +9,8 @@ A documentation-grounded chatbot for [hkuway.com](https://hkuway.com). It preser
 - Desktop side panel and mobile bottom-sheet interaction
 - Optional full-page `/chat` workspace
 - Local retrieval over a versioned, multi-source compliance knowledge snapshot
-- Gemini as the primary model provider
+- Vertex AI Express mode with Gemini as the primary model provider
+- Optional Google Search grounding restricted in the assistant prompt to `hkuway.com` and `docs.sumsub.com`
 - Automatic fallback to Agnes AI's OpenAI-compatible API
 - Environment-configurable provider order and model names
 - English, Simplified Chinese, and Traditional Chinese compliance-term retrieval aliases
@@ -31,8 +32,10 @@ Open [http://localhost:3000](http://localhost:3000).
 Add at least one model key to `.env.local`:
 
 ```dotenv
-GEMINI_API_KEY=your_google_ai_studio_key
+GEMINI_API_KEY=your_vertex_ai_express_key
 GEMINI_MODEL=gemini-2.5-flash
+GOOGLE_GENAI_USE_VERTEXAI=true
+GEMINI_ENABLE_GOOGLE_SEARCH=true
 
 AGNES_API_KEY=your_agnes_key
 AGNES_MODEL=agnes-2.0-flash
@@ -76,8 +79,8 @@ npm run build
 
 1. The user opens the in-page assistant from the header or floating launcher and submits a question; `/chat` remains available as a full-page alternative.
 2. The server identifies the likely product/regulatory domain and retrieves the six most relevant local documentation chunks.
-3. The model receives only those chunks and recent conversation messages.
-4. Gemini is attempted first; failures fall through to Agnes AI.
+3. The model receives those chunks and recent conversation messages; Vertex AI may supplement them with Google Search grounding limited by the prompt to `hkuway.com` and `docs.sumsub.com`.
+4. Vertex AI Gemini is attempted first; failures fall through to Agnes AI.
 5. The interface renders the answer, actual provider/model, and deduplicated source links.
 
 The assistant prompt requires answers to stay within retrieved documentation, prefer official regulator material when sources differ, avoid presenting roadmaps as live capabilities, and never invent regulations, thresholds, product capabilities, or legal conclusions.

@@ -24,7 +24,14 @@ export async function POST(request: Request) {
 
     try {
       const result = await generateAnswer(prompt);
-      return NextResponse.json({ ...result, sources: toSources(chunks) });
+      const seenSources = new Set<string>();
+      const sources = [...toSources(chunks), ...(result.sources || [])].filter((source) => {
+        if (seenSources.has(source.url)) return false;
+        seenSources.add(source.url);
+        return true;
+      });
+      const { sources: _groundingSources, ...answer } = result;
+      return NextResponse.json({ ...answer, sources });
     } catch (providerError) {
       if (process.env.NODE_ENV === "development" && !process.env.GEMINI_API_KEY && !process.env.AGNES_API_KEY) {
         return NextResponse.json({

@@ -29,4 +29,4 @@ Rollback is an nginx upstream restoration to `http://localhost:8501` followed by
 
 The `deploy/uway-main/` directory contains the production service, Cloudflare origin nginx site, rate-limit zone, and environment-variable template for the UWAY-MAIN host. The nginx site expects a dedicated Let's Encrypt certificate at `/etc/letsencrypt/live/chatbot.hkuway.com/`; issue it with Certbot after DNS reaches the host, then enable the checked-in site.
 
-Install `set-agnes-key.sh` as a root-owned executable and run it from an interactive terminal. It reads the key without echo, atomically updates `/etc/uway-chatbot.env`, and restarts the service; never pass the key as a command-line argument.
+Install `set-gemini-key.sh` and `set-agnes-key.sh` as root-owned executables and run them from an interactive terminal. They read keys without echo and atomically update `/etc/uway-chatbot.env`; never pass a key as a command-line argument. The Gemini installer also performs a real chat request, requires the returned provider to be `gemini`, and restores the previous environment if verification fails.

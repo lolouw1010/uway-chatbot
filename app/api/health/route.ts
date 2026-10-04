@@ -9,18 +9,26 @@ export function GET() {
     counts[chunk.domain] = (counts[chunk.domain] || 0) + 1;
     return counts;
   }, {});
-  const geminiAuth = process.env.GEMINI_API_KEY
-    ? "api-key"
-    : process.env.GOOGLE_APPLICATION_CREDENTIALS || process.env.GOOGLE_CLOUD_PROJECT
+  const vertexEnabled = process.env.GOOGLE_GENAI_USE_VERTEXAI?.trim().toLowerCase() === "true";
+  const geminiAuth = vertexEnabled && process.env.GEMINI_API_KEY
+    ? "vertex-express-key"
+    : vertexEnabled && process.env.GOOGLE_CLOUD_PROJECT
       ? "vertex-adc"
-      : "unconfigured";
+      : process.env.GEMINI_API_KEY
+        ? "gemini-api-key"
+        : "unconfigured";
 
   return Response.json({
     status: corpus.length ? "ok" : "degraded",
     service: "uway-docs-assistant",
     knowledge: { chunks: corpus.length, domains },
     providers: {
-      gemini: { configured: geminiAuth !== "unconfigured", auth: geminiAuth, model: process.env.GEMINI_MODEL || "gemini-2.5-flash" },
+      gemini: {
+        configured: geminiAuth !== "unconfigured",
+        auth: geminiAuth,
+        model: process.env.GEMINI_MODEL || "gemini-2.5-flash",
+        googleSearch: vertexEnabled && process.env.GEMINI_ENABLE_GOOGLE_SEARCH !== "false",
+      },
       agnes: { configured: Boolean(process.env.AGNES_API_KEY), model: process.env.AGNES_MODEL || "agnes-2.0-flash" },
     },
     timestamp: new Date().toISOString(),
