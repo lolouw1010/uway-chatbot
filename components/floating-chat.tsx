@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowUp, BookOpen, ExternalLink, MessageCircle, RotateCcw, Sparkles, X } from "lucide-react";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import type { ChatMessage } from "@/lib/types";
@@ -21,35 +21,40 @@ export function FloatingChat({
   open,
   onOpen,
   onClose,
+  embedded = false,
+  initialQuery = "",
 }: {
   open: boolean;
   onOpen: () => void;
   onClose: () => void;
+  embedded?: boolean;
+  initialQuery?: string;
 }) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const endRef = useRef<HTMLDivElement>(null);
+  const askedInitial = useRef(false);
 
   useEffect(() => {
     if (!open) return;
     const timeout = window.setTimeout(() => inputRef.current?.focus(), 260);
     function closeOnEscape(event: KeyboardEvent) {
-      if (event.key === "Escape") onClose();
+      if (event.key === "Escape" && !embedded) onClose();
     }
     window.addEventListener("keydown", closeOnEscape);
     return () => {
       window.clearTimeout(timeout);
       window.removeEventListener("keydown", closeOnEscape);
     };
-  }, [onClose, open]);
+  }, [embedded, onClose, open]);
 
   useEffect(() => {
     if (open) endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [loading, messages, open]);
 
-  async function ask(question: string) {
+  const ask = useCallback(async (question: string) => {
     const cleanQuestion = question.trim();
     if (!cleanQuestion || loading) return;
     const userMessage: ChatMessage = { id: makeId(), role: "user", content: cleanQuestion };
@@ -83,7 +88,14 @@ export function FloatingChat({
     } finally {
       setLoading(false);
     }
-  }
+  }, [loading, messages]);
+
+  useEffect(() => {
+    const cleanQuery = initialQuery.trim();
+    if (!open || !cleanQuery || askedInitial.current) return;
+    askedInitial.current = true;
+    void ask(cleanQuery);
+  }, [ask, initialQuery, open]);
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -98,21 +110,33 @@ export function FloatingChat({
 
   return (
     <>
-      <button className={`floating-chat-launcher${open ? " floating-chat-launcher--hidden" : ""}`} onClick={onOpen} aria-label="Open UWAY AI Assistant">
-        <span className="launcher-label"><strong>Ask UWAY AI</strong><small>Search UWAY Docs</small></span>
-        <span className="launcher-icon"><MessageCircle size={23} /><i aria-hidden="true" /></span>
-      </button>
+      {!embedded ? (
+        <button className={`floating-chat-launcher${open ? " floating-chat-launcher--hidden" : ""}`} onClick={onOpen} aria-label="Open UWAY AI Assistant">
+          <span className="launcher-label"><strong>Ask UWAY AI</strong><small>Search UWAY Docs</small></span>
+          <span className="launcher-icon"><MessageCircle size={23} /><i aria-hidden="true" /></span>
+        </button>
+      ) : null}
 
-      <button className={`chat-backdrop${open ? " chat-backdrop--visible" : ""}`} onClick={onClose} aria-label="Close UWAY AI Assistant" tabIndex={open ? 0 : -1} />
+      {!embedded ? (
+        <button className={`chat-backdrop${open ? " chat-backdrop--visible" : ""}`} onClick={onClose} aria-label="Close UWAY AI Assistant" tabIndex={open ? 0 : -1} />
+      ) : null}
 
-      <section className={`floating-chat-panel${open ? " floating-chat-panel--open" : ""}`} role="dialog" aria-modal="true" aria-label="UWAY AI Assistant" aria-hidden={!open}>
-        <header className="widget-header">
-          <div className="widget-brand"><BrandMark /><div><strong>Ask UWAY AI</strong><span><i />Docs connected</span></div></div>
-          <div className="widget-actions">
-            {messages.length ? <button onClick={reset} aria-label="Start a new question"><RotateCcw size={16} /></button> : null}
-            <button onClick={onClose} aria-label="Close assistant"><X size={19} /></button>
-          </div>
-        </header>
+      <section
+        className={`floating-chat-panel${open ? " floating-chat-panel--open" : ""}${embedded ? " floating-chat-panel--embedded" : ""}`}
+        role={embedded ? "region" : "dialog"}
+        aria-modal={embedded ? undefined : true}
+        aria-label="UWAY AI Assistant"
+        aria-hidden={embedded ? undefined : !open}
+      >
+        {!embedded ? (
+          <header className="widget-header">
+            <div className="widget-brand"><BrandMark /><div><strong>Ask UWAY AI</strong><span><i />Docs connected</span></div></div>
+            <div className="widget-actions">
+              {messages.length ? <button onClick={reset} aria-label="Start a new question"><RotateCcw size={16} /></button> : null}
+              <button onClick={onClose} aria-label="Close assistant"><X size={19} /></button>
+            </div>
+          </header>
+        ) : null}
 
         <div className="widget-body">
           {messages.length === 0 ? (

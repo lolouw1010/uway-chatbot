@@ -24,3 +24,13 @@ If an initial migration must reference a service-account key file, keep the path
 5. Reload nginx; do not stop the Streamlit service until the new endpoint has been observed successfully.
 
 Rollback is an nginx upstream restoration to `http://localhost:8501` followed by `sudo nginx -t && sudo systemctl reload nginx`. The old frontend service remains available throughout the first cutover.
+
+## UWAY-MAIN deployment
+
+The `deploy/uway-main/` directory contains the production service, Cloudflare origin nginx site, rate-limit zone, and environment-variable template for the UWAY-MAIN host. The nginx site expects a dedicated Let's Encrypt certificate at `/etc/letsencrypt/live/chatbot.hkuway.com/`; issue it with Certbot after DNS reaches the host, then enable the checked-in site.
+
+Install `set-gemini-key.sh` and `set-agnes-key.sh` as root-owned executables and run them from an interactive terminal. They read keys without echo and atomically update `/etc/uway-chatbot.env`; never pass a key as a command-line argument. The Gemini installer also performs a real chat request, requires the returned provider to be `gemini`, and restores the previous environment if verification fails.
+
+Install `set-telegram-bot.sh` and `set-lark-bot.sh` the same way. Run them interactively on UWAY-MAIN rather than pasting bot credentials into chat or shell history. The Telegram script stores the credentials, registers the production webhook with a generated secret, restarts the service, and verifies the webhook. The Lark script stores credentials and restarts the service; the Lark developer console still requires the callback URL, `im.message.receive_v1` subscription, requested message permissions, and an app release.
+
+Customer-group IDs must be added to the corresponding comma-separated allowlist before the internal notice endpoint can deliver account-specific notices. Inbound bot questions can be tested without an allowlist, but production should use one to control access and model spend.

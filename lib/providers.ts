@@ -1,4 +1,5 @@
-import { GoogleAuth } from "google-auth-library";
+import { GoogleGenAI, type GenerateContentResponse } from "@google/genai";
+import type { Source } from "@/lib/types";
 
 type ProviderMessage = { role: "user" | "assistant"; content: string };
 
@@ -6,70 +7,84 @@ type ProviderResult = {
   text: string;
   provider: "gemini" | "gemini-vertex" | "agnes";
   model: string;
+  sources?: Source[];
 };
 
 function timeoutSignal(milliseconds = 30000) {
   return AbortSignal.timeout(milliseconds);
 }
 
-type GeminiResponse = {
-  candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
-};
-
-function geminiText(data: GeminiResponse) {
-  return data.candidates?.[0]?.content?.parts?.map((part) => part.text || "").join("").trim() || "";
+function isEnabled(value: string | undefined) {
+  return value?.trim().toLowerCase() === "true";
 }
 
-async function generateWithGeminiApiKey(prompt: string, apiKey: string): Promise<ProviderResult> {
-  const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
-      body: JSON.stringify({
-        contents: [{ role: "user", parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.15, maxOutputTokens: 1200 },
-      }),
-      signal: timeoutSignal(),
-    },
-  );
-  if (!response.ok) throw new Error(`Gemini returned ${response.status}`);
-  const data = await response.json() as GeminiResponse;
-  const text = geminiText(data);
-  if (!text) throw new Error("Gemini returned no text");
-  return { text, provider: "gemini", model };
-}
+function trustedGroundingSources(response: GenerateContentResponse): Source[] {
+  const seen = new Set<string>();
+  return (response.candidates?.[0]?.groundingMetadata?.groundingChunks || []).flatMap((chunk) => {
+    const web = chunk.web;
+    if (!web?.uri || seen.has(web.uri)) return [];
 
-async function generateWithVertexGemini(prompt: string): Promise<ProviderResult> {
-  if (!process.env.GOOGLE_APPLICATION_CREDENTIALS && !process.env.GOOGLE_CLOUD_PROJECT) {
-    throw new Error("Gemini API key or Vertex ADC is not configured");
-  }
+    let hostname = web.domain?.toLowerCase().replace(/^www\./, "") || "";
+    try {
+      hostname ||= new URL(web.uri).hostname.toLowerCase().replace(/^www\./, "");
+    } catch {
+      return [];
+    }
 
-  const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
-  const location = process.env.GOOGLE_CLOUD_LOCATION || "us-central1";
-  const auth = new GoogleAuth({ scopes: ["https://www.googleapis.com/auth/cloud-platform"] });
-  const client = await auth.getClient();
-  const project = process.env.GOOGLE_CLOUD_PROJECT || await auth.getProjectId();
-  if (!project) throw new Error("Vertex AI project could not be determined");
+    const domain = hostname === "docs.sumsub.com" || hostname.endsWith(".docs.sumsub.com")
+      ? "sumsub"
+      : hostname === "hkuway.com" || hostname.endsWith(".hkuway.com")
+        ? "uway-general"
+        : null;
+    if (!domain) return [];
 
-  const response = await client.request<GeminiResponse>({
-    url: `https://${location}-aiplatform.googleapis.com/v1/projects/${encodeURIComponent(project)}/locations/${encodeURIComponent(location)}/publishers/google/models/${encodeURIComponent(model)}:generateContent`,
-    method: "POST",
-    data: {
-      contents: [{ role: "user", parts: [{ text: prompt }] }],
-      generationConfig: { temperature: 0.15, maxOutputTokens: 1200 },
-    },
-    timeout: 30000,
+    seen.add(web.uri);
+    return [{
+      title: web.title || web.uri,
+      url: web.uri,
+      excerpt: "Live Google Search grounding result.",
+      domain,
+      sourceType: "web" as const,
+    }];
   });
-  const text = geminiText(response.data);
-  if (!text) throw new Error("Vertex Gemini returned no text");
-  return { text, provider: "gemini-vertex", model };
 }
 
 async function generateWithGemini(prompt: string): Promise<ProviderResult> {
   const apiKey = process.env.GEMINI_API_KEY;
-  return apiKey ? generateWithGeminiApiKey(prompt, apiKey) : generateWithVertexGemini(prompt);
+  const project = process.env.GOOGLE_CLOUD_PROJECT;
+  const location = process.env.GOOGLE_CLOUD_LOCATION || "global";
+  const explicitVertex = isEnabled(process.env.GOOGLE_GENAI_USE_VERTEXAI);
+  const useVertex = explicitVertex || (!apiKey && Boolean(project));
+
+  if (!apiKey && !project) {
+    throw new Error("Gemini API key or Vertex AI project is not configured");
+  }
+
+  const ai = useVertex
+    ? apiKey
+      ? new GoogleGenAI({ vertexai: true, apiKey, httpOptions: { apiVersion: "v1" } })
+      : new GoogleGenAI({ vertexai: true, project, location, httpOptions: { apiVersion: "v1" } })
+    : new GoogleGenAI({ apiKey });
+  const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+  const googleSearch = useVertex && process.env.GEMINI_ENABLE_GOOGLE_SEARCH !== "false";
+  const response = await ai.models.generateContent({
+    model,
+    contents: [{ role: "user", parts: [{ text: prompt }] }],
+    config: {
+      temperature: 0.15,
+      maxOutputTokens: 1200,
+      abortSignal: timeoutSignal(),
+      tools: googleSearch ? [{ googleSearch: {} }] : undefined,
+    },
+  });
+  const text = response.text?.trim() || "";
+  if (!text) throw new Error("Gemini returned no text");
+  return {
+    text,
+    provider: useVertex ? "gemini-vertex" : "gemini",
+    model,
+    sources: googleSearch ? trustedGroundingSources(response) : [],
+  };
 }
 
 async function generateWithAgnes(prompt: string): Promise<ProviderResult> {
@@ -123,7 +138,11 @@ export function buildPrompt(messages: ProviderMessage[], context: string) {
 
 The knowledge base covers UWAY's Compliance Quality Analysis, AI Travel Rule Auto Configer, AI AML Sentinel, product documentation, selected vendor integration documentation, and official regulatory material.
 
-Answer only from the DOCUMENTATION CONTEXT below. If the context does not contain enough information, say so plainly and direct the user to the linked source documents or contacts@hkuway.com. Never invent regulations, thresholds, product capabilities, or legal conclusions.
+Many users are new to the products. Explain basic concepts and routine operations step by step, using plain language and only documented instructions. If a question depends on customer-specific live data, account state, vendor logs, or a real system fault, say that you cannot inspect those systems and direct the user to the relevant vendor support portal or UWAY contact. Help the user understand what evidence to include in a support ticket when the documentation provides those requirements. Do not claim that a ticket was created unless an integration explicitly confirms it.
+
+Treat maintenance windows, billing changes, invoice availability, minimum-spend charges, balance thresholds, and usage forecasts as current only when they are present in a verified UWAY notice or supplied by an authenticated notification system. Never estimate a customer's balance, charges, or remaining service time from general documentation.
+
+Use the DOCUMENTATION CONTEXT below as the primary source. When Google Search grounding is available, use it only for current pages on hkuway.com and docs.sumsub.com; ignore results from every other domain. If neither the context nor those two approved domains contain enough information, say so plainly and direct the user to the linked source documents or contacts@hkuway.com. Never invent regulations, thresholds, product capabilities, or legal conclusions.
 
 Apply this evidence order when sources differ: official regulator material, current UWAY product documentation, vendor documentation, then repository implementation notes. Treat plans, milestones, roadmaps, proposals, and future-tense implementation notes as planned work—not as a live production capability. State the relevant jurisdiction and publication date when the context provides them, and flag a mismatch with the user's jurisdiction or timeframe. Distinguish documented UWAY guidance from legal advice.
 
