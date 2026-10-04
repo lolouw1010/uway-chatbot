@@ -12,7 +12,7 @@ The Cloudflare deployment is intentionally parallel to the production Next.js se
 - Static UI: React/Vite assets served by the Worker
 - API runtime: Hono on Cloudflare Workers
 
-The Worker calls Vertex AI Express directly with the existing API-key authentication and uses Agnes as fallback. Telegram, Lark, and confirmed UWAY notices are placed on the Queue; D1 stores event idempotency, retry state, delivery status, and channel rate limits.
+The Worker uses the official `@google/genai` SDK with Vertex AI Express mode and the existing API-key authentication, and uses Agnes as fallback. Telegram, Lark, and confirmed UWAY notices are placed on the Queue; D1 stores event idempotency, retry state, delivery status, and channel rate limits.
 
 ## Required secrets
 

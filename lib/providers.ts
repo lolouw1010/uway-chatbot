@@ -1,4 +1,5 @@
 import { GoogleGenAI, type GenerateContentResponse } from "@google/genai";
+import { sanitizeAnswerText } from "./chat-api";
 import type { Source } from "@/lib/types";
 
 export { buildPrompt } from "./prompt";
@@ -72,12 +73,13 @@ async function generateWithGemini(prompt: string): Promise<ProviderResult> {
     contents: [{ role: "user", parts: [{ text: prompt }] }],
     config: {
       temperature: 0.15,
-      maxOutputTokens: 1200,
+      maxOutputTokens: 4096,
+      thinkingConfig: { thinkingBudget: 256 },
       abortSignal: timeoutSignal(),
       tools: googleSearch ? [{ googleSearch: {} }] : undefined,
     },
   });
-  const text = response.text?.trim() || "";
+  const text = sanitizeAnswerText(response.text || "");
   if (!text) throw new Error("Gemini returned no text");
   return {
     text,
@@ -99,7 +101,7 @@ async function generateWithAgnes(prompt: string): Promise<ProviderResult> {
       model,
       messages: [{ role: "user", content: prompt }],
       temperature: 0.15,
-      max_tokens: 1200,
+      max_tokens: 4096,
     }),
     signal: timeoutSignal(),
   });
@@ -107,9 +109,9 @@ async function generateWithAgnes(prompt: string): Promise<ProviderResult> {
   const data = await response.json();
   const content = data.choices?.[0]?.message?.content;
   const text = typeof content === "string"
-    ? content.trim()
+    ? sanitizeAnswerText(content)
     : Array.isArray(content)
-      ? content.map((part: { text?: string }) => part.text || "").join("").trim()
+      ? sanitizeAnswerText(content.map((part: { text?: string }) => part.text || "").join(""))
       : "";
   if (!text) throw new Error("Agnes returned no text");
   return { text, provider: "agnes", model };

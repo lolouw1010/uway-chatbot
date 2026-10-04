@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import docs from "@/data/docs.json";
+import { parseChatApiRequest, toChatApiResponse } from "@/lib/chat-api";
 import type { DocumentChunk } from "@/lib/types";
 import { answerConversation, MissingQuestionError, normalizeMessages } from "./chat";
 import {
@@ -143,10 +144,15 @@ app.get("/api/health", async (c) => {
 
 app.post("/api/chat", async (c) => {
   try {
-    const body = await c.req.json<{ messages?: unknown }>();
-    const messages = normalizeMessages(body.messages);
+    const body = await c.req.json();
+    const input = parseChatApiRequest(body);
+    const messages = input.query === null
+      ? normalizeMessages(input.messages)
+      : input.query
+        ? [{ role: "user" as const, content: input.query }]
+        : [];
     try {
-      return c.json(await answerConversation(c.env, messages));
+      return c.json(toChatApiResponse(await answerConversation(c.env, messages)));
     } catch (error) {
       if (error instanceof MissingQuestionError) return c.json({ error: error.message }, 400);
       console.error("All model providers failed", error instanceof Error ? error.message : "unknown error");

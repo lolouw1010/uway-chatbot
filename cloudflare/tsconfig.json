@@ -12,6 +12,7 @@
     "vite.config.ts",
     "../components/**/*.tsx",
     "../lib/prompt.ts",
+    "../lib/chat-api.ts",
     "../lib/retrieval.ts",
     "../lib/types.ts",
     "../data/docs.json"

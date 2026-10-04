@@ -1,3 +1,5 @@
+import { GoogleGenAI, type GenerateContentResponse } from "@google/genai/web";
+import { sanitizeAnswerText } from "@/lib/chat-api";
 import { buildPrompt } from "@/lib/prompt";
 import { retrieve, toSources } from "@/lib/retrieval";
 import type { Source } from "@/lib/types";
@@ -5,15 +7,6 @@ import type { Env } from "./env";
 
 export type ConversationMessage = { role: "user" | "assistant"; content: string };
 export type AssistantAnswer = { text: string; provider: string; model: string; sources: Source[] };
-
-type GeminiResponse = {
-  candidates?: Array<{
-    content?: { parts?: Array<{ text?: string }> };
-    groundingMetadata?: {
-      groundingChunks?: Array<{ web?: { uri?: string; title?: string; domain?: string } }>;
-    };
-  }>;
-};
 
 export class MissingQuestionError extends Error {}
 
@@ -30,7 +23,7 @@ export function normalizeMessages(value: unknown): ConversationMessage[] {
     .filter((message) => message.content);
 }
 
-function trustedGroundingSources(response: GeminiResponse): Source[] {
+function trustedGroundingSources(response: GenerateContentResponse): Source[] {
   const seen = new Set<string>();
   return (response.candidates?.[0]?.groundingMetadata?.groundingChunks || []).flatMap((chunk) => {
     const web = chunk.web;
@@ -61,31 +54,30 @@ function trustedGroundingSources(response: GeminiResponse): Source[] {
 async function generateWithGemini(env: Env, prompt: string) {
   if (!env.GEMINI_API_KEY) throw new Error("GEMINI_API_KEY is not configured");
   const model = env.GEMINI_MODEL || "gemini-2.5-flash";
-  const response = await fetch(
-    `https://aiplatform.googleapis.com/v1/publishers/google/models/${encodeURIComponent(model)}:generateContent`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-goog-api-key": env.GEMINI_API_KEY,
-      },
-      body: JSON.stringify({
-        contents: [{ role: "user", parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.15, maxOutputTokens: 1200 },
-        tools: env.GEMINI_ENABLE_GOOGLE_SEARCH !== "false" ? [{ googleSearch: {} }] : undefined,
-      }),
-      signal: AbortSignal.timeout(30_000),
+  const googleSearch = env.GEMINI_ENABLE_GOOGLE_SEARCH !== "false";
+  const ai = new GoogleGenAI({
+    vertexai: true,
+    apiKey: env.GEMINI_API_KEY,
+    httpOptions: { apiVersion: "v1" },
+  });
+  const response = await ai.models.generateContent({
+    model,
+    contents: [{ role: "user", parts: [{ text: prompt }] }],
+    config: {
+      temperature: 0.15,
+      maxOutputTokens: 4096,
+      thinkingConfig: { thinkingBudget: 256 },
+      abortSignal: AbortSignal.timeout(30_000),
+      tools: googleSearch ? [{ googleSearch: {} }] : undefined,
     },
-  );
-  if (!response.ok) throw new Error(`Vertex AI returned ${response.status}`);
-  const data = await response.json() as GeminiResponse;
-  const text = data.candidates?.[0]?.content?.parts?.map((part) => part.text || "").join("").trim() || "";
+  });
+  const text = sanitizeAnswerText(response.text || "");
   if (!text) throw new Error("Vertex AI returned no text");
   return {
     text,
     provider: "gemini-vertex",
     model,
-    sources: env.GEMINI_ENABLE_GOOGLE_SEARCH !== "false" ? trustedGroundingSources(data) : [],
+    sources: googleSearch ? trustedGroundingSources(response) : [],
   };
 }
 
@@ -100,7 +92,7 @@ async function generateWithAgnes(env: Env, prompt: string) {
       model,
       messages: [{ role: "user", content: prompt }],
       temperature: 0.15,
-      max_tokens: 1200,
+      max_tokens: 4096,
     }),
     signal: AbortSignal.timeout(30_000),
   });
@@ -108,9 +100,9 @@ async function generateWithAgnes(env: Env, prompt: string) {
   const data = await response.json() as { choices?: Array<{ message?: { content?: string | Array<{ text?: string }> } }> };
   const content = data.choices?.[0]?.message?.content;
   const text = typeof content === "string"
-    ? content.trim()
+    ? sanitizeAnswerText(content)
     : Array.isArray(content)
-      ? content.map((part) => part.text || "").join("").trim()
+      ? sanitizeAnswerText(content.map((part) => part.text || "").join(""))
       : "";
   if (!text) throw new Error("Agnes returned no text");
   return { text, provider: "agnes", model, sources: [] };

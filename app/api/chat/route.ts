@@ -1,13 +1,19 @@
 import { NextResponse } from "next/server";
+import { parseChatApiRequest, toChatApiResponse } from "@/lib/chat-api";
 import { answerConversation, MissingQuestionError, normalizeMessages } from "@/lib/chat-service";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const messages = normalizeMessages(body.messages);
+    const input = parseChatApiRequest(body);
+    const messages = input.query === null
+      ? normalizeMessages(input.messages)
+      : input.query
+        ? [{ role: "user" as const, content: input.query }]
+        : [];
 
     try {
-      return NextResponse.json(await answerConversation(messages));
+      return NextResponse.json(toChatApiResponse(await answerConversation(messages)));
     } catch (providerError) {
       if (providerError instanceof MissingQuestionError) {
         return NextResponse.json({ error: providerError.message }, { status: 400 });

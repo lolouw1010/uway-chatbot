@@ -10,7 +10,7 @@ A documentation-grounded chatbot for [hkuway.com](https://hkuway.com). It preser
 - Optional full-page `/chat` workspace
 - Local retrieval over a versioned, multi-source compliance knowledge snapshot
 - Vertex AI Express mode with Gemini as the primary model provider
-- Optional Google Search grounding restricted in the assistant prompt to `hkuway.com` and `docs.sumsub.com`
+- Optional Google Search grounding scoped by the assistant prompt, with returned sources filtered to `hkuway.com` and `docs.sumsub.com`
 - Automatic fallback to Agnes AI's OpenAI-compatible API
 - Environment-configurable provider order and model names
 - English, Simplified Chinese, and Traditional Chinese compliance-term retrieval aliases
@@ -48,6 +48,21 @@ MODEL_PROVIDER_ORDER=gemini,agnes
 ```
 
 Secrets are read only by the server route and are never sent to the browser.
+
+## Chat API
+
+New channel clients can call `POST /api/chat` with a single query:
+
+```json
+{
+  "query": "How should we configure a KYC workflow?",
+  "channel": "web"
+}
+```
+
+Supported channels are `web`, `telegram`, `lark`, and `whatsapp`. The response includes `answer`, `model`, and source objects with `title` and `uri`. Legacy `messages`, `text`, and source `url` fields remain available so the existing web assistant continues to work during channel rollout.
+
+The assistant answers as HKUWay's Chief Solutions Expert: it leads with the recommendation, adds implementation and compliance controls when the question warrants them, and does not repeat source URLs in the answer body. Google Search Grounding can search the public web; the prompt narrows its intended use and the API filters displayed grounding links to the approved HKUWay and Sumsub domains.
 
 ## Telegram and Lark channels
 
@@ -130,7 +145,7 @@ Deployment, resource, secret, and cutover instructions are in [`cloudflare/READM
 
 1. The user opens the in-page assistant from the header or floating launcher and submits a question; `/chat` remains available as a full-page alternative.
 2. The server identifies the likely product/regulatory domain and retrieves the six most relevant local documentation chunks.
-3. The model receives those chunks and recent conversation messages; Vertex AI may supplement them with Google Search grounding limited by the prompt to `hkuway.com` and `docs.sumsub.com`.
+3. The model receives those chunks and recent conversation messages; Vertex AI may supplement them with Google Search grounding scoped by the prompt, while the API filters displayed grounding links to `hkuway.com` and `docs.sumsub.com`.
 4. Vertex AI Gemini is attempted first; failures fall through to Agnes AI.
 5. The interface renders the answer, actual provider/model, and deduplicated source links.
 
