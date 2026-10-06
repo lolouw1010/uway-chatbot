@@ -1,6 +1,6 @@
 import { GoogleGenAI, type GenerateContentResponse } from "@google/genai/web";
 import { sanitizeAnswerText } from "@/lib/chat-api";
-import { buildPrompt } from "@/lib/prompt";
+import { buildPrompt, buildSystemInstruction } from "@/lib/prompt";
 import { retrieve, toSources } from "@/lib/retrieval";
 import type { Source } from "@/lib/types";
 import type { Env } from "./env";
@@ -51,7 +51,37 @@ function trustedGroundingSources(response: GenerateContentResponse): Source[] {
   });
 }
 
-async function generateWithGemini(env: Env, prompt: string) {
+function officialImplementationSources(question: string): Source[] {
+  const sources: Source[] = [];
+  if (/webhook|x-payload-digest|回调|签名/i.test(question)) {
+    sources.push({
+      title: "Webhook manager — Verify webhook sender",
+      url: "https://docs.sumsub.com/docs/webhook-manager",
+      excerpt: "Official Sumsub webhook digest verification requirements.",
+      domain: "sumsub",
+      sourceType: "web",
+    });
+  }
+  if (/access.?token|访问令牌|sdk.?token/i.test(question)) {
+    sources.push({
+      title: "Generate access token",
+      url: "https://docs.sumsub.com/reference/generate-access-token",
+      excerpt: "Official Sumsub SDK access-token API reference.",
+      domain: "sumsub",
+      sourceType: "web",
+    });
+    sources.push({
+      title: "Authentication",
+      url: "https://docs.sumsub.com/reference/authentication",
+      excerpt: "Official Sumsub API request-signing requirements.",
+      domain: "sumsub",
+      sourceType: "web",
+    });
+  }
+  return sources;
+}
+
+async function generateWithGemini(env: Env, messages: ConversationMessage[], systemInstruction: string) {
   if (!env.GEMINI_API_KEY) throw new Error("GEMINI_API_KEY is not configured");
   const model = env.GEMINI_MODEL || "gemini-2.5-flash";
   const googleSearch = env.GEMINI_ENABLE_GOOGLE_SEARCH !== "false";
@@ -60,10 +90,17 @@ async function generateWithGemini(env: Env, prompt: string) {
     apiKey: env.GEMINI_API_KEY,
     httpOptions: { apiVersion: "v1" },
   });
+  const recentMessages = messages.slice(-8);
+  const firstUserIndex = recentMessages.findIndex((message) => message.role === "user");
+  const contents = recentMessages.slice(firstUserIndex < 0 ? 0 : firstUserIndex).map((message) => ({
+    role: message.role === "assistant" ? "model" : "user",
+    parts: [{ text: message.content }],
+  }));
   const response = await ai.models.generateContent({
     model,
-    contents: [{ role: "user", parts: [{ text: prompt }] }],
+    contents,
     config: {
+      systemInstruction,
       temperature: 0.15,
       maxOutputTokens: 4096,
       thinkingConfig: { thinkingBudget: 256 },
@@ -108,7 +145,12 @@ async function generateWithAgnes(env: Env, prompt: string) {
   return { text, provider: "agnes", model, sources: [] };
 }
 
-async function generateAnswer(env: Env, prompt: string) {
+async function generateAnswer(
+  env: Env,
+  messages: ConversationMessage[],
+  context: string,
+  prompt: string,
+) {
   const order = (env.MODEL_PROVIDER_ORDER || "gemini,agnes")
     .split(",")
     .map((provider) => provider.trim().toLowerCase())
@@ -116,7 +158,9 @@ async function generateAnswer(env: Env, prompt: string) {
   const errors: string[] = [];
   for (const provider of order) {
     try {
-      return provider === "gemini" ? await generateWithGemini(env, prompt) : await generateWithAgnes(env, prompt);
+      return provider === "gemini"
+        ? await generateWithGemini(env, messages, buildSystemInstruction(context))
+        : await generateWithAgnes(env, prompt);
     } catch (error) {
       errors.push(`${provider}: ${error instanceof Error ? error.message : "unknown error"}`);
     }
@@ -131,9 +175,9 @@ export async function answerConversation(env: Env, messages: ConversationMessage
   const context = chunks.map((chunk, index) => (
     `[${index + 1}] ${chunk.title}\nDomain: ${chunk.domain}\nSource type: ${chunk.sourceType}\nURL: ${chunk.url}\n${chunk.text}`
   )).join("\n\n");
-  const result = await generateAnswer(env, buildPrompt(messages, context));
+  const result = await generateAnswer(env, messages, context, buildPrompt(messages, context));
   const seen = new Set<string>();
-  const sources = [...toSources(chunks), ...result.sources].filter((source) => {
+  const sources = [...toSources(chunks), ...result.sources, ...officialImplementationSources(latestQuestion)].filter((source) => {
     if (seen.has(source.url)) return false;
     seen.add(source.url);
     return true;
