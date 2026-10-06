@@ -292,7 +292,7 @@ async function serveAsset(request: Request, env: Env) {
   headers.set("X-Content-Type-Options", "nosniff");
   headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
   if (new URL(request.url).pathname.startsWith("/embed")) {
-    headers.set("Content-Security-Policy", "frame-ancestors 'self' https://hkuway.com https://www.hkuway.com");
+    headers.set("Content-Security-Policy", "frame-ancestors 'self' https://hkuway.com https://www.hkuway.com https://test.hkuway.com");
   }
   return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
 }
