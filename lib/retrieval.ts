@@ -9,7 +9,12 @@ const stopwords = new Set([
 
 function terms(value: string) {
   const aliases: Array<[RegExp, string]> = [
-    [/(客户尽职调查|客戶盡職調查|了解你的客户|了解你的客戶)/g, " kyc customer due diligence "],
+    [/\bkyb\b|企业验证|企業驗證|公司验证|公司驗證|商业验证|商業驗證|了解你的企业|了解你的企業/g, " kyb business verification company ownership ubo registry "],
+    [/\bkyc\b|客户尽职调查|客戶盡職調查|了解你的客户|了解你的客戶|用户验证|用戶驗證|身份验证|身份驗證|实名认证|實名認證/g, " kyc user identity verification applicant due diligence "],
+    [/\bweb\s*sdk\b|网页sdk|網頁sdk|网页端sdk|網頁端sdk/g, " websdk web sdk integration access token "],
+    [/\bmobile\s*sdk\b|移动sdk|移動sdk|移动端sdk|移動端sdk/g, " mobilesdk mobile sdk integration android ios "],
+    [/(集成|接入|对接|對接)/g, " integration implement "],
+    [/(数据范围|數據範圍|资料范围|資料範圍|所需资料|所需資料)/g, " requirements data scope documents ownership "],
     [/(反洗钱|反洗錢|洗钱|洗錢)/g, " aml anti money laundering "],
     [/(旅行规则|旅行規則|旅规|旅規)/g, " travel rule corridor "],
     [/(告警|警报|警報|预警|預警)/g, " alert triage "],
@@ -49,13 +54,15 @@ function intendedDomains(query: string): Map<KnowledgeDomain, number> {
   if (/\b(hkma|sfc|fatf|mas)\b|regulat|金管局|证监会|證監會|监管|監管|法规|法規/i.test(value)) {
     add("regulatory", 24);
   }
-  if (/\bsumsub\b/i.test(value)) add("sumsub", 22);
+  if (/\b(sumsub|kyc|kyb|web\s*sdk|mobile\s*sdk)\b|客户尽职调查|客戶盡職調查|用户验证|用戶驗證|身份验证|身份驗證|企业验证|企業驗證|公司验证|公司驗證/i.test(value)) {
+    add("sumsub", 24);
+  }
   return boosts;
 }
 
 export function retrieve(query: string, limit = 5): DocumentChunk[] {
   const queryTerms = terms(query);
-  if (!queryTerms.length) return corpus.slice(0, limit);
+  if (!queryTerms.length) return [];
   const domainBoosts = intendedDomains(query);
   const normalizedQuery = query.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
 
@@ -73,6 +80,7 @@ export function retrieve(query: string, limit = 5): DocumentChunk[] {
       const phraseScore = normalizedQuery.length > 8 && `${title} ${body}`.includes(normalizedQuery) ? 12 : 0;
       return { doc, score: score + phraseScore };
     })
+    .filter(({ score }) => score > 0)
     .sort((a, b) => b.score - a.score || a.doc.title.localeCompare(b.doc.title))
     .slice(0, limit)
     .map(({ doc }) => doc);

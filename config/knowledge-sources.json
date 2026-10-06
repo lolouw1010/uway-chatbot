@@ -65,6 +65,91 @@
     },
     {
       "kind": "page",
+      "url": "https://docs.sumsub.com/docs/overview",
+      "domain": "sumsub"
+    },
+    {
+      "kind": "page",
+      "url": "https://docs.sumsub.com/docs/user-verification",
+      "domain": "sumsub"
+    },
+    {
+      "kind": "page",
+      "url": "https://docs.sumsub.com/docs/conduct-id-verification",
+      "domain": "sumsub"
+    },
+    {
+      "kind": "page",
+      "url": "https://docs.sumsub.com/docs/business-verification",
+      "domain": "sumsub"
+    },
+    {
+      "kind": "page",
+      "url": "https://docs.sumsub.com/docs/full-kyb-requirements",
+      "domain": "sumsub"
+    },
+    {
+      "kind": "page",
+      "url": "https://docs.sumsub.com/docs/verify-businesses",
+      "domain": "sumsub"
+    },
+    {
+      "kind": "page",
+      "url": "https://docs.sumsub.com/docs/how-business-verification-works",
+      "domain": "sumsub"
+    },
+    {
+      "kind": "page",
+      "url": "https://docs.sumsub.com/docs/about-web-sdk",
+      "domain": "sumsub"
+    },
+    {
+      "kind": "page",
+      "url": "https://docs.sumsub.com/docs/get-started-with-web-sdk",
+      "domain": "sumsub"
+    },
+    {
+      "kind": "page",
+      "url": "https://docs.sumsub.com/docs/websdk-settings",
+      "domain": "sumsub"
+    },
+    {
+      "kind": "page",
+      "url": "https://docs.sumsub.com/docs/about-mobile-sdk",
+      "domain": "sumsub"
+    },
+    {
+      "kind": "page",
+      "url": "https://docs.sumsub.com/docs/get-started-android",
+      "domain": "sumsub"
+    },
+    {
+      "kind": "page",
+      "url": "https://docs.sumsub.com/reference/about-sumsub-api",
+      "domain": "sumsub"
+    },
+    {
+      "kind": "page",
+      "url": "https://docs.sumsub.com/reference/get-started-with-api",
+      "domain": "sumsub"
+    },
+    {
+      "kind": "page",
+      "url": "https://docs.sumsub.com/reference/generate-access-token",
+      "domain": "sumsub"
+    },
+    {
+      "kind": "page",
+      "url": "https://docs.sumsub.com/docs/receive-verification-results",
+      "domain": "sumsub"
+    },
+    {
+      "kind": "page",
+      "url": "https://docs.sumsub.com/docs/user-verification-webhooks",
+      "domain": "sumsub"
+    },
+    {
+      "kind": "page",
       "url": "https://brdr.hkma.gov.hk/eng/main",
       "domain": "regulatory"
     },

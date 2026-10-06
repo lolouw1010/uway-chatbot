@@ -34,4 +34,19 @@ describe("documentation retrieval", () => {
     const results = retrieve("What does HKMA guidance say about AML controls?", 3);
     expect(results.some((result) => result.domain === "regulatory" && result.url.includes("hkma.gov.hk"))).toBe(true);
   });
+
+  it.each([
+    ["KYB的数据范围有哪些？", /business-verification|full-kyb/],
+    ["KYC应该怎么集成？", /user-verification|conduct-id-verification|overview|web-sdk|sumsub-api/],
+    ["Sumsub KYC 有哪些集成方式？WebSDK、MobileSDK 和 API 应该怎么选？", /web-sdk|mobile-sdk|sumsub-api|get-started-with-api/],
+  ])("routes vendor verification questions to relevant Sumsub documentation: %s", (query, expectedUrl) => {
+    const results = retrieve(query, 5);
+    expect(results.length).toBeGreaterThan(0);
+    expect(results[0]?.domain).toBe("sumsub");
+    expect(results.some((result) => expectedUrl.test(result.url))).toBe(true);
+  });
+
+  it("does not return unrelated documentation when nothing matches", () => {
+    expect(retrieve("火星天气怎么样？", 5)).toEqual([]);
+  });
 });
