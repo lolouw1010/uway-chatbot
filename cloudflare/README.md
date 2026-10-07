@@ -36,6 +36,14 @@ CHANNEL_NOTIFY_SECRET
 
 Allowlist and non-secret channel settings can be added to the Worker configuration when the customer group IDs are known.
 
+For Telegram staging, create the bot with BotFather first, then run the interactive setup locally so the token never enters chat or shell history:
+
+```bash
+./cloudflare/configure-telegram-staging.sh
+```
+
+The script verifies the token, stores the Telegram secrets in Cloudflare, applies the Uway-Bob profile, and registers the staging webhook. In a group, users can mention the bot, use `/ask`, or reply directly to one of its messages. Keep Telegram privacy mode enabled.
+
 ## Verify and deploy
 
 ```bash

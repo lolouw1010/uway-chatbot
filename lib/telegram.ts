@@ -4,6 +4,7 @@ import { formatChannelAnswer, splitText } from "./channel-utils";
 type TelegramUser = {
   id?: number;
   is_bot?: boolean;
+  username?: string;
 };
 
 type TelegramMessage = {
@@ -11,6 +12,7 @@ type TelegramMessage = {
   text?: string;
   chat?: { id?: number; type?: string };
   from?: TelegramUser;
+  reply_to_message?: { from?: TelegramUser };
 };
 
 export type TelegramUpdate = {
@@ -45,7 +47,13 @@ export function extractTelegramQuestion(update: TelegramUpdate, botUsername: str
   const hasCommand = commandPattern.test(rawText);
   const mentionPattern = username ? new RegExp(`@${escapedRegExp(username)}\\b`, "ig") : null;
   const hasMention = Boolean(mentionPattern?.test(rawText));
-  if (!isPrivate && !hasCommand && !hasMention) return null;
+  const replyAuthor = message.reply_to_message?.from;
+  const isReplyToBot = Boolean(
+    username
+    && replyAuthor?.is_bot
+    && replyAuthor.username?.toLowerCase() === username.toLowerCase(),
+  );
+  if (!isPrivate && !hasCommand && !hasMention && !isReplyToBot) return null;
 
   const text = rawText
     .replace(commandPattern, "")

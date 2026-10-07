@@ -33,6 +33,28 @@ describe("Telegram message routing", () => {
       .toBe("How does billing work?");
   });
 
+  it("accepts a group question that replies to this bot", () => {
+    expect(extractTelegramQuestion({
+      message: {
+        message_id: 11,
+        text: "Can you give me the implementation steps?",
+        chat: { id: -20, type: "supergroup" },
+        from: { id: 30, is_bot: false },
+        reply_to_message: { from: { is_bot: true, username: "UwayBobBot" } },
+      },
+    }, "UwayBobBot")?.text).toBe("Can you give me the implementation steps?");
+
+    expect(extractTelegramQuestion({
+      message: {
+        message_id: 12,
+        text: "This reply is for another bot",
+        chat: { id: -20, type: "supergroup" },
+        from: { id: 30, is_bot: false },
+        reply_to_message: { from: { is_bot: true, username: "OtherBot" } },
+      },
+    }, "UwayBobBot")).toBeNull();
+  });
+
   it("ignores messages from bots", () => {
     expect(extractTelegramQuestion({
       message: {
