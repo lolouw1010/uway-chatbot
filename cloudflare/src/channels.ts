@@ -1,15 +1,19 @@
 import type { AssistantAnswer } from "./chat";
 import type { Env, LarkQuestion, TelegramQuestion } from "./env";
 
+type TelegramMessage = {
+  message_id?: number;
+  text?: string;
+  guest_query_id?: string;
+  chat?: { id?: number; type?: string };
+  from?: { id?: number; is_bot?: boolean; username?: string };
+  reply_to_message?: { from?: { is_bot?: boolean; username?: string } };
+};
+
 type TelegramUpdate = {
   update_id?: number;
-  message?: {
-    message_id?: number;
-    text?: string;
-    chat?: { id?: number; type?: string };
-    from?: { id?: number; is_bot?: boolean; username?: string };
-    reply_to_message?: { from?: { is_bot?: boolean; username?: string } };
-  };
+  message?: TelegramMessage;
+  guest_message?: TelegramMessage;
 };
 
 export type LarkEventPayload = {
@@ -36,7 +40,7 @@ function escapedRegExp(value: string) {
 }
 
 export function extractTelegramQuestion(update: TelegramUpdate, botUsername?: string): TelegramQuestion | null {
-  const message = update.message;
+  const message = update.guest_message || update.message;
   const chatId = message?.chat?.id;
   const messageId = message?.message_id;
   const senderId = message?.from?.id;
@@ -56,9 +60,16 @@ export function extractTelegramQuestion(update: TelegramUpdate, botUsername?: st
     && replyAuthor?.is_bot
     && replyAuthor.username?.toLowerCase() === username.toLowerCase(),
   );
-  if (!isPrivate && !hasCommand && !hasMention && !isReplyToBot) return null;
+  const isGuestQuery = Boolean(update.guest_message?.guest_query_id);
+  if (!isPrivate && !isGuestQuery && !hasCommand && !hasMention && !isReplyToBot) return null;
   const text = rawText.replace(commandPattern, "").replace(mentionPattern || /$^/, "").trim().slice(0, 6000);
-  return text ? { chatId: String(chatId), messageId, senderId: String(senderId), text } : null;
+  return text ? {
+    chatId: String(chatId),
+    messageId,
+    senderId: String(senderId),
+    text,
+    ...(isGuestQuery ? { guestQueryId: update.guest_message?.guest_query_id } : {}),
+  } : null;
 }
 
 export function extractLarkQuestion(payload: LarkEventPayload): LarkQuestion | null {
@@ -152,6 +163,21 @@ async function telegramApi(token: string, method: string, body: object) {
 
 export async function sendTelegramReply(env: Env, question: TelegramQuestion, text: string) {
   if (!env.TELEGRAM_BOT_TOKEN) throw new Error("Telegram is not configured");
+  if (question.guestQueryId) {
+    await telegramApi(env.TELEGRAM_BOT_TOKEN, "answerGuestQuery", {
+      guest_query_id: question.guestQueryId,
+      result: {
+        type: "article",
+        id: crypto.randomUUID(),
+        title: "Uway-Bob",
+        input_message_content: {
+          message_text: text.slice(0, 3900),
+          link_preview_options: { is_disabled: true },
+        },
+      },
+    });
+    return;
+  }
   for (const [index, part] of splitText(text, 3900).entries()) {
     await telegramApi(env.TELEGRAM_BOT_TOKEN, "sendMessage", {
       chat_id: question.chatId,

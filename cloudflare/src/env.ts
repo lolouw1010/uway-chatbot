@@ -29,6 +29,7 @@ export type TelegramQuestion = {
   messageId: number;
   senderId: string;
   text: string;
+  guestQueryId?: string;
 };
 
 export type LarkQuestion = {

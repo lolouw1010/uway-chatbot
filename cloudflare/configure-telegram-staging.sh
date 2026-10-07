@@ -132,7 +132,7 @@ telegram_api setMyCommands \
 webhook_body="$(jq -n \
   --arg url "$webhook_url" \
   --arg secret "$webhook_secret" \
-  '{url:$url, secret_token:$secret, allowed_updates:["message"]}')"
+  '{url:$url, secret_token:$secret, allowed_updates:["message","guest_message"]}')"
 webhook_result="$(telegram_api setWebhook "$webhook_body")"
 if [[ "$(jq -r '.ok // false' <<<"$webhook_result")" != "true" ]]; then
   echo "Telegram webhook registration failed." >&2
